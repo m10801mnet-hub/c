@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TOEIC 800 PRO</title>
+<style>
+  :root{
+    --bg:#0E1116; --bg2:#11151C; --surface:#171C26; --surface2:#1E2530;
+    --line:#27303D; --line2:#323D4D;
+    --text:#E8ECF2; --muted:#8A94A6; --dim:#5E6878;
+    --indigo:#7C9CFF; --indigo-deep:#3A4B7A; --indigo-bg:#161E33;
+    --gold:#F4C04E; --gold-deep:#7A5E16;
+    --green:#5FD0A0; --red:#E8718A;
+    --r:16px; --r-sm:10px;
+    --shadow:0 8px 30px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 600px at 50% -10%, #161D2B 0%, var(--bg) 55%);
+    color:var(--text);
+    font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+    min-height:100vh; overflow-x:hidden;
+  }
+  .wrap{max-width:560px;margin:0 auto;padding:0 16px 120px;}
+  .hidden{display:none !important;}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:30;
+    background:linear-gradient(180deg, rgba(14,17,22,.96) 70%, rgba(14,17,22,0));
+    padding:14px 16px 10px; max-width:560px; margin:0 auto;
+    backdrop-filter:blur(6px);
+  }
+  .brand{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .logo{font-weight:800;letter-spacing:.04em;font-size:17px;}
+  .logo .pro{color:var(--gold);font-size:12px;font-weight:700;margin-left:6px;letter-spacing:.12em;vertical-align:2px;}
+  .count{font-size:12px;color:var(--muted);text-align:right;line-height:1.3;}
+  .count b{color:var(--indigo);font-size:15px;font-weight:800;}
+
+  /* ---------- tabs ---------- */
+  .tabs{display:flex;gap:6px;margin-top:12px;background:var(--bg2);padding:5px;border-radius:14px;border:1px solid var(--line);}
+  .tab{flex:1;text-align:center;padding:9px 0;font-size:13px;font-weight:700;color:var(--muted);border-radius:10px;cursor:pointer;transition:.18s;}
+  .tab.active{background:var(--surface2);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.3);}
+  .tab .sub{display:block;font-size:10px;font-weight:600;color:var(--dim);margin-top:1px;}
+  .tab.active .sub{color:var(--indigo);}
+
+  /* ---------- start screen ---------- */
+  .primer{padding:36px 22px;text-align:center;}
+  .primer h1{font-size:30px;font-weight:800;letter-spacing:.04em;margin:8px 0 2px;}
+  .primer h1 .pro{color:var(--gold);font-size:14px;letter-spacing:.16em;display:block;margin-top:6px;}
+  .primer p{color:var(--muted);font-size:14px;margin:14px auto 26px;max-width:340px;}
+  .stat-row{display:flex;gap:10px;justify-content:center;margin:0 0 28px;}
+  .stat{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 6px;}
+  .stat .n{font-size:24px;font-weight:800;color:var(--indigo);}
+  .stat .l{font-size:11px;color:var(--muted);margin-top:2px;}
+  .big-btn{
+    display:block;width:100%;padding:16px;border:none;border-radius:14px;cursor:pointer;
+    background:linear-gradient(135deg,var(--indigo) 0%,#9C7CFF 100%);
+    color:#0B0E14;font-size:16px;font-weight:800;letter-spacing:.04em;
+    box-shadow:0 10px 28px rgba(124,156,255,.35);transition:.15s;
+  }
+  .big-btn:active{transform:translateY(1px) scale(.995);}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-top:10px;font-size:14px;}
+  .toggle-row .sub{font-size:11px;color:var(--dim);margin-top:2px;}
+  input[type=range]{accent-color:var(--indigo);}
+  .switch{position:relative;width:46px;height:27px;}
+  .switch input{opacity:0;width:0;height:0;}
+  .slider{position:absolute;inset:0;background:var(--line2);border-radius:27px;transition:.2s;cursor:pointer;}
+  .slider:before{content:"";position:absolute;width:21px;height:21px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
+  .switch input:checked + .slider{background:var(--indigo);}
+  .switch input:checked + .slider:before{transform:translateX(19px);}
+
+  /* ---------- countdown ---------- */
+  .countdown{margin:14px 0 2px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+  .countdown .lbl{font-size:12px;color:var(--muted);}
+  .countdown .days{font-size:14px;font-weight:800;}
+  .countdown .days b{color:var(--gold);font-size:22px;margin:0 3px;}
+
+  /* ---------- mode chips ---------- */
+  .modes{display:flex;gap:7px;margin:14px 0 4px;flex-wrap:wrap;}
+  .chip{padding:7px 13px;border-radius:999px;font-size:12px;font-weight:700;background:var(--surface);border:1px solid var(--line);color:var(--muted);cursor:pointer;transition:.15s;}
+  .chip.on{background:var(--indigo-bg);border-color:var(--indigo-deep);color:var(--indigo);}
+
+  /* ---------- progress ---------- */
+  .pbar-wrap{margin:14px 0 6px;}
+  .pbar{height:6px;background:var(--surface2);border-radius:6px;overflow:hidden;}
+  .pbar > i{display:block;height:100%;background:linear-gradient(90deg,var(--indigo),#9C7CFF);transition:width .25s;border-radius:6px;}
+  .pmeta{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-top:6px;}
+
+  /* ---------- timer ---------- */
+  .timer{text-align:center;margin:10px 0 2px;}
+  .timer .t{font-size:38px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;transition:color .2s;}
+  .timer.warn .t{color:var(--gold);}
+  .timer.danger .t{color:var(--red);}
+  .tbar{height:5px;background:var(--surface2);border-radius:5px;overflow:hidden;margin-top:6px;}
+  .tbar > i{display:block;height:100%;background:var(--indigo);width:100%;}
+
+  /* ---------- card ---------- */
+  .card{
+    position:relative;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--r);padding:24px 20px;margin-top:14px;box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .qcat{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--indigo);text-transform:uppercase;margin-bottom:10px;}
+  .word{font-size:38px;font-weight:800;letter-spacing:.01em;line-height:1.15;}
+  .word .pos{font-size:13px;color:var(--muted);font-weight:600;margin-left:8px;vertical-align:5px;}
+  .star{color:var(--gold);font-size:24px;margin-left:6px;vertical-align:4px;}
+  .qtext{font-size:19px;font-weight:600;line-height:1.6;}
+  .qtext u{ text-decoration:none;border-bottom:2px dashed var(--indigo);padding:0 18px;color:var(--indigo);font-weight:800;}
+  .replay{display:inline-flex;align-items:center;gap:7px;margin-top:4px;padding:10px 16px;border-radius:999px;background:var(--surface2);border:1px solid var(--line2);color:var(--text);font-size:13px;font-weight:700;cursor:pointer;}
+  .replay:active{transform:scale(.97);}
+  .listen-hint{text-align:center;color:var(--muted);font-size:13px;margin:6px 0;}
+
+  /* ---------- options ---------- */
+  .opts{margin-top:18px;display:flex;flex-direction:column;gap:9px;}
+  .opt{
+    text-align:left;padding:14px 16px;border-radius:12px;background:var(--surface2);
+    border:1px solid var(--line);color:var(--text);font-size:16px;font-weight:600;cursor:pointer;
+    transition:.12s;display:flex;align-items:center;gap:11px;
+  }
+  .opt .k{flex:0 0 24px;height:24px;border-radius:7px;background:var(--bg2);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--muted);}
+  .opt:active{transform:scale(.99);}
+  .opt.correct{background:rgba(95,208,160,.14);border-color:var(--green);color:#cdebdd;}
+  .opt.correct .k{background:var(--green);color:#0B1A14;border-color:var(--green);}
+  .opt.wrong{background:rgba(232,113,138,.12);border-color:var(--red);color:#f4cdd6;}
+  .opt.wrong .k{background:var(--red);color:#2a0c12;border-color:var(--red);}
+  .opt.dim{opacity:.4;}
+  .opt[disabled]{cursor:default;}
+
+  /* ---------- celebration ---------- */
+  .burst{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:5;}
+  .rays{position:absolute;width:8px;height:8px;}
+  .ray{position:absolute;left:50%;top:50%;width:3px;height:46px;border-radius:3px;background:linear-gradient(var(--gold),transparent);transform-origin:center top;opacity:0;}
+  .burst.go .ray{animation:rayPop .7s cubic-bezier(.2,.8,.3,1) forwards;}
+  @keyframes rayPop{0%{opacity:0;transform:rotate(var(--rot)) translateY(0) scaleY(.2);}25%{opacity:1;}100%{opacity:0;transform:rotate(var(--rot)) translateY(-26px) scaleY(1.1);}}
+  .glow{position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(244,192,78,.4),transparent 70%);opacity:0;}
+  .burst.go .glow{animation:glowPop .7s ease-out forwards;}
+  @keyframes glowPop{0%{opacity:0;transform:scale(.3);}40%{opacity:1;}100%{opacity:0;transform:scale(1.6);}}
+  .yatta{position:absolute;font-size:26px;font-weight:800;color:var(--gold);opacity:0;text-shadow:0 2px 12px rgba(244,192,78,.5);}
+  .burst.go .yatta{animation:yattaRise 1s cubic-bezier(.2,.8,.3,1) forwards;}
+  @keyframes yattaRise{0%{opacity:0;transform:translateY(14px) scale(.8);}25%{opacity:1;transform:translateY(0) scale(1.05);}80%{opacity:1;}100%{opacity:0;transform:translateY(-30px) scale(1);}}
+
+  /* ---------- learn panel ---------- */
+  .learn{
+    margin-top:14px;background:var(--indigo-bg);border:1px solid var(--indigo-deep);
+    border-radius:var(--r);padding:18px 18px 16px;box-shadow:var(--shadow);
+    animation:slideUp .28s cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes slideUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .learn .lh{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--indigo);letter-spacing:.04em;margin-bottom:10px;}
+  .learn .lh .ic{width:22px;height:22px;border-radius:7px;background:var(--indigo);color:#0B0E14;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;}
+  .learn .ans{font-size:17px;font-weight:800;margin-bottom:8px;}
+  .learn .ans .en{color:var(--green);}
+  .learn .ans .ja{color:var(--text);}
+  .learn .exp{font-size:14px;color:#cdd6ec;line-height:1.65;}
+  .learn .exp .en{display:block;color:var(--muted);font-size:13px;margin-top:7px;font-style:italic;}
+  .learn .ex{margin-top:11px;padding-top:11px;border-top:1px solid var(--indigo-deep);font-size:14px;}
+  .learn .ex .e{color:var(--text);}
+  .learn .ex .t{color:var(--muted);font-size:13px;}
+  .next-btn{margin-top:14px;width:100%;padding:13px;border:none;border-radius:12px;background:var(--indigo);color:#0B0E14;font-size:15px;font-weight:800;cursor:pointer;}
+  .next-btn:active{transform:translateY(1px);}
+
+  /* ---------- correct-answer translation panel ---------- */
+  .okjt{
+    margin-top:14px;background:rgba(95,208,160,.08);border:1px solid rgba(95,208,160,.35);
+    border-radius:var(--r);padding:15px 16px 13px;
+    animation:slideUp .28s cubic-bezier(.2,.8,.3,1);
+  }
+  .jline{font-size:15px;line-height:1.6;color:var(--text);display:flex;gap:8px;align-items:flex-start;}
+  .jtag{flex:0 0 auto;font-size:11px;font-weight:800;color:var(--green);border:1px solid rgba(95,208,160,.5);border-radius:6px;padding:1px 7px;margin-top:3px;}
+  .learn .jtag{color:var(--indigo);border-color:var(--indigo-deep);}
+  .uline{font-size:13px;color:var(--muted);font-style:italic;margin-top:7px;padding-left:2px;}
+  .taphint{margin-top:11px;text-align:center;font-size:12px;font-weight:700;color:var(--green);opacity:.85;animation:hintPulse 1.6s ease-in-out infinite;}
+  @keyframes hintPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+
+  /* vocab example block (shown after answer) */
+  .vex{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);}
+  .vex .row{margin-bottom:9px;}
+  .vex .e{font-size:15px;color:var(--text);}
+  .vex .t{font-size:13px;color:var(--muted);}
+
+  /* ---------- footer / reset ---------- */
+  .foot{text-align:center;margin-top:26px;}
+  .foot button{background:none;border:none;color:var(--dim);font-size:12px;text-decoration:underline;cursor:pointer;}
+
+  /* ---------- done screen ---------- */
+  .done{text-align:center;padding:40px 20px;}
+  .done .big{font-size:46px;}
+  .done h2{font-size:22px;font-weight:800;margin:10px 0 4px;}
+  .done p{color:var(--muted);font-size:14px;}
+  .done .score{font-size:40px;font-weight:800;color:var(--gold);margin:8px 0;}
+
+  @media (prefers-reduced-motion: reduce){
+    .burst.go .ray,.burst.go .glow,.burst.go .yatta,.learn{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- START -->
+<div id="primer" class="wrap">
+  <div class="primer">
+    <h1>TOEIC 800<span class="pro">P R O</span></h1>
+    <p>単語・文法スピードドリル・リスニングの3本立て。間違えた問題は<b style="color:var(--gold)">★</b>で記録し、出題頻度を自動で上げます。</p>
+    <div class="stat-row">
+      <div class="stat"><div class="n" id="pv">–</div><div class="l">単語</div></div>
+      <div class="stat"><div class="n" id="pg">–</div><div class="l">文法</div></div>
+      <div class="stat"><div class="n" id="pl">–</div><div class="l">リスニング</div></div>
+    </div>
+    <div class="toggle-row" style="margin-bottom:18px">
+      <div style="flex:1"><div>試験日</div><div class="sub" id="examSub">残り日数を表示します</div></div>
+      <input type="date" id="examDateInput" style="background:var(--surface2);border:1px solid var(--line2);color:var(--text);border-radius:9px;padding:8px 10px;font-size:14px;">
+    </div>
+    <button class="big-btn" id="startBtn">特訓を始める</button>
+    <div class="toggle-row">
+      <div><div>音声読み上げ</div><div class="sub">単語・例文・リスニングを発音</div></div>
+      <label class="switch"><input type="checkbox" id="voice" checked><span class="slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div style="flex:1"><div>読み上げ速度</div><div class="sub" id="rateLbl">標準</div></div>
+      <input type="range" id="rate" min="0.6" max="1.1" step="0.05" value="0.92" style="width:130px">
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <header>
+    <div class="brand">
+      <div class="logo">TOEIC 800<span class="pro">PRO</span></div>
+      <div class="count" id="hcount"></div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" data-tab="vocab">単語<span class="sub">VOCAB</span></div>
+      <div class="tab" data-tab="grammar">文法<span class="sub">SPEED</span></div>
+      <div class="tab" data-tab="listen">聴解<span class="sub">PART2</span></div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="countdown" id="countdown">
+      <span class="lbl">試験日まで</span>
+      <span class="days" id="daysLeft">タップして設定</span>
+    </div>
+
+    <div class="modes" id="modes"></div>
+
+    <div class="pbar-wrap">
+      <div class="pbar"><i id="pbar" style="width:0%"></i></div>
+      <div class="pmeta"><span id="pcount">0 / 0</span><span id="paccu">正答率 –</span></div>
+    </div>
+
+    <!-- timer (grammar only) -->
+    <div class="timer hidden" id="timer"><div class="t" id="tnum">10</div><div class="tbar"><i id="tbar"></i></div></div>
+
+    <div id="stage"></div>
+
+    <div class="foot"><button id="reset">学習記録をリセット</button></div>
+  </div>
+</div>
+
+<script>
+/* ============================ DATA ============================ */
+const VOCAB = [
+ {w:"streamline",p:"v.",j:"効率化する",d:["中断する","複雑にする","延期する"],ex:[{e:"We streamlined the approval process.",t:"承認手続きを効率化した。"},{e:"The new system streamlines our workflow.",t:"新システムは業務を効率化する。"}]},
+ {w:"consolidate",p:"v.",j:"統合する",d:["分割する","放棄する","拡散する"],ex:[{e:"They consolidated three offices into one.",t:"3つの拠点を1つに統合した。"},{e:"Let's consolidate the reports.",t:"報告書を統合しよう。"}]},
+ {w:"expedite",p:"v.",j:"早める",d:["遅らせる","拒否する","記録する"],ex:[{e:"Please expedite the shipment.",t:"出荷を早めてください。"},{e:"We can expedite your order for a fee.",t:"有料で注文を早められます。"}]},
+ {w:"endorse",p:"v.",j:"支持する",d:["否定する","隠す","売却する"],ex:[{e:"The board endorsed the plan.",t:"取締役会は計画を支持した。"},{e:"She endorsed the candidate publicly.",t:"彼女は公にその候補を支持した。"}]},
+ {w:"allocate",p:"v.",j:"割り当てる",d:["回収する","破棄する","延長する"],ex:[{e:"We allocated more budget to marketing.",t:"販促に多く予算を割り当てた。"},{e:"Resources were allocated by region.",t:"資源は地域別に割り当てられた。"}]},
+ {w:"accommodate",p:"v.",j:"収容する",d:["排除する","短縮する","強調する"],ex:[{e:"The hall accommodates 500 people.",t:"その会場は500人を収容できる。"},{e:"We can accommodate your request.",t:"ご要望にお応えできます。"}]},
+ {w:"compensate",p:"v.",j:"補償する",d:["請求する","無視する","中止する"],ex:[{e:"We will compensate you for the delay.",t:"遅延について補償します。"},{e:"Bonuses compensate for the long hours.",t:"賞与が長時間労働を補う。"}]},
+ {w:"reinforce",p:"v.",j:"強化する",d:["弱める","模倣する","配布する"],ex:[{e:"The data reinforces our strategy.",t:"そのデータは戦略を強化する。"},{e:"We reinforced the structure.",t:"構造を補強した。"}]},
+ {w:"undertake",p:"v.",j:"引き受ける",d:["辞退する","中断する","委任する"],ex:[{e:"She undertook the project alone.",t:"彼女は一人で案件を引き受けた。"},{e:"We will undertake a full review.",t:"全面的な見直しを行う。"}]},
+ {w:"underscore",p:"v.",j:"強調する",d:["省略する","否定する","延期する"],ex:[{e:"The report underscores the risk.",t:"報告書はそのリスクを強調する。"},{e:"He underscored the deadline.",t:"彼は締切を強調した。"}]},
+ {w:"mitigate",p:"v.",j:"緩和する",d:["悪化させる","強要する","記録する"],ex:[{e:"Steps were taken to mitigate the risk.",t:"リスク緩和の措置がとられた。"},{e:"This will mitigate the impact.",t:"これは影響を和らげる。"}]},
+ {w:"facilitate",p:"v.",j:"促進する",d:["妨げる","中止する","隠す"],ex:[{e:"The tool facilitates collaboration.",t:"その道具は協働を促進する。"},{e:"She facilitated the meeting.",t:"彼女が会議を進行した。"}]},
+ {w:"diminish",p:"v.",j:"減少する",d:["増大する","維持する","公開する"],ex:[{e:"Demand has diminished sharply.",t:"需要は急激に減少した。"},{e:"Nothing can diminish his effort.",t:"彼の努力は損なわれない。"}]},
+ {w:"retain",p:"v.",j:"保持する",d:["放出する","拒否する","交換する"],ex:[{e:"We aim to retain top talent.",t:"優秀な人材を維持したい。"},{e:"Please retain your receipt.",t:"領収書を保管してください。"}]},
+ {w:"yield",p:"v.",j:"生み出す",d:["浪費する","拒む","削除する"],ex:[{e:"The investment yielded high returns.",t:"その投資は高い利益を生んだ。"},{e:"The trial yielded clear results.",t:"試験は明確な結果を生んだ。"}]},
+ {w:"comply",p:"v.",j:"従う",d:["反抗する","提案する","延期する"],ex:[{e:"All staff must comply with the rules.",t:"全員が規則に従う必要がある。"},{e:"The factory complies with the standard.",t:"工場は基準に準拠している。"}]},
+ {w:"adhere",p:"v.",j:"順守する",d:["逸脱する","撤回する","模倣する"],ex:[{e:"We adhere to strict guidelines.",t:"厳格な指針を順守する。"},{e:"Please adhere to the schedule.",t:"予定を守ってください。"}]},
+ {w:"convene",p:"v.",j:"招集する",d:["解散する","延期する","欠席する"],ex:[{e:"The committee will convene Monday.",t:"委員会は月曜に招集される。"},{e:"They convened an emergency meeting.",t:"緊急会議を招集した。"}]},
+ {w:"deteriorate",p:"v.",j:"悪化する",d:["改善する","安定する","完成する"],ex:[{e:"Conditions deteriorated overnight.",t:"状況は一晩で悪化した。"},{e:"Sales deteriorated last quarter.",t:"前四半期に売上が悪化した。"}]},
+ {w:"hinder",p:"v.",j:"妨げる",d:["助ける","加速する","観察する"],ex:[{e:"Poor weather hindered progress.",t:"悪天候が進行を妨げた。"},{e:"Don't let fear hinder you.",t:"恐れに妨げられるな。"}]},
+ {w:"resume",p:"v.",j:"再開する",d:["終了する","拒否する","委任する"],ex:[{e:"Work resumed after the break.",t:"休憩後に作業を再開した。"},{e:"The line will resume shortly.",t:"路線はまもなく運転再開する。"}]},
+ {w:"undermine",p:"v.",j:"損なう",d:["補強する","称賛する","公表する"],ex:[{e:"Delays undermined our credibility.",t:"遅延が信頼を損なった。"},{e:"Don't undermine your own work.",t:"自分の成果を損なうな。"}]},
+ {w:"anticipate",p:"v.",j:"予期する",d:["無視する","反論する","延期する"],ex:[{e:"We anticipate strong demand.",t:"強い需要を見込んでいる。"},{e:"They anticipated the problem.",t:"彼らは問題を予期していた。"}]},
+ {w:"acknowledge",p:"v.",j:"認める",d:["否定する","隠す","拒む"],ex:[{e:"He acknowledged the mistake.",t:"彼は誤りを認めた。"},{e:"Please acknowledge receipt.",t:"受領をご確認ください。"}]},
+ {w:"delegate",p:"v.",j:"委任する",d:["独占する","拒否する","廃止する"],ex:[{e:"Good leaders delegate tasks.",t:"良い指導者は仕事を任せる。"},{e:"She delegated the report to me.",t:"彼女は報告書を私に任せた。"}]},
+ {w:"prioritize",p:"v.",j:"優先する",d:["後回しにする","削除する","複製する"],ex:[{e:"We prioritize customer safety.",t:"顧客の安全を最優先する。"},{e:"Prioritize the urgent tasks.",t:"急ぎの仕事を優先せよ。"}]},
+ {w:"negotiate",p:"v.",j:"交渉する",d:["強制する","放棄する","記録する"],ex:[{e:"They negotiated a better price.",t:"より良い価格を交渉した。"},{e:"We're negotiating the terms.",t:"条件を交渉中だ。"}]},
+ {w:"implement",p:"v.",j:"実施する",d:["撤回する","提案する","中断する"],ex:[{e:"We implemented the new policy.",t:"新方針を実施した。"},{e:"The plan is hard to implement.",t:"その計画は実行が難しい。"}]},
+ {w:"assess",p:"v.",j:"評価する",d:["無視する","拡大する","隠す"],ex:[{e:"We need to assess the damage.",t:"被害を評価する必要がある。"},{e:"Assess the risk before acting.",t:"行動前にリスクを評価せよ。"}]},
+ {w:"attribute",p:"v.",j:"起因とする",d:["切り離す","否定する","強調する"],ex:[{e:"He attributes success to the team.",t:"彼は成功をチームの功績とする。"},{e:"The error was attributed to fatigue.",t:"その誤りは疲労が原因とされた。"}]},
+
+ {w:"unprecedented",p:"adj.",j:"前例のない",d:["一般的な","古典的な","暫定的な"],ex:[{e:"Sales reached an unprecedented level.",t:"売上は前例のない水準に達した。"},{e:"It was an unprecedented decision.",t:"前例のない決定だった。"}]},
+ {w:"viable",p:"adj.",j:"実行可能な",d:["不可能な","一時的な","高価な"],ex:[{e:"It's a viable business model.",t:"実行可能な事業モデルだ。"},{e:"We need a viable alternative.",t:"実現可能な代替案が要る。"}]},
+ {w:"lucrative",p:"adj.",j:"もうかる",d:["損失の多い","無料の","不確実な"],ex:[{e:"It's a lucrative market.",t:"利益の出る市場だ。"},{e:"They signed a lucrative deal.",t:"もうかる契約を結んだ。"}]},
+ {w:"feasible",p:"adj.",j:"実現可能な",d:["困難な","義務的な","偶発的な"],ex:[{e:"Is the deadline feasible?",t:"その締切は実現可能か。"},{e:"A feasible plan was proposed.",t:"実現可能な計画が示された。"}]},
+ {w:"meticulous",p:"adj.",j:"細心の",d:["大ざっぱな","衝動的な","怠惰な"],ex:[{e:"She is meticulous about detail.",t:"彼女は細部に細心だ。"},{e:"Meticulous planning paid off.",t:"綿密な計画が功を奏した。"}]},
+ {w:"prudent",p:"adj.",j:"慎重な",d:["無謀な","寛大な","強引な"],ex:[{e:"It's prudent to save money.",t:"貯蓄は賢明だ。"},{e:"A prudent investor diversifies.",t:"慎重な投資家は分散する。"}]},
+ {w:"diligent",p:"adj.",j:"勤勉な",d:["怠惰な","軽率な","寡黙な"],ex:[{e:"He is a diligent worker.",t:"彼は勤勉な働き手だ。"},{e:"Diligent effort brings results.",t:"勤勉な努力は結果を生む。"}]},
+ {w:"versatile",p:"adj.",j:"多才な",d:["単調な","頑固な","内気な"],ex:[{e:"She is a versatile designer.",t:"彼女は多才なデザイナーだ。"},{e:"It's a versatile tool.",t:"用途の広い道具だ。"}]},
+ {w:"obsolete",p:"adj.",j:"時代遅れの",d:["最新の","高価な","必須の"],ex:[{e:"The software is now obsolete.",t:"そのソフトは今や時代遅れだ。"},{e:"Obsolete equipment was replaced.",t:"旧式の機器を交換した。"}]},
+ {w:"ambiguous",p:"adj.",j:"曖昧な",d:["明確な","詳細な","公式な"],ex:[{e:"The wording is ambiguous.",t:"その表現は曖昧だ。"},{e:"Avoid ambiguous instructions.",t:"曖昧な指示は避けよ。"}]},
+ {w:"redundant",p:"adj.",j:"余分な",d:["不可欠な","簡潔な","正確な"],ex:[{e:"Cut the redundant steps.",t:"余分な工程を省け。"},{e:"This information is redundant.",t:"この情報は重複している。"}]},
+ {w:"tentative",p:"adj.",j:"暫定的な",d:["確定的な","強制的な","公式な"],ex:[{e:"We set a tentative date.",t:"暫定的な日程を決めた。"},{e:"It's a tentative agreement.",t:"暫定的な合意だ。"}]},
+ {w:"pertinent",p:"adj.",j:"関連した",d:["無関係な","義務的な","偶然の"],ex:[{e:"Please provide pertinent data.",t:"関連するデータを示してください。"},{e:"That's a pertinent question.",t:"それは的を射た質問だ。"}]},
+ {w:"imperative",p:"adj.",j:"必須の",d:["任意の","一時的な","退屈な"],ex:[{e:"Speed is imperative now.",t:"今は速さが必須だ。"},{e:"It's imperative to act fast.",t:"迅速な行動が不可欠だ。"}]},
+ {w:"inevitable",p:"adj.",j:"避けられない",d:["任意の","珍しい","可逆的な"],ex:[{e:"Change is inevitable.",t:"変化は避けられない。"},{e:"The delay was inevitable.",t:"その遅れは避けられなかった。"}]},
+ {w:"reluctant",p:"adj.",j:"気が進まない",d:["熱心な","楽観的な","寛大な"],ex:[{e:"He was reluctant to agree.",t:"彼は同意に気が進まなかった。"},{e:"She gave a reluctant nod.",t:"彼女は渋々うなずいた。"}]},
+ {w:"compelling",p:"adj.",j:"説得力のある",d:["退屈な","曖昧な","軽薄な"],ex:[{e:"He made a compelling case.",t:"彼は説得力ある主張をした。"},{e:"It's a compelling story.",t:"引き込まれる話だ。"}]},
+ {w:"substantial",p:"adj.",j:"相当な",d:["わずかな","一時的な","不確かな"],ex:[{e:"We saw substantial growth.",t:"相当な成長が見られた。"},{e:"A substantial sum was spent.",t:"かなりの額が使われた。"}]},
+ {w:"comprehensive",p:"adj.",j:"包括的な",d:["部分的な","簡潔な","曖昧な"],ex:[{e:"We offer comprehensive support.",t:"包括的な支援を提供する。"},{e:"It's a comprehensive report.",t:"網羅的な報告書だ。"}]},
+ {w:"stringent",p:"adj.",j:"厳格な",d:["緩やかな","任意の","曖昧な"],ex:[{e:"There are stringent safety rules.",t:"厳格な安全規則がある。"},{e:"Stringent checks are required.",t:"厳格な検査が必要だ。"}]},
+
+ {w:"discrepancy",p:"n.",j:"不一致",d:["一致","合意","要約"],ex:[{e:"There's a discrepancy in the numbers.",t:"数字に不一致がある。"},{e:"We found a billing discrepancy.",t:"請求の食い違いを見つけた。"}]},
+ {w:"prerequisite",p:"n.",j:"前提条件",d:["結果","例外","補足"],ex:[{e:"Trust is a prerequisite for teamwork.",t:"信頼は協働の前提だ。"},{e:"Experience is a prerequisite.",t:"経験が前提条件だ。"}]},
+ {w:"compliance",p:"n.",j:"順守",d:["違反","拒否","遅延"],ex:[{e:"Compliance with the law is required.",t:"法令順守が求められる。"},{e:"We ensure full compliance.",t:"完全な順守を確保する。"}]},
+ {w:"liability",p:"n.",j:"責任",d:["資産","利益","特典"],ex:[{e:"The company bears the liability.",t:"会社が責任を負う。"},{e:"Limit your legal liability.",t:"法的責任を限定せよ。"}]},
+ {w:"asset",p:"n.",j:"資産",d:["負債","損失","義務"],ex:[{e:"Experience is a real asset.",t:"経験は本当の財産だ。"},{e:"They sold off their assets.",t:"資産を売却した。"}]},
+ {w:"momentum",p:"n.",j:"勢い",d:["停滞","衰退","均衡"],ex:[{e:"The campaign is gaining momentum.",t:"運動は勢いを増している。"},{e:"Don't lose your momentum.",t:"勢いを失うな。"}]},
+ {w:"setback",p:"n.",j:"挫折",d:["前進","利益","合意"],ex:[{e:"We faced a major setback.",t:"大きな挫折に直面した。"},{e:"It was a temporary setback.",t:"一時的な後退だった。"}]},
+ {w:"breakthrough",p:"n.",j:"突破口",d:["行き詰まり","後退","妥協"],ex:[{e:"They made a breakthrough.",t:"彼らは突破口を開いた。"},{e:"It was a scientific breakthrough.",t:"科学的な大発見だった。"}]},
+ {w:"benchmark",p:"n.",j:"基準",d:["例外","偏差","推測"],ex:[{e:"We set a new benchmark.",t:"新たな基準を設けた。"},{e:"Compare it to the benchmark.",t:"基準と比べてみよ。"}]},
+ {w:"incentive",p:"n.",j:"動機付け",d:["罰則","妨害","遅延"],ex:[{e:"Bonuses are a strong incentive.",t:"賞与は強い動機付けだ。"},{e:"There's little incentive to stay.",t:"留まる動機はほとんどない。"}]},
+ {w:"surplus",p:"n.",j:"余剰",d:["不足","均衡","負債"],ex:[{e:"We have a budget surplus.",t:"予算に余剰がある。"},{e:"The surplus was reinvested.",t:"余剰は再投資された。"}]},
+ {w:"deficit",p:"n.",j:"赤字",d:["黒字","余剰","利益"],ex:[{e:"The firm ran a deficit.",t:"会社は赤字を出した。"},{e:"They cut the deficit by half.",t:"赤字を半減させた。"}]},
+ {w:"revenue",p:"n.",j:"収益",d:["経費","負債","損失"],ex:[{e:"Revenue rose last year.",t:"昨年は収益が伸びた。"},{e:"Ad revenue is growing.",t:"広告収益が伸びている。"}]},
+ {w:"expenditure",p:"n.",j:"支出",d:["収入","利益","預金"],ex:[{e:"We cut unnecessary expenditure.",t:"不要な支出を削減した。"},{e:"Capital expenditure increased.",t:"設備投資が増えた。"}]},
+ {w:"itinerary",p:"n.",j:"旅程",d:["領収書","契約","議題"],ex:[{e:"Here's your travel itinerary.",t:"こちらが旅程です。"},{e:"The itinerary was changed.",t:"旅程が変更された。"}]},
+ {w:"agenda",p:"n.",j:"議題",d:["結論","余興","休憩"],ex:[{e:"What's on the agenda today?",t:"今日の議題は何か。"},{e:"Let's stick to the agenda.",t:"議題に沿って進めよう。"}]},
+ {w:"premise",p:"n.",j:"前提",d:["結論","例外","補足"],ex:[{e:"The argument rests on a false premise.",t:"その論は誤った前提に立つ。"},{e:"Start from the right premise.",t:"正しい前提から始めよ。"}]},
+ {w:"mandate",p:"n.",j:"権限",d:["任意","拒否","提案"],ex:[{e:"They have a clear mandate.",t:"明確な権限を持っている。"},{e:"The mandate expires soon.",t:"その権限は間もなく失効する。"}]},
+ {w:"consensus",p:"n.",j:"合意",d:["対立","棄権","遅延"],ex:[{e:"We reached a consensus.",t:"合意に達した。"},{e:"There's no consensus yet.",t:"まだ合意はない。"}]},
+ {w:"proximity",p:"n.",j:"近接",d:["隔たり","中断","不在"],ex:[{e:"The hotel's proximity to the station is ideal.",t:"駅への近さが理想的だ。"},{e:"We value proximity to clients.",t:"顧客との近さを重視する。"}]},
+ {w:"discretion",p:"n.",j:"裁量",d:["義務","強制","偶然"],ex:[{e:"Use your own discretion.",t:"自分の裁量で判断せよ。"},{e:"It's at the manager's discretion.",t:"管理者の裁量による。"}]},
+ {w:"contingency",p:"n.",j:"不測の事態",d:["確実性","日常","規則"],ex:[{e:"We have a contingency plan.",t:"不測の事態への計画がある。"},{e:"Set aside a contingency fund.",t:"予備費を確保せよ。"}]},
+ {w:"alleviate",p:"v.",j:"軽減する",d:["悪化させる","強要する","記録する"],ex:[{e:"The medicine alleviates the pain.",t:"その薬は痛みを軽減する。"},{e:"New staff will alleviate the workload.",t:"新人が仕事量を軽減する。"}]},
+ {w:"reconcile",p:"v.",j:"調整する",d:["対立させる","放棄する","誇張する"],ex:[{e:"We reconciled the two accounts.",t:"2つの口座を照合した。"},{e:"It's hard to reconcile the figures.",t:"数字の整合を取るのは難しい。"}]},
+ {w:"supersede",p:"v.",j:"取って代わる",d:["補完する","遅らせる","模倣する"],ex:[{e:"The new rule supersedes the old one.",t:"新規則が旧規則に取って代わる。"},{e:"Email has superseded fax.",t:"メールがファックスに取って代わった。"}]},
+ {w:"curtail",p:"v.",j:"削減する",d:["拡大する","維持する","公開する"],ex:[{e:"We had to curtail spending.",t:"支出を削減せざるを得なかった。"},{e:"The trip was curtailed.",t:"出張は短縮された。"}]},
+ {w:"bolster",p:"v.",j:"強化する",d:["弱める","分割する","記録する"],ex:[{e:"The data bolsters our case.",t:"そのデータは主張を補強する。"},{e:"We bolstered security measures.",t:"警備を強化した。"}]},
+ {w:"deploy",p:"v.",j:"配備する",d:["撤退する","破棄する","隠す"],ex:[{e:"We deployed the new system.",t:"新システムを展開した。"},{e:"Staff were deployed on site.",t:"人員が現場に配置された。"}]},
+ {w:"procure",p:"v.",j:"調達する",d:["廃棄する","貸与する","消費する"],ex:[{e:"We procured the parts locally.",t:"部品を地元で調達した。"},{e:"It's hard to procure the material.",t:"その材料の調達は難しい。"}]},
+ {w:"designate",p:"v.",j:"指定する",d:["撤回する","無視する","交換する"],ex:[{e:"This area is designated for parking.",t:"この区域は駐車用に指定されている。"},{e:"She was designated as leader.",t:"彼女がリーダーに指名された。"}]},
+ {w:"exemplify",p:"v.",j:"例示する",d:["否定する","隠す","誇張する"],ex:[{e:"This case exemplifies the problem.",t:"この事例は問題を象徴する。"},{e:"He exemplifies good leadership.",t:"彼は良い統率の手本だ。"}]},
+ {w:"scrutinize",p:"v.",j:"精査する",d:["見過ごす","簡略化する","承認する"],ex:[{e:"Auditors scrutinized the accounts.",t:"監査人が帳簿を精査した。"},{e:"Please scrutinize the contract.",t:"契約書を精査してください。"}]},
+ {w:"reimburse",p:"v.",j:"払い戻す",d:["請求する","課税する","差し押さえる"],ex:[{e:"We will reimburse your expenses.",t:"経費を払い戻します。"},{e:"Travel costs are reimbursed.",t:"旅費は精算される。"}]},
+ {w:"waive",p:"v.",j:"免除する",d:["課す","延長する","記録する"],ex:[{e:"They waived the fee.",t:"手数料を免除した。"},{e:"He waived his right to appeal.",t:"彼は控訴権を放棄した。"}]},
+ {w:"outsource",p:"v.",j:"外注する",d:["内製する","廃止する","統合する"],ex:[{e:"We outsource our IT support.",t:"IT保守を外注している。"},{e:"They outsourced production abroad.",t:"生産を海外に外注した。"}]},
+ {w:"cater",p:"v.",j:"応じる",d:["拒む","妨げる","無視する"],ex:[{e:"The plan caters to all budgets.",t:"その案は全予算に対応する。"},{e:"We cater to corporate clients.",t:"法人客向けに対応している。"}]},
+ {w:"commence",p:"v.",j:"開始する",d:["終了する","中断する","延期する"],ex:[{e:"Work will commence next week.",t:"作業は来週始まる。"},{e:"The ceremony commenced at noon.",t:"式典は正午に始まった。"}]},
+ {w:"terminate",p:"v.",j:"終了する",d:["開始する","延長する","継続する"],ex:[{e:"The contract was terminated early.",t:"契約は早期に終了した。"},{e:"They terminated the service.",t:"サービスを打ち切った。"}]},
+ {w:"renovate",p:"v.",j:"改修する",d:["破壊する","放置する","移転する"],ex:[{e:"We renovated the office.",t:"オフィスを改修した。"},{e:"The hotel is being renovated.",t:"ホテルは改装中だ。"}]},
+ {w:"verify",p:"v.",j:"確認する",d:["疑う","隠す","誇張する"],ex:[{e:"Please verify your identity.",t:"本人確認をしてください。"},{e:"We verified the results.",t:"結果を検証した。"}]},
+ {w:"clarify",p:"v.",j:"明確にする",d:["曖昧にする","隠す","誇張する"],ex:[{e:"Let me clarify the terms.",t:"条件を明確にします。"},{e:"Could you clarify your point?",t:"論点を明確にできますか。"}]},
+ {w:"compile",p:"v.",j:"集約する",d:["分散させる","破棄する","複製する"],ex:[{e:"We compiled the data into a report.",t:"データを報告書にまとめた。"},{e:"She compiled a list of vendors.",t:"業者一覧を作成した。"}]},
+ {w:"accelerate",p:"v.",j:"加速する",d:["減速する","停止する","逆行する"],ex:[{e:"We need to accelerate the rollout.",t:"展開を加速する必要がある。"},{e:"Growth accelerated this year.",t:"成長が今年加速した。"}]},
+ {w:"incur",p:"v.",j:"負う",d:["免れる","返済する","記録する"],ex:[{e:"We incurred extra costs.",t:"追加費用が発生した。"},{e:"Late payment incurs a fee.",t:"延滞は手数料を生じる。"}]},
+ {w:"offset",p:"v.",j:"相殺する",d:["増幅する","分割する","記録する"],ex:[{e:"Gains offset the losses.",t:"利益が損失を相殺した。"},{e:"Savings offset the price rise.",t:"節約が値上げを相殺した。"}]},
+ {w:"optimize",p:"v.",j:"最適化する",d:["悪化させる","単純化する","複製する"],ex:[{e:"We optimized the workflow.",t:"作業手順を最適化した。"},{e:"Optimize the site for mobile.",t:"サイトをモバイル最適化せよ。"}]},
+
+ {w:"eligible",p:"adj.",j:"資格のある",d:["不適格な","一時的な","義務的な"],ex:[{e:"You are eligible for a refund.",t:"返金の対象です。"},{e:"Only members are eligible.",t:"会員のみが対象だ。"}]},
+ {w:"mandatory",p:"adj.",j:"必須の",d:["任意の","一時的な","例外的な"],ex:[{e:"Attendance is mandatory.",t:"出席は必須だ。"},{e:"Helmets are mandatory here.",t:"ここではヘルメットが必須だ。"}]},
+ {w:"preliminary",p:"adj.",j:"予備の",d:["最終の","公式な","詳細な"],ex:[{e:"These are preliminary results.",t:"これらは暫定的な結果だ。"},{e:"We held a preliminary meeting.",t:"予備会議を開いた。"}]},
+ {w:"proficient",p:"adj.",j:"熟達した",d:["未熟な","怠惰な","内気な"],ex:[{e:"She is proficient in English.",t:"彼女は英語に熟達している。"},{e:"He's proficient with the software.",t:"彼はそのソフトに習熟している。"}]},
+ {w:"thorough",p:"adj.",j:"徹底的な",d:["大ざっぱな","簡潔な","曖昧な"],ex:[{e:"We did a thorough review.",t:"徹底的な見直しを行った。"},{e:"A thorough check is needed.",t:"入念な点検が必要だ。"}]},
+ {w:"adverse",p:"adj.",j:"不利な",d:["有利な","中立の","一時的な"],ex:[{e:"There were adverse effects.",t:"悪影響があった。"},{e:"Adverse weather delayed us.",t:"悪天候が遅延を招いた。"}]},
+ {w:"concise",p:"adj.",j:"簡潔な",d:["冗長な","曖昧な","詳細な"],ex:[{e:"Keep the summary concise.",t:"要約は簡潔にせよ。"},{e:"It's a concise report.",t:"簡潔な報告書だ。"}]},
+ {w:"adjacent",p:"adj.",j:"隣接した",d:["離れた","中央の","遠方の"],ex:[{e:"The room is adjacent to mine.",t:"その部屋は私の隣だ。"},{e:"They bought the adjacent lot.",t:"隣接地を購入した。"}]},
+ {w:"intricate",p:"adj.",j:"複雑な",d:["単純な","明快な","退屈な"],ex:[{e:"It's an intricate design.",t:"複雑な設計だ。"},{e:"The process is intricate.",t:"その工程は入り組んでいる。"}]},
+ {w:"profound",p:"adj.",j:"深遠な",d:["浅薄な","一時的な","平凡な"],ex:[{e:"It had a profound impact.",t:"それは深い影響を与えた。"},{e:"He made a profound remark.",t:"彼は深い発言をした。"}]},
+ {w:"abundant",p:"adj.",j:"豊富な",d:["乏しい","適度な","均等な"],ex:[{e:"Resources are abundant here.",t:"ここは資源が豊富だ。"},{e:"There is abundant evidence.",t:"証拠は豊富にある。"}]},
+ {w:"scarce",p:"adj.",j:"乏しい",d:["豊富な","均等な","適度な"],ex:[{e:"Skilled labor is scarce.",t:"熟練労働者は不足している。"},{e:"Water became scarce.",t:"水が乏しくなった。"}]},
+ {w:"robust",p:"adj.",j:"頑健な",d:["脆弱な","一時的な","曖昧な"],ex:[{e:"We built a robust system.",t:"頑健なシステムを構築した。"},{e:"Sales remain robust.",t:"売上は堅調だ。"}]},
+ {w:"subsequent",p:"adj.",j:"その後の",d:["以前の","同時の","恒久的な"],ex:[{e:"Subsequent meetings were canceled.",t:"以降の会議は中止された。"},{e:"In subsequent years, it grew.",t:"その後の数年で成長した。"}]},
+ {w:"vulnerable",p:"adj.",j:"脆弱な",d:["頑健な","中立の","有利な"],ex:[{e:"The network is vulnerable to attack.",t:"その回線は攻撃に脆弱だ。"},{e:"Small firms are vulnerable.",t:"小企業は脆弱だ。"}]},
+ {w:"prevalent",p:"adj.",j:"広く行き渡った",d:["まれな","一時的な","局所的な"],ex:[{e:"This practice is prevalent now.",t:"この慣行は今や一般的だ。"},{e:"Remote work is prevalent.",t:"在宅勤務が広まっている。"}]},
+ {w:"legitimate",p:"adj.",j:"正当な",d:["不正な","一時的な","曖昧な"],ex:[{e:"That's a legitimate concern.",t:"それは正当な懸念だ。"},{e:"They have a legitimate claim.",t:"彼らには正当な権利がある。"}]},
+ {w:"sophisticated",p:"adj.",j:"洗練された",d:["粗雑な","単純な","退屈な"],ex:[{e:"It's a sophisticated system.",t:"洗練された仕組みだ。"},{e:"They use sophisticated tools.",t:"高度な道具を使う。"}]},
+ {w:"imminent",p:"adj.",j:"差し迫った",d:["遠い","任意の","珍しい"],ex:[{e:"A decision is imminent.",t:"決定は目前だ。"},{e:"The launch is imminent.",t:"発売は間近だ。"}]},
+ {w:"exempt",p:"adj.",j:"免除された",d:["義務のある","該当する","一時的な"],ex:[{e:"They are exempt from tax.",t:"彼らは免税だ。"},{e:"Students are exempt from the fee.",t:"学生は料金を免除される。"}]},
+
+ {w:"drawback",p:"n.",j:"欠点",d:["利点","前提","例外"],ex:[{e:"The main drawback is cost.",t:"主な欠点は費用だ。"},{e:"It has one drawback.",t:"難点が一つある。"}]},
+ {w:"outage",p:"n.",j:"停止",d:["稼働","余剰","需要"],ex:[{e:"A power outage stopped work.",t:"停電で作業が止まった。"},{e:"The outage lasted an hour.",t:"停止は1時間続いた。"}]},
+ {w:"turnover",p:"n.",j:"離職率",d:["定着率","出席率","稼働率"],ex:[{e:"Staff turnover is high.",t:"離職率が高い。"},{e:"We reduced turnover.",t:"離職を減らした。"}]},
+ {w:"overhead",p:"n.",j:"諸経費",d:["収益","利益","資産"],ex:[{e:"We cut overhead costs.",t:"間接費を削減した。"},{e:"Overhead is too high.",t:"諸経費が高すぎる。"}]},
+ {w:"warranty",p:"n.",j:"保証",d:["違反","免除","契約"],ex:[{e:"The product has a warranty.",t:"その製品には保証がある。"},{e:"The warranty expired.",t:"保証が切れた。"}]},
+ {w:"inventory",p:"n.",j:"在庫",d:["需要","収益","負債"],ex:[{e:"We need to check the inventory.",t:"在庫を確認する必要がある。"},{e:"Inventory is running low.",t:"在庫が減っている。"}]},
+ {w:"venue",p:"n.",j:"開催地",d:["議題","予算","参加者"],ex:[{e:"We booked a new venue.",t:"新しい会場を予約した。"},{e:"The venue seats 200.",t:"会場は200席だ。"}]},
+ {w:"quota",p:"n.",j:"割当量",d:["余剰","不足","基準"],ex:[{e:"She met her sales quota.",t:"彼女は販売ノルマを達成した。"},{e:"There's an import quota.",t:"輸入割当がある。"}]},
+ {w:"hierarchy",p:"n.",j:"階層",d:["混乱","均衡","対立"],ex:[{e:"The company has a flat hierarchy.",t:"その会社は階層が浅い。"},{e:"He rose through the hierarchy.",t:"彼は階層を上り詰めた。"}]},
+ {w:"downturn",p:"n.",j:"景気後退",d:["好況","停滞","均衡"],ex:[{e:"Sales fell in the downturn.",t:"不況で売上が落ちた。"},{e:"We survived the downturn.",t:"景気後退を乗り切った。"}]},
+ {w:"endeavor",p:"n.",j:"努力",d:["怠慢","偶然","妨害"],ex:[{e:"We wish you well in this endeavor.",t:"この取り組みの成功を祈る。"},{e:"It was a joint endeavor.",t:"共同の取り組みだった。"}]},
+ {w:"compromise",p:"n.",j:"妥協",d:["対立","独断","完勝"],ex:[{e:"We reached a compromise.",t:"妥協点に達した。"},{e:"It was a fair compromise.",t:"公平な妥協だった。"}]},
+ {w:"threshold",p:"n.",j:"基準値",d:["例外","平均","上限"],ex:[{e:"Sales passed the threshold.",t:"売上が基準値を超えた。"},{e:"There's a minimum threshold.",t:"最低基準がある。"}]},
+ {w:"shortage",p:"n.",j:"不足",d:["余剰","均衡","過剰"],ex:[{e:"There's a labor shortage.",t:"人手不足だ。"},{e:"A shortage delayed production.",t:"不足が生産を遅らせた。"}]},
+ {w:"prospect",p:"n.",j:"見込み",d:["結果","過去","例外"],ex:[{e:"The prospects look good.",t:"見通しは良い。"},{e:"There's little prospect of growth.",t:"成長の見込みは薄い。"}]},
+ {w:"outlook",p:"n.",j:"見通し",d:["回顧","現状","例外"],ex:[{e:"The economic outlook is positive.",t:"経済見通しは明るい。"},{e:"They revised the outlook.",t:"見通しを修正した。"}]},
+ {w:"amend",p:"v.",j:"修正する",d:["放置する","削除する","複製する"],ex:[{e:"They amended the contract.",t:"契約を修正した。"},{e:"The law was amended last year.",t:"その法律は昨年改正された。"}]},
+ {w:"authorize",p:"v.",j:"許可する",d:["禁止する","延期する","記録する"],ex:[{e:"The manager authorized the payment.",t:"部長が支払いを承認した。"},{e:"Only staff are authorized to enter.",t:"職員のみ入室が許可される。"}]},
+ {w:"certify",p:"v.",j:"証明する",d:["否定する","隠す","推測する"],ex:[{e:"The document certifies his skills.",t:"その書類は彼の技能を証明する。"},{e:"The product is certified safe.",t:"その製品は安全と認証されている。"}]},
+ {w:"collaborate",p:"v.",j:"協力する",d:["対立する","独占する","傍観する"],ex:[{e:"We collaborated on the design.",t:"設計で協力した。"},{e:"The teams collaborate closely.",t:"チームは緊密に連携する。"}]},
+ {w:"commemorate",p:"v.",j:"記念する",d:["忘れる","廃止する","非難する"],ex:[{e:"The event commemorates the founding.",t:"その行事は創立を記念する。"},{e:"A plaque commemorates the visit.",t:"銘板が訪問を記念している。"}]},
+ {w:"confer",p:"v.",j:"協議する",d:["独断する","放置する","拒絶する"],ex:[{e:"I need to confer with my team.",t:"チームと協議する必要がある。"},{e:"They conferred before deciding.",t:"決定前に協議した。"}]},
+ {w:"decline",p:"v.",j:"断る",d:["受け入れる","促進する","記録する"],ex:[{e:"She declined the invitation.",t:"彼女は招待を断った。"},{e:"He declined to comment.",t:"彼はコメントを控えた。"}]},
+ {w:"dispatch",p:"v.",j:"発送する",d:["受領する","保管する","廃棄する"],ex:[{e:"The goods were dispatched today.",t:"商品は本日発送された。"},{e:"We dispatched a technician.",t:"技術者を派遣した。"}]},
+ {w:"distribute",p:"v.",j:"配布する",d:["回収する","独占する","保管する"],ex:[{e:"Handouts were distributed to all.",t:"資料が全員に配布された。"},{e:"We distribute products nationwide.",t:"全国に製品を流通させている。"}]},
+ {w:"donate",p:"v.",j:"寄付する",d:["受領する","販売する","貸与する"],ex:[{e:"The firm donated to charity.",t:"その会社は慈善団体に寄付した。"},{e:"He donated old equipment.",t:"彼は古い機器を寄贈した。"}]},
+ {w:"enclose",p:"v.",j:"同封する",d:["除外する","公開する","破棄する"],ex:[{e:"Please enclose a copy of the receipt.",t:"領収書の写しを同封してください。"},{e:"A brochure is enclosed.",t:"パンフレットを同封しています。"}]},
+ {w:"enhance",p:"v.",j:"高める",d:["損なう","維持する","無視する"],ex:[{e:"The update enhances performance.",t:"更新で性能が向上する。"},{e:"Training enhances productivity.",t:"研修は生産性を高める。"}]},
+ {w:"enroll",p:"v.",j:"登録する",d:["退会する","拒否する","延期する"],ex:[{e:"She enrolled in the course.",t:"彼女は講座に登録した。"},{e:"Enroll by Friday to save 10%.",t:"金曜までの登録で1割引。"}]},
+ {w:"evaluate",p:"v.",j:"評価する",d:["無視する","実行する","複製する"],ex:[{e:"We evaluated three proposals.",t:"3つの提案を評価した。"},{e:"Performance is evaluated yearly.",t:"実績は毎年評価される。"}]},
+ {w:"exceed",p:"v.",j:"超える",d:["下回る","維持する","停止する"],ex:[{e:"Sales exceeded expectations.",t:"売上は期待を超えた。"},{e:"Do not exceed the speed limit.",t:"制限速度を超えるな。"}]},
+ {w:"extend",p:"v.",j:"延長する",d:["短縮する","中止する","開始する"],ex:[{e:"The deadline was extended.",t:"締切が延長された。"},{e:"We extended the warranty.",t:"保証を延長した。"}]},
+ {w:"forfeit",p:"v.",j:"失う",d:["獲得する","保持する","返却する"],ex:[{e:"He forfeited his deposit.",t:"彼は保証金を失った。"},{e:"Cancel late and you forfeit the fee.",t:"直前キャンセルは料金を失う。"}]},
+ {w:"foster",p:"v.",j:"育成する",d:["妨げる","放置する","排除する"],ex:[{e:"We foster young talent.",t:"若手を育成している。"},{e:"The policy fosters innovation.",t:"その方針は革新を促す。"}]},
+ {w:"generate",p:"v.",j:"生み出す",d:["消費する","破壊する","抑制する"],ex:[{e:"The ad generated interest.",t:"広告が関心を生んだ。"},{e:"Solar panels generate power.",t:"太陽光パネルが電力を生む。"}]},
+ {w:"grant",p:"v.",j:"与える",d:["拒否する","要求する","回収する"],ex:[{e:"They granted him access.",t:"彼にアクセス権を与えた。"},{e:"The request was granted.",t:"その要望は認められた。"}]},
+ {w:"halt",p:"v.",j:"停止する",d:["続行する","加速する","開始する"],ex:[{e:"Production was halted.",t:"生産が停止された。"},{e:"They halted the project.",t:"計画を中断した。"}]},
+ {w:"inspect",p:"v.",j:"検査する",d:["見過ごす","製造する","販売する"],ex:[{e:"Inspectors inspected the site.",t:"検査官が現場を検査した。"},{e:"Please inspect the goods on arrival.",t:"到着時に商品を検品してください。"}]},
+ {w:"install",p:"v.",j:"設置する",d:["撤去する","修理する","販売する"],ex:[{e:"We installed new software.",t:"新しいソフトを導入した。"},{e:"Cameras were installed last week.",t:"先週カメラが設置された。"}]},
+ {w:"launch",p:"v.",j:"開始する",d:["終了する","延期する","中止する"],ex:[{e:"They launched a new product.",t:"新製品を発売した。"},{e:"The campaign launches Monday.",t:"キャンペーンは月曜開始だ。"}]},
+ {w:"lease",p:"v.",j:"賃貸する",d:["売却する","購入する","寄付する"],ex:[{e:"We lease the office space.",t:"事務所を賃借している。"},{e:"The building is leased to a bank.",t:"その建物は銀行に貸されている。"}]},
+ {w:"merge",p:"v.",j:"合併する",d:["分離する","解散する","縮小する"],ex:[{e:"The two firms merged.",t:"2社が合併した。"},{e:"We merged the departments.",t:"部門を統合した。"}]},
+ {w:"modify",p:"v.",j:"変更する",d:["維持する","破棄する","複製する"],ex:[{e:"We modified the design.",t:"設計を変更した。"},{e:"The plan was slightly modified.",t:"計画は少し修正された。"}]},
+ {w:"notify",p:"v.",j:"通知する",d:["隠す","忘れる","拒否する"],ex:[{e:"Please notify us of any changes.",t:"変更があればご連絡ください。"},{e:"Winners will be notified by email.",t:"当選者にはメールで通知する。"}]},
+ {w:"oversee",p:"v.",j:"監督する",d:["放任する","実行する","従う"],ex:[{e:"She oversees the whole project.",t:"彼女が全体を統括する。"},{e:"He oversees daily operations.",t:"彼は日常業務を監督する。"}]},
+ {w:"participate",p:"v.",j:"参加する",d:["欠席する","主催する","拒否する"],ex:[{e:"All staff participated in training.",t:"全員が研修に参加した。"},{e:"Feel free to participate.",t:"気軽に参加してください。"}]},
+ {w:"postpone",p:"v.",j:"延期する",d:["前倒しする","中止する","実施する"],ex:[{e:"The event was postponed.",t:"行事は延期された。"},{e:"Let's postpone the decision.",t:"決定を先送りしよう。"}]},
+ {w:"presume",p:"v.",j:"推定する",d:["確認する","否定する","証明する"],ex:[{e:"I presume he agrees.",t:"彼は同意していると推測する。"},{e:"The cause is presumed to be human error.",t:"原因は人為ミスと推定される。"}]},
+ {w:"proceed",p:"v.",j:"進める",d:["中止する","戻る","待機する"],ex:[{e:"Let's proceed to the next item.",t:"次の項目に進もう。"},{e:"Work proceeded as planned.",t:"作業は計画どおり進んだ。"}]},
+ {w:"prohibit",p:"v.",j:"禁止する",d:["許可する","推奨する","強制する"],ex:[{e:"Smoking is prohibited here.",t:"ここは禁煙だ。"},{e:"The rule prohibits overtime work.",t:"その規則は残業を禁じる。"}]},
+ {w:"promote",p:"v.",j:"昇進させる",d:["降格させる","解雇する","採用する"],ex:[{e:"She was promoted to manager.",t:"彼女は課長に昇進した。"},{e:"We promote from within.",t:"社内から昇進させている。"}]},
+ {w:"publicize",p:"v.",j:"公表する",d:["隠す","削除する","検閲する"],ex:[{e:"The results were widely publicized.",t:"結果は広く公表された。"},{e:"We publicized the event online.",t:"催しをネットで宣伝した。"}]},
+ {w:"recruit",p:"v.",j:"採用する",d:["解雇する","昇進させる","監督する"],ex:[{e:"We are recruiting engineers.",t:"技術者を採用中だ。"},{e:"They recruited ten new staff.",t:"新たに10人を採用した。"}]},
+ {w:"refurbish",p:"v.",j:"改装する",d:["解体する","放置する","移転する"],ex:[{e:"The lobby was refurbished.",t:"ロビーが改装された。"},{e:"We refurbish used machines.",t:"中古機械を再整備している。"}]},
+ {w:"register",p:"v.",j:"登録する",d:["抹消する","拒否する","延期する"],ex:[{e:"Register for the seminar online.",t:"セミナーはオンラインで登録を。"},{e:"The car is registered in Kyoto.",t:"その車は京都で登録されている。"}]},
+ {w:"relocate",p:"v.",j:"移転する",d:["定住する","閉鎖する","拡張する"],ex:[{e:"The office will relocate downtown.",t:"事務所は中心部に移転する。"},{e:"They relocated the factory.",t:"工場を移転した。"}]},
+ {w:"remit",p:"v.",j:"送金する",d:["受領する","請求する","返品する"],ex:[{e:"Please remit payment by Friday.",t:"金曜までにご送金ください。"},{e:"Funds were remitted overseas.",t:"資金は海外に送金された。"}]},
+ {w:"renew",p:"v.",j:"更新する",d:["解約する","放置する","短縮する"],ex:[{e:"I renewed my membership.",t:"会員資格を更新した。"},{e:"The lease renews annually.",t:"賃貸契約は毎年更新される。"}]},
+ {w:"resolve",p:"v.",j:"解決する",d:["悪化させる","放置する","複雑にする"],ex:[{e:"The issue was quickly resolved.",t:"問題はすぐ解決した。"},{e:"We resolved the dispute.",t:"紛争を解決した。"}]},
+ {w:"restore",p:"v.",j:"復旧する",d:["破壊する","放置する","撤去する"],ex:[{e:"Power was restored by noon.",t:"電力は正午までに復旧した。"},{e:"They restored the old building.",t:"古い建物を修復した。"}]},
+ {w:"restrict",p:"v.",j:"制限する",d:["緩和する","拡大する","許可する"],ex:[{e:"Access is restricted to staff.",t:"立入は職員に制限される。"},{e:"The policy restricts spending.",t:"その方針は支出を制限する。"}]},
+ {w:"revise",p:"v.",j:"改訂する",d:["放置する","廃棄する","複製する"],ex:[{e:"We revised the manual.",t:"マニュアルを改訂した。"},{e:"The forecast was revised upward.",t:"予測は上方修正された。"}]},
+ {w:"secure",p:"v.",j:"確保する",d:["失う","放棄する","貸与する"],ex:[{e:"We secured the funding.",t:"資金を確保した。"},{e:"She secured a good seat.",t:"彼女は良い席を確保した。"}]},
+ {w:"solicit",p:"v.",j:"求める",d:["拒む","与える","隠す"],ex:[{e:"We solicit your feedback.",t:"ご意見をお寄せください。"},{e:"They solicited donations.",t:"寄付を募った。"}]},
+ {w:"specify",p:"v.",j:"明記する",d:["曖昧にする","省略する","推測する"],ex:[{e:"Please specify the delivery date.",t:"納品日を明記してください。"},{e:"The contract specifies the terms.",t:"契約書に条件が明記されている。"}]},
+ {w:"subscribe",p:"v.",j:"購読する",d:["解約する","出版する","廃刊する"],ex:[{e:"I subscribe to the newsletter.",t:"その会報を購読している。"},{e:"Subscribe for weekly updates.",t:"週刊の更新情報を購読しよう。"}]},
+ {w:"transfer",p:"v.",j:"移動させる",d:["固定する","廃棄する","複製する"],ex:[{e:"He was transferred to Osaka.",t:"彼は大阪に異動した。"},{e:"Transfer the funds today.",t:"今日資金を移してください。"}]},
+ {w:"upgrade",p:"v.",j:"改良する",d:["劣化させる","廃止する","維持する"],ex:[{e:"We upgraded the system.",t:"システムを改良した。"},{e:"Your seat was upgraded.",t:"座席が格上げされた。"}]},
+ {w:"utilize",p:"v.",j:"活用する",d:["浪費する","廃棄する","保管する"],ex:[{e:"We utilize the latest tools.",t:"最新の道具を活用している。"},{e:"Space is fully utilized.",t:"空間は十分活用されている。"}]},
+ {w:"withstand",p:"v.",j:"耐える",d:["屈する","逃げる","崩れる"],ex:[{e:"The bridge withstands strong winds.",t:"その橋は強風に耐える。"},{e:"It withstood the earthquake.",t:"それは地震に耐えた。"}]},
+ {w:"audit",p:"v.",j:"監査する",d:["無視する","改ざんする","承認する"],ex:[{e:"The accounts were audited.",t:"会計が監査された。"},{e:"We audit suppliers yearly.",t:"仕入先を毎年監査する。"}]},
+ {w:"convey",p:"v.",j:"伝える",d:["隠す","遮る","忘れる"],ex:[{e:"Please convey my thanks to her.",t:"彼女に感謝を伝えてください。"},{e:"The chart conveys the trend clearly.",t:"図は傾向を明確に伝える。"}]},
+ {w:"accessible",p:"adj.",j:"利用しやすい",d:["近づけない","高価な","複雑な"],ex:[{e:"The building is wheelchair accessible.",t:"その建物は車いすで利用できる。"},{e:"Data is accessible online.",t:"データはオンラインで参照できる。"}]},
+ {w:"accurate",p:"adj.",j:"正確な",d:["不正確な","曖昧な","大まかな"],ex:[{e:"The figures are accurate.",t:"その数字は正確だ。"},{e:"We need accurate records.",t:"正確な記録が必要だ。"}]},
+ {w:"affordable",p:"adj.",j:"手頃な",d:["高価な","無料の","貴重な"],ex:[{e:"They offer affordable housing.",t:"手頃な住宅を提供している。"},{e:"The price is quite affordable.",t:"価格はかなり手頃だ。"}]},
+ {w:"alternate",p:"adj.",j:"交互の",d:["連続の","固定の","唯一の"],ex:[{e:"We meet on alternate weeks.",t:"隔週で会っている。"},{e:"Take the alternate route.",t:"代替経路を使ってください。"}]},
+ {w:"annual",p:"adj.",j:"年1回の",d:["毎日の","毎月の","臨時の"],ex:[{e:"The annual meeting is in May.",t:"年次総会は5月だ。"},{e:"Annual sales rose 8%.",t:"年間売上は8%伸びた。"}]},
+ {w:"applicable",p:"adj.",j:"適用できる",d:["無関係な","例外の","無効な"],ex:[{e:"The rule is applicable to all.",t:"その規則は全員に適用される。"},{e:"Fill in where applicable.",t:"該当箇所に記入を。"}]},
+ {w:"appropriate",p:"adj.",j:"適切な",d:["不適切な","過剰な","曖昧な"],ex:[{e:"Wear appropriate clothing.",t:"適切な服装をしてください。"},{e:"Take appropriate action.",t:"適切な措置をとれ。"}]},
+ {w:"attentive",p:"adj.",j:"注意深い",d:["不注意な","無関心な","怠惰な"],ex:[{e:"The staff were very attentive.",t:"従業員はとても気配りがあった。"},{e:"Be attentive to detail.",t:"細部に注意を払え。"}]},
+ {w:"authentic",p:"adj.",j:"本物の",d:["偽物の","複製の","疑わしい"],ex:[{e:"It's an authentic signature.",t:"本物の署名だ。"},{e:"They serve authentic cuisine.",t:"本場の料理を出す。"}]},
+ {w:"beneficial",p:"adj.",j:"有益な",d:["有害な","無益な","中立の"],ex:[{e:"Exercise is beneficial to health.",t:"運動は健康に有益だ。"},{e:"The deal is mutually beneficial.",t:"その取引は互恵的だ。"}]},
+ {w:"cautious",p:"adj.",j:"用心深い",d:["無謀な","大胆な","楽観的な"],ex:[{e:"Be cautious with estimates.",t:"見積もりは慎重に。"},{e:"A cautious approach is wise.",t:"慎重な進め方が賢明だ。"}]},
+ {w:"competent",p:"adj.",j:"有能な",d:["無能な","怠惰な","未熟な"],ex:[{e:"She is a competent engineer.",t:"彼女は有能な技術者だ。"},{e:"We need competent staff.",t:"有能な人材が必要だ。"}]},
+ {w:"competitive",p:"adj.",j:"競争力のある",d:["劣った","独占的な","消極的な"],ex:[{e:"We offer competitive salaries.",t:"競争力のある給与を提供する。"},{e:"The market is highly competitive.",t:"市場は競争が激しい。"}]},
+ {w:"complimentary",p:"adj.",j:"無料の",d:["有料の","割引の","高額の"],ex:[{e:"Breakfast is complimentary.",t:"朝食は無料だ。"},{e:"Guests receive complimentary tickets.",t:"来客は無料券を受け取る。"}]},
+ {w:"confidential",p:"adj.",j:"機密の",d:["公開の","一般の","有名な"],ex:[{e:"This report is confidential.",t:"この報告書は機密だ。"},{e:"Keep the data confidential.",t:"データは機密扱いに。"}]},
+ {w:"consecutive",p:"adj.",j:"連続した",d:["断続的な","単発の","逆順の"],ex:[{e:"Sales rose for three consecutive years.",t:"売上は3年連続で伸びた。"},{e:"He won two consecutive titles.",t:"彼は2連覇した。"}]},
+ {w:"considerable",p:"adj.",j:"かなりの",d:["わずかな","平均の","不明の"],ex:[{e:"It took considerable effort.",t:"かなりの労力を要した。"},{e:"A considerable sum was invested.",t:"相当額が投資された。"}]},
+ {w:"consistent",p:"adj.",j:"一貫した",d:["矛盾した","気まぐれな","断続的な"],ex:[{e:"Quality must be consistent.",t:"品質は一貫していなければ。"},{e:"His results are consistent.",t:"彼の結果は安定している。"}]},
+ {w:"contemporary",p:"adj.",j:"現代の",d:["古代の","未来の","中世の"],ex:[{e:"The gallery shows contemporary art.",t:"その画廊は現代美術を展示する。"},{e:"It has a contemporary design.",t:"現代的なデザインだ。"}]},
+ {w:"convenient",p:"adj.",j:"便利な",d:["不便な","高価な","危険な"],ex:[{e:"The location is convenient.",t:"立地が便利だ。"},{e:"Choose a convenient time.",t:"都合の良い時間を選んで。"}]},
+ {w:"cordial",p:"adj.",j:"心のこもった",d:["冷淡な","敵対的な","形式的な"],ex:[{e:"We received a cordial welcome.",t:"心のこもった歓迎を受けた。"},{e:"Relations remain cordial.",t:"関係は友好的なままだ。"}]},
+ {w:"courteous",p:"adj.",j:"礼儀正しい",d:["無礼な","傲慢な","冷淡な"],ex:[{e:"The staff were courteous.",t:"従業員は礼儀正しかった。"},{e:"Be courteous to customers.",t:"客には礼儀正しく。"}]},
+ {w:"crucial",p:"adj.",j:"極めて重要な",d:["些細な","任意の","無関係な"],ex:[{e:"Timing is crucial here.",t:"ここでは時機が決定的だ。"},{e:"It's a crucial decision.",t:"極めて重要な決定だ。"}]},
+ {w:"defective",p:"adj.",j:"欠陥のある",d:["完全な","新品の","高品質な"],ex:[{e:"The defective parts were replaced.",t:"欠陥部品は交換された。"},{e:"Return defective items for a refund.",t:"不良品は返品で返金される。"}]},
+ {w:"dependable",p:"adj.",j:"信頼できる",d:["当てにならない","気まぐれな","危険な"],ex:[{e:"He is a dependable colleague.",t:"彼は頼れる同僚だ。"},{e:"We need dependable suppliers.",t:"信頼できる仕入先が要る。"}]},
+ {w:"distinct",p:"adj.",j:"明確に異なる",d:["同一の","類似の","曖昧な"],ex:[{e:"The two plans are distinct.",t:"2つの案は明確に異なる。"},{e:"There's a distinct improvement.",t:"明確な改善がある。"}]},
+ {w:"diverse",p:"adj.",j:"多様な",d:["均一な","単一の","同種の"],ex:[{e:"We have a diverse team.",t:"多様なチームを持つ。"},{e:"The region has diverse industries.",t:"その地域は産業が多様だ。"}]},
+ {w:"durable",p:"adj.",j:"耐久性のある",d:["壊れやすい","一時的な","消耗する"],ex:[{e:"The material is very durable.",t:"その素材は非常に丈夫だ。"},{e:"We make durable goods.",t:"耐久消費財を作っている。"}]},
+ {w:"eager",p:"adj.",j:"熱心な",d:["無関心な","消極的な","怠惰な"],ex:[{e:"She is eager to learn.",t:"彼女は学ぶ意欲が強い。"},{e:"They were eager to start.",t:"彼らは始めたがっていた。"}]},
+ {w:"economical",p:"adj.",j:"経済的な",d:["浪費的な","高価な","贅沢な"],ex:[{e:"The car is economical to run.",t:"その車は維持費が安い。"},{e:"Choose the economical option.",t:"経済的な選択肢を選べ。"}]},
+ {w:"efficient",p:"adj.",j:"効率的な",d:["非効率な","遅い","無駄な"],ex:[{e:"The new process is efficient.",t:"新工程は効率的だ。"},{e:"She is an efficient worker.",t:"彼女は手際が良い。"}]},
+ {w:"elaborate",p:"adj.",j:"手の込んだ",d:["簡素な","粗雑な","単純な"],ex:[{e:"They made elaborate preparations.",t:"入念な準備をした。"},{e:"It's an elaborate design.",t:"手の込んだ意匠だ。"}]},
+ {w:"essential",p:"adj.",j:"不可欠な",d:["不要な","任意の","余分な"],ex:[{e:"Trust is essential in business.",t:"商売に信頼は不可欠だ。"},{e:"Bring only essential items.",t:"必需品だけ持参を。"}]},
+ {w:"exceptional",p:"adj.",j:"並外れた",d:["平凡な","標準の","劣った"],ex:[{e:"She showed exceptional skill.",t:"彼女は並外れた技能を見せた。"},{e:"The service was exceptional.",t:"サービスは格別だった。"}]},
+ {w:"excessive",p:"adj.",j:"過度の",d:["適度の","不足の","最小の"],ex:[{e:"Avoid excessive spending.",t:"過度の支出を避けよ。"},{e:"The noise was excessive.",t:"騒音は過剰だった。"}]},
+ {w:"exclusive",p:"adj.",j:"独占的な",d:["共有の","公開の","一般の"],ex:[{e:"We have exclusive rights.",t:"独占権を持っている。"},{e:"It's an exclusive interview.",t:"独占取材だ。"}]},
+ {w:"faulty",p:"adj.",j:"欠陥のある",d:["正常な","完璧な","新品の"],ex:[{e:"The faulty wiring caused a fire.",t:"配線不良が火事を招いた。"},{e:"Replace the faulty unit.",t:"不良ユニットを交換せよ。"}]},
+ {w:"flexible",p:"adj.",j:"柔軟な",d:["硬直した","固定の","頑固な"],ex:[{e:"We offer flexible hours.",t:"柔軟な勤務時間を提供する。"},{e:"Stay flexible about the plan.",t:"計画には柔軟でいよう。"}]},
+ {w:"fragile",p:"adj.",j:"壊れやすい",d:["頑丈な","耐久性のある","重い"],ex:[{e:"Handle the fragile items with care.",t:"割れ物は丁寧に扱って。"},{e:"The glass is fragile.",t:"そのガラスは壊れやすい。"}]},
+ {w:"frequent",p:"adj.",j:"頻繁な",d:["まれな","単発の","不定期の"],ex:[{e:"He is a frequent visitor.",t:"彼は頻繁に訪れる。"},{e:"Frequent breaks help focus.",t:"こまめな休憩は集中を助ける。"}]},
+ {w:"generous",p:"adj.",j:"気前のよい",d:["けちな","冷淡な","厳格な"],ex:[{e:"They made a generous donation.",t:"気前よく寄付した。"},{e:"The portions are generous.",t:"量がたっぷりだ。"}]},
+ {w:"genuine",p:"adj.",j:"本物の",d:["偽の","模造の","疑わしい"],ex:[{e:"It's made of genuine leather.",t:"本革製だ。"},{e:"She showed genuine interest.",t:"彼女は本心から関心を示した。"}]},
+ {w:"gradual",p:"adj.",j:"段階的な",d:["急激な","即時の","一斉の"],ex:[{e:"We saw a gradual improvement.",t:"緩やかな改善が見られた。"},{e:"The change will be gradual.",t:"変化は段階的になる。"}]},
+ {w:"hazardous",p:"adj.",j:"危険な",d:["安全な","無害な","快適な"],ex:[{e:"Hazardous materials need labels.",t:"危険物には表示が要る。"},{e:"The road is hazardous in winter.",t:"その道は冬に危険だ。"}]},
+ {w:"immediate",p:"adj.",j:"即時の",d:["遅延した","段階的な","将来の"],ex:[{e:"We need an immediate reply.",t:"即答が必要だ。"},{e:"The effect was immediate.",t:"効果は即座に現れた。"}]},
+ {w:"impressive",p:"adj.",j:"印象的な",d:["平凡な","退屈な","粗末な"],ex:[{e:"The results were impressive.",t:"結果は見事だった。"},{e:"She gave an impressive talk.",t:"彼女は見事な講演をした。"}]},
+ {w:"inclusive",p:"adj.",j:"込みの",d:["別料金の","除外の","限定の"],ex:[{e:"The price is inclusive of tax.",t:"価格は税込みだ。"},{e:"It's an all-inclusive package.",t:"全部込みのプランだ。"}]},
+ {w:"initial",p:"adj.",j:"最初の",d:["最終の","中間の","追加の"],ex:[{e:"The initial cost is high.",t:"初期費用は高い。"},{e:"Our initial plan changed.",t:"当初の計画は変わった。"}]},
+ {w:"innovative",p:"adj.",j:"革新的な",d:["保守的な","旧式の","模倣の"],ex:[{e:"It's an innovative solution.",t:"革新的な解決策だ。"},{e:"They develop innovative products.",t:"革新的な製品を開発する。"}]},
+ {w:"insufficient",p:"adj.",j:"不十分な",d:["十分な","過剰な","完全な"],ex:[{e:"The data is insufficient.",t:"データが不十分だ。"},{e:"Funds were insufficient.",t:"資金が足りなかった。"}]},
+ {w:"interim",p:"adj.",j:"暫定の",d:["恒久の","最終の","公式の"],ex:[{e:"She is the interim director.",t:"彼女は暫定の責任者だ。"},{e:"An interim report was issued.",t:"中間報告が出された。"}]},
+ {w:"keen",p:"adj.",j:"熱心な",d:["無関心な","怠惰な","冷淡な"],ex:[{e:"He has a keen interest in design.",t:"彼は設計に強い関心を持つ。"},{e:"She is keen to join.",t:"彼女は参加に意欲的だ。"}]},
+ {w:"punctual",p:"adj.",j:"時間を守る",d:["遅刻がちな","気まぐれな","怠惰な"],ex:[{e:"He is always punctual.",t:"彼はいつも時間どおりだ。"},{e:"Please be punctual for meetings.",t:"会議には時間厳守で。"}]},
+ {w:"spacious",p:"adj.",j:"広々とした",d:["狭い","窮屈な","小さな"],ex:[{e:"The office is spacious.",t:"その事務所は広い。"},{e:"They moved to a spacious hall.",t:"広い会場に移った。"}]},
+ {w:"temporary",p:"adj.",j:"一時的な",d:["恒久的な","継続的な","定期的な"],ex:[{e:"It's a temporary measure.",t:"一時的な措置だ。"},{e:"We hired temporary staff.",t:"臨時職員を雇った。"}]},
+ {w:"upcoming",p:"adj.",j:"来たる",d:["過去の","現在の","終了した"],ex:[{e:"The upcoming event sold out.",t:"来たる催しは完売した。"},{e:"Check the upcoming schedule.",t:"今後の予定を確認して。"}]},
+ {w:"acquisition",p:"n.",j:"買収",d:["売却","解散","撤退"],ex:[{e:"The acquisition was approved.",t:"買収は承認された。"},{e:"They announced a major acquisition.",t:"大型買収を発表した。"}]},
+ {w:"allowance",p:"n.",j:"手当",d:["罰金","借金","税金"],ex:[{e:"Staff get a travel allowance.",t:"社員は交通手当を受け取る。"},{e:"The housing allowance was raised.",t:"住宅手当が引き上げられた。"}]},
+ {w:"applicant",p:"n.",j:"応募者",d:["採用者","面接官","退職者"],ex:[{e:"We had fifty applicants.",t:"応募者は50人いた。"},{e:"Each applicant will be contacted.",t:"各応募者に連絡する。"}]},
+ {w:"appraisal",p:"n.",j:"査定",d:["放置","推測","廃棄"],ex:[{e:"The property appraisal is done.",t:"物件の査定が完了した。"},{e:"Annual appraisals start in April.",t:"年次評価は4月に始まる。"}]},
+ {w:"arrangement",p:"n.",j:"手配",d:["中止","混乱","放置"],ex:[{e:"Travel arrangements are complete.",t:"旅行の手配は完了した。"},{e:"We made arrangements for the venue.",t:"会場の手配をした。"}]},
+ {w:"assembly",p:"n.",j:"組立",d:["分解","破棄","設計"],ex:[{e:"The parts require assembly.",t:"部品は組立が必要だ。"},{e:"Assembly takes about an hour.",t:"組立には約1時間かかる。"}]},
+ {w:"assignment",p:"n.",j:"任務",d:["休暇","報酬","退職"],ex:[{e:"She got an overseas assignment.",t:"彼女は海外任務を得た。"},{e:"Complete the assignment by Friday.",t:"金曜までに課題を終えよ。"}]},
+ {w:"attendance",p:"n.",j:"出席",d:["欠席","遅刻","早退"],ex:[{e:"Attendance was higher this year.",t:"今年は出席者が多かった。"},{e:"Attendance is required.",t:"出席は必須だ。"}]},
+ {w:"auction",p:"n.",j:"競売",d:["定価販売","寄付","返品"],ex:[{e:"The painting sold at auction.",t:"その絵は競売で売れた。"},{e:"An online auction starts today.",t:"ネット競売が今日始まる。"}]},
+ {w:"banquet",p:"n.",j:"宴会",d:["会議","面接","訓練"],ex:[{e:"The banquet is at seven.",t:"宴会は7時からだ。"},{e:"They booked the banquet hall.",t:"宴会場を予約した。"}]},
+ {w:"beverage",p:"n.",j:"飲料",d:["食料","容器","調味料"],ex:[{e:"Beverages are sold in the lobby.",t:"飲み物はロビーで販売中。"},{e:"Hot beverages are free.",t:"温かい飲み物は無料だ。"}]},
+ {w:"brochure",p:"n.",j:"パンフレット",d:["領収書","契約書","名刺"],ex:[{e:"Pick up a brochure at the desk.",t:"受付でパンフレットをどうぞ。"},{e:"The brochure lists all tours.",t:"案内には全ツアーが載っている。"}]},
+ {w:"candidate",p:"n.",j:"候補者",d:["審査員","上司","退職者"],ex:[{e:"Three candidates were interviewed.",t:"3人の候補者が面接を受けた。"},{e:"She's a strong candidate.",t:"彼女は有力候補だ。"}]},
+ {w:"certificate",p:"n.",j:"証明書",d:["請求書","領収書","広告"],ex:[{e:"You'll receive a certificate.",t:"修了証を受け取れる。"},{e:"Attach the certificate of origin.",t:"原産地証明書を添付して。"}]},
+ {w:"circulation",p:"n.",j:"発行部数",d:["在庫","返品","広告費"],ex:[{e:"The paper's circulation fell.",t:"その新聞の発行部数は落ちた。"},{e:"It has a wide circulation.",t:"広く流通している。"}]},
+ {w:"clause",p:"n.",j:"条項",d:["全文","要約","付録"],ex:[{e:"Check the cancellation clause.",t:"解約条項を確認して。"},{e:"A new clause was added.",t:"新条項が追加された。"}]},
+ {w:"colleague",p:"n.",j:"同僚",d:["顧客","競合","部外者"],ex:[{e:"I discussed it with a colleague.",t:"同僚とそれを話し合った。"},{e:"Her colleagues respect her.",t:"同僚は彼女を尊敬している。"}]},
+ {w:"commission",p:"n.",j:"手数料",d:["給与","罰金","税金"],ex:[{e:"Agents earn a 5% commission.",t:"代理店は5%の手数料を得る。"},{e:"The sale includes a commission.",t:"販売には手数料が含まれる。"}]},
+ {w:"commodity",p:"n.",j:"商品",d:["サービス","通貨","施設"],ex:[{e:"Oil is a key commodity.",t:"石油は重要な商品だ。"},{e:"Commodity prices rose sharply.",t:"商品価格が急騰した。"}]},
+ {w:"complaint",p:"n.",j:"苦情",d:["称賛","提案","注文"],ex:[{e:"We received a complaint.",t:"苦情を受けた。"},{e:"Handle complaints promptly.",t:"苦情には迅速に対応せよ。"}]},
+ {w:"component",p:"n.",j:"部品",d:["完成品","包装","説明書"],ex:[{e:"Each component is tested.",t:"各部品は検査される。"},{e:"A key component was missing.",t:"重要部品が欠けていた。"}]},
+ {w:"congestion",p:"n.",j:"混雑",d:["閑散","静寂","空白"],ex:[{e:"Traffic congestion is worst at 8.",t:"渋滞は8時が最悪だ。"},{e:"Avoid downtown congestion.",t:"中心部の混雑を避けよ。"}]},
+ {w:"contractor",p:"n.",j:"請負業者",d:["発注者","消費者","監督官庁"],ex:[{e:"We hired a local contractor.",t:"地元の請負業者を雇った。"},{e:"The contractor finished on time.",t:"業者は期限内に完了した。"}]},
+ {w:"correspondence",p:"n.",j:"文書のやり取り",d:["対面会議","沈黙","契約"],ex:[{e:"Keep all correspondence on file.",t:"全ての往復文書を保管せよ。"},{e:"Business correspondence is formal.",t:"商用文書は形式的だ。"}]},
+ {w:"coupon",p:"n.",j:"割引券",d:["領収書","請求書","保証書"],ex:[{e:"Use this coupon for 10% off.",t:"この券で1割引になる。"},{e:"The coupon expires Sunday.",t:"割引券は日曜に失効する。"}]},
+ {w:"courier",p:"n.",j:"宅配便",d:["倉庫","工場","店舗"],ex:[{e:"Send it by courier.",t:"宅配便で送ってください。"},{e:"The courier arrived at noon.",t:"配達員は正午に来た。"}]},
+ {w:"criteria",p:"n.",j:"基準",d:["例外","結果","偶然"],ex:[{e:"The criteria are clearly defined.",t:"基準は明確に定義されている。"},{e:"He meets all the criteria.",t:"彼は全基準を満たす。"}]},
+ {w:"deduction",p:"n.",j:"控除",d:["加算","支給","返金"],ex:[{e:"Tax deductions apply here.",t:"ここでは税控除が適用される。"},{e:"Check your salary deductions.",t:"給与の控除額を確認せよ。"}]},
+ {w:"delegation",p:"n.",j:"代表団",d:["個人","観客","業者"],ex:[{e:"A trade delegation visited Kyoto.",t:"通商代表団が京都を訪れた。"},{e:"The delegation arrived Monday.",t:"代表団は月曜に到着した。"}]},
+ {w:"demonstration",p:"n.",j:"実演",d:["中止","想像","記録"],ex:[{e:"We watched a product demonstration.",t:"製品の実演を見た。"},{e:"A demonstration starts at two.",t:"実演は2時に始まる。"}]},
+ {w:"deposit",p:"n.",j:"頭金",d:["残金","罰金","利息"],ex:[{e:"A deposit is required to book.",t:"予約には頭金が必要だ。"},{e:"The deposit is refundable.",t:"保証金は返金可能だ。"}]},
+ {w:"destination",p:"n.",j:"目的地",d:["出発地","経由地","現在地"],ex:[{e:"The package reached its destination.",t:"荷物は目的地に着いた。"},{e:"Kyoto is a popular destination.",t:"京都は人気の旅行先だ。"}]},
+ {w:"dimension",p:"n.",j:"寸法",d:["重量","色彩","材質"],ex:[{e:"Check the dimensions of the box.",t:"箱の寸法を確認して。"},{e:"The dimensions are listed below.",t:"寸法は下記のとおり。"}]},
+ {w:"directory",p:"n.",j:"名簿",d:["日記","領収書","契約書"],ex:[{e:"Find her in the staff directory.",t:"職員名簿で彼女を探して。"},{e:"The directory is updated monthly.",t:"名簿は毎月更新される。"}]},
+ {w:"distributor",p:"n.",j:"販売代理店",d:["製造元","消費者","監督官"],ex:[{e:"We appointed a new distributor.",t:"新しい代理店を指名した。"},{e:"The distributor covers Kansai.",t:"その代理店は関西を担当する。"}]},
+ {w:"dividend",p:"n.",j:"配当",d:["元本","負債","税金"],ex:[{e:"The company raised its dividend.",t:"会社は配当を増やした。"},{e:"Dividends are paid in June.",t:"配当は6月に支払われる。"}]},
+ {w:"duplicate",p:"n.",j:"複製",d:["原本","廃棄","修正"],ex:[{e:"Keep a duplicate of the form.",t:"書式の控えを保管せよ。"},{e:"Send the duplicate to HR.",t:"複製を人事に送って。"}]},
+ {w:"duration",p:"n.",j:"期間",d:["場所","費用","人数"],ex:[{e:"The duration of the course is a year.",t:"講座の期間は1年だ。"},{e:"Parking is free for the duration.",t:"期間中の駐車は無料だ。"}]},
+ {w:"enclosure",p:"n.",j:"同封物",d:["本文","宛先","署名"],ex:[{e:"See the enclosure for details.",t:"詳細は同封物を参照。"},{e:"The enclosure includes a map.",t:"同封物には地図が含まれる。"}]},
+ {w:"enrollment",p:"n.",j:"登録",d:["退会","欠席","卒業"],ex:[{e:"Enrollment closes Friday.",t:"登録は金曜に締め切る。"},{e:"Enrollment doubled this year.",t:"今年は登録者が倍増した。"}]},
+ {w:"enterprise",p:"n.",j:"企業",d:["個人","政府","家庭"],ex:[{e:"Small enterprises need support.",t:"中小企業には支援が要る。"},{e:"It's a joint enterprise.",t:"共同事業だ。"}]},
+ {w:"equipment",p:"n.",j:"機器",d:["人員","資金","建物"],ex:[{e:"The equipment was upgraded.",t:"機器が更新された。"},{e:"Safety equipment is provided.",t:"安全装備は支給される。"}]},
+ {w:"estimate",p:"n.",j:"見積もり",d:["請求書","領収書","契約書"],ex:[{e:"We requested an estimate.",t:"見積もりを依頼した。"},{e:"The estimate seems reasonable.",t:"見積額は妥当に見える。"}]},
+ {w:"exhibition",p:"n.",j:"展示会",d:["会議","面接","訓練"],ex:[{e:"The exhibition opens in July.",t:"展示会は7月に開幕する。"},{e:"Our booth is at the exhibition.",t:"展示会に当社ブースがある。"}]},
+ {w:"expertise",p:"n.",j:"専門知識",d:["無知","偶然","資金"],ex:[{e:"We need legal expertise.",t:"法務の専門知識が必要だ。"},{e:"Her expertise is in design.",t:"彼女の専門は設計だ。"}]},
+ {w:"extension",p:"n.",j:"延長",d:["短縮","中止","開始"],ex:[{e:"We requested a deadline extension.",t:"締切の延長を求めた。"},{e:"An extension was granted.",t:"延長が認められた。"}]},
+ {w:"facility",p:"n.",j:"施設",d:["人員","資金","制度"],ex:[{e:"The facility opens next month.",t:"施設は来月開業する。"},{e:"We toured the new facility.",t:"新施設を見学した。"}]},
+ {w:"fluctuation",p:"n.",j:"変動",d:["安定","停止","固定"],ex:[{e:"Price fluctuations are common.",t:"価格変動はよくある。"},{e:"Currency fluctuations hurt profits.",t:"為替変動が利益を損なう。"}]},
+ {w:"forecast",p:"n.",j:"予測",d:["記録","回顧","事実"],ex:[{e:"The sales forecast is strong.",t:"販売予測は好調だ。"},{e:"Check the weather forecast.",t:"天気予報を確認して。"}]},
+ {w:"inquiry",p:"n.",j:"問い合わせ",d:["回答","命令","苦情"],ex:[{e:"We received many inquiries.",t:"多くの問い合わせを受けた。"},{e:"Direct inquiries to the front desk.",t:"問い合わせは受付へ。"}]},
+ {w:"installment",p:"n.",j:"分割払いの1回分",d:["一括払い","前払い","利息"],ex:[{e:"Pay in monthly installments.",t:"月々の分割で支払える。"},{e:"The first installment is due May 1.",t:"初回分は5月1日が期限だ。"}]},
+ {w:"invoice",p:"n.",j:"請求書",d:["領収書","見積書","契約書"],ex:[{e:"The invoice was sent yesterday.",t:"請求書は昨日送付された。"},{e:"Please pay the invoice by Friday.",t:"金曜までに請求書をお支払いを。"}]},
+ {w:"merchandise",p:"n.",j:"商品",d:["顧客","店舗","従業員"],ex:[{e:"The merchandise arrived damaged.",t:"商品は破損して届いた。"},{e:"New merchandise is on display.",t:"新商品が陳列中だ。"}]},
+ {w:"patronage",p:"n.",j:"愛顧",d:["苦情","敵意","無関心"],ex:[{e:"Thank you for your patronage.",t:"ご愛顧ありがとうございます。"},{e:"We value your continued patronage.",t:"変わらぬご愛顧に感謝します。"}]},
+ {w:"refreshments",p:"n.",j:"軽食",d:["備品","資料","記念品"],ex:[{e:"Refreshments will be served.",t:"軽食が提供される。"},{e:"Refreshments are in the lobby.",t:"軽食はロビーにある。"}]},
+ {w:"transaction",p:"n.",j:"取引",d:["中止","在庫","広告"],ex:[{e:"The transaction was completed.",t:"取引は完了した。"},{e:"Record every transaction.",t:"全取引を記録せよ。"}]}
+];
+
+const GRAMMAR = [
+ {q:"The report must be ___ by Friday.",o:["submit","submitted","submitting","submission"],a:1,c:"受動態",jt:"報告書は金曜までに提出されなければならない。",ej:"主語 report は『提出される』側なので受動態 be submitted。",ee:"The report receives the action: 'must be submitted'."},
+ {q:"She has worked here ___ 2015.",o:["for","since","during","by"],a:1,c:"前置詞",jt:"彼女は2015年からここで働いている。",ej:"過去の起点 since +時点。for は期間。",ee:"'since' + starting point; 'for' + duration."},
+ {q:"___ the rain, the event continued.",o:["Although","Despite","Because","However"],a:1,c:"前置詞",jt:"雨にもかかわらず行事は続行された。",ej:"despite +名詞。although は節を導く。",ee:"'despite' + noun; 'although' + clause."},
+ {q:"He is the manager ___ approved the plan.",o:["which","who","whom","whose"],a:1,c:"関係詞",jt:"彼がその計画を承認した部長だ。",ej:"先行詞が人で主格 → who。",ee:"Person + subject role → 'who'."},
+ {q:"If I ___ more time, I would finish it.",o:["have","had","will have","having"],a:1,c:"仮定法",jt:"もっと時間があれば終えられるのに。",ej:"仮定法過去 if +過去形, would +原形。",ee:"Unreal present: if + past, would + base verb."},
+ {q:"Sales this year are higher than ___ year.",o:["last","later","latest","lately"],a:0,c:"語法",jt:"今年の売上は昨年より高い。",ej:"『昨年』は last year。",ee:"'last year' = the previous year."},
+ {q:"The new model is ___ than the old one.",o:["light","lighter","lightest","lightly"],a:1,c:"比較",jt:"新型は旧型より軽い。",ej:"than があるので比較級 lighter。",ee:"'than' signals a comparative."},
+ {q:"All employees are required ___ the form.",o:["complete","completing","to complete","completed"],a:2,c:"不定詞",jt:"全従業員はその書式の記入を求められる。",ej:"be required to do の形。",ee:"'be required to' + base verb."},
+ {q:"We look forward to ___ from you.",o:["hear","hearing","heard","hears"],a:1,c:"動名詞",jt:"ご連絡をお待ちしています。",ej:"look forward to の to は前置詞 → 動名詞。",ee:"'look forward to' + gerund."},
+ {q:"The package was delivered ___ schedule.",o:["in","at","on","of"],a:2,c:"前置詞",jt:"荷物は予定どおり配達された。",ej:"on schedule で『予定どおり』。",ee:"'on schedule' = as planned."},
+ {q:"Neither the manager ___ the staff were informed.",o:["or","nor","and","but"],a:1,c:"接続詞",jt:"部長もスタッフも知らされていなかった。",ej:"neither A nor B。",ee:"'neither' pairs with 'nor'."},
+ {q:"___ you need help, please call us.",o:["Should","Would","Could","Might"],a:0,c:"仮定法",jt:"助けが必要でしたらお電話ください。",ej:"倒置の条件 Should you = If you should。",ee:"'Should you...' = 'If you should...' (inversion)."},
+ {q:"The proposal was ___ received by the board.",o:["warm","warmth","warmly","warming"],a:2,c:"品詞",jt:"提案は取締役会に温かく迎えられた。",ej:"動詞 received を修飾 → 副詞 warmly。",ee:"An adverb modifies the verb 'received'."},
+ {q:"There are ___ applicants for the position.",o:["much","many","a little","less"],a:1,c:"数量",jt:"その職には多くの応募者がいる。",ej:"applicants は可算複数 → many。",ee:"Countable plural → 'many'."},
+ {q:"The meeting has been ___ until next week.",o:["postpone","postponed","postponing","postponement"],a:1,c:"受動態",jt:"会議は来週まで延期された。",ej:"has been +過去分詞。",ee:"Present perfect passive: has been + p.p."},
+ {q:"He spoke as if he ___ the answer.",o:["knows","knew","know","knowing"],a:1,c:"仮定法",jt:"彼はまるで答えを知っているかのように話した。",ej:"as if +過去形で現実と反する仮定。",ee:"'as if' + past = contrary to fact."},
+ {q:"The figures are ___ to those of last year.",o:["similar","similarly","similarity","similarities"],a:0,c:"品詞",jt:"その数字は昨年のものと似ている。",ej:"be similar to で形容詞。",ee:"'be similar to' needs the adjective."},
+ {q:"Please make sure ___ turn off the lights.",o:["to","for","of","at"],a:0,c:"不定詞",jt:"必ず電気を消してください。",ej:"make sure to do。",ee:"'make sure to' + base verb."},
+ {q:"The store is open ___ weekdays only.",o:["in","on","at","by"],a:1,c:"前置詞",jt:"店は平日のみ営業している。",ej:"曜日・特定日には on。",ee:"'on' with days of the week."},
+ {q:"___ finishing the task, she left early.",o:["Despite","Upon","Although","While"],a:1,c:"前置詞",jt:"仕事を終えるとすぐ、彼女は早退した。",ej:"upon -ing で『〜するとすぐに』。",ee:"'upon + -ing' = as soon as."},
+ {q:"The candidate ___ we interviewed was excellent.",o:["who","whose","whom","which"],a:2,c:"関係詞",jt:"私たちが面接した候補者は優秀だった。",ej:"目的格で人 → whom。",ee:"Object pronoun for a person: 'whom'."},
+ {q:"Profits have grown ___ over the past year.",o:["steady","steadier","steadily","steadiness"],a:2,c:"品詞",jt:"利益はこの1年で着実に伸びた。",ej:"動詞 grown を修飾 → 副詞。",ee:"An adverb modifies 'grown'."},
+ {q:"We need to decide ___ to launch the product.",o:["that","when","what","which"],a:1,c:"語法",jt:"製品をいつ発売するか決める必要がある。",ej:"『いつ』発売するか → when to do。",ee:"'when to' + verb = at what time to act."},
+ {q:"The instructions were so clear ___ everyone understood.",o:["that","as","than","such"],a:0,c:"接続詞",jt:"指示はとても明確で全員が理解した。",ej:"so + 形 + that。",ee:"'so + adjective + that' shows result."},
+ {q:"This is the most efficient method ___ far.",o:["so","by","too","as"],a:0,c:"語法",jt:"これは今までで最も効率的な方法だ。",ej:"so far で『今までのところ』。",ee:"'so far' = up to now."},
+ {q:"Each of the rooms ___ a private bath.",o:["have","has","having","to have"],a:1,c:"語法",jt:"各部屋には専用の浴室がある。",ej:"each of +複数は単数扱い → has。",ee:"'each of' takes a singular verb."},
+ {q:"The results were ___ what we expected.",o:["beyond","beside","among","within"],a:0,c:"前置詞",jt:"結果は予想を超えていた。",ej:"beyond expectation で『期待を超える』。",ee:"'beyond what we expected' = more than expected."},
+ {q:"He will call you ___ he arrives.",o:["as soon as","by the time","in case","so that"],a:0,c:"接続詞",jt:"彼は到着したらすぐあなたに電話する。",ej:"『着いたらすぐ』as soon as。",ee:"'as soon as' = immediately when."},
+ {q:"A new policy was ___ last month.",o:["introduce","introduced","introducing","introduction"],a:1,c:"受動態",jt:"新方針が先月導入された。",ej:"主語 policy は導入される側 → 過去の受動態。",ee:"The policy is acted on → passive."},
+ {q:"The more you practice, ___ you become.",o:["the better","better","best","the best"],a:0,c:"比較",jt:"練習するほど上達する。",ej:"the 比較級, the 比較級。",ee:"'the more..., the better...' pattern."},
+ {q:"She is responsible ___ the marketing team.",o:["of","for","to","with"],a:1,c:"前置詞",jt:"彼女は販促チームの責任者だ。",ej:"be responsible for。",ee:"'responsible for' = in charge of."},
+ {q:"Most of the budget ___ already been spent.",o:["have","has","having","to have"],a:1,c:"語法",jt:"予算の大半はすでに使われている。",ej:"most of +不可算は単数 → has。",ee:"'most of the budget' (uncountable) → 'has'."},
+ {q:"They postponed the launch ___ technical issues.",o:["because","due to","so","although"],a:1,c:"前置詞",jt:"技術的問題のため発売を延期した。",ej:"due to +名詞。because は節。",ee:"'due to' + noun phrase."},
+ {q:"The document needs ___ before Friday.",o:["review","reviewing","to reviewing","reviewed"],a:1,c:"語法",jt:"その文書は金曜までに見直しが必要だ。",ej:"need -ing で『〜される必要がある』(受動の意味)。",ee:"'need + -ing' carries a passive meaning."},
+ {q:"___ of the two proposals is acceptable.",o:["Both","Either","All","Neither of which"],a:1,c:"数量",jt:"2つの提案のどちらかは受け入れ可能だ。",ej:"2つのうちどちらか → either。",ee:"'either' = one of the two."},
+ {q:"We have worked together ___ five years.",o:["since","for","during","in"],a:1,c:"前置詞",jt:"私たちは5年間一緒に働いてきた。",ej:"期間には for。",ee:"'for' + length of time."},
+ {q:"The equipment should be handled with ___.",o:["care","careful","carefully","cared"],a:0,c:"品詞",jt:"機器は丁寧に扱うべきだ。",ej:"with +名詞 → care。",ee:"'with care' — noun after the preposition."},
+ {q:"We were impressed ___ the results.",o:["with","of","at","to"],a:0,c:"前置詞",jt:"私たちは結果に感銘を受けた。",ej:"be impressed with。",ee:"'be impressed with' is standard."},
+ {q:"___ receiving the email, she replied at once.",o:["Despite","Upon","Because","Although"],a:1,c:"前置詞",jt:"メールを受け取るとすぐ彼女は返信した。",ej:"upon -ing で『〜するとすぐ』。",ee:"'upon + -ing' = as soon as."},
+ {q:"The two teams work ___ each other.",o:["along","alongside","among","toward"],a:1,c:"前置詞",jt:"両チームは互いに協力して働く。",ej:"alongside で『〜と並んで』。",ee:"'alongside' = side by side with."},
+ {q:"He is the only person ___ meets the criteria.",o:["what","who","which","whose"],a:1,c:"関係詞",jt:"彼は基準を満たす唯一の人物だ。",ej:"先行詞が人で主格 → who。",ee:"Subject relative for a person: 'who'."},
+ {q:"The proposal is worth ___.",o:["consider","considered","considering","to consider"],a:2,c:"動名詞",jt:"その提案は検討に値する。",ej:"be worth -ing。",ee:"'be worth' + gerund."},
+ {q:"Sales figures ___ sharply since March.",o:["rise","rose","have risen","rising"],a:2,c:"時制",jt:"売上高は3月以降急伸している。",ej:"since → 現在完了。",ee:"'since' pairs with the present perfect."},
+ {q:"We will proceed ___ the client approves.",o:["unless","provided","despite","otherwise"],a:1,c:"接続詞",jt:"顧客が承認すれば進める。",ej:"provided (that) で『〜という条件で』。",ee:"'provided (that)' introduces a condition."},
+ {q:"The manager asked us ___ overtime.",o:["work","working","to work","worked"],a:2,c:"不定詞",jt:"部長は私たちに残業するよう頼んだ。",ej:"ask 人 to do。",ee:"'ask someone to do'."},
+ {q:"This model is ___ more efficient than the last.",o:["very","far","too","so"],a:1,c:"比較",jt:"この型は前の型よりはるかに効率的だ。",ej:"比較級を強めるのは far / much。",ee:"'far' intensifies a comparative; 'very' cannot."},
+ {q:"The report, ___ was submitted late, still passed.",o:["that","who","which","what"],a:2,c:"関係詞",jt:"遅れて提出されたその報告書は、それでも通った。",ej:"コンマ付き非制限用法 → which。",ee:"Non-restrictive clauses use 'which'."},
+ {q:"Employees are encouraged ___ feedback.",o:["provide","providing","to provide","provided"],a:2,c:"不定詞",jt:"従業員は意見の提出を奨励される。",ej:"be encouraged to do。",ee:"'be encouraged to' + base verb."},
+ {q:"Not only did sales rise, ___ profits improved.",o:["and","but also","so","or"],a:1,c:"接続詞",jt:"売上が伸びただけでなく利益も改善した。",ej:"not only A but also B。",ee:"'not only ... but also ...' pair."},
+ {q:"The system updates ___ every night.",o:["it","itself","its","them"],a:1,c:"語法",jt:"システムは毎晩自動的に更新する。",ej:"主語=目的語なので再帰代名詞 itself。",ee:"Subject acts on itself → reflexive."},
+ {q:"There is a ___ number of applicants this year.",o:["grow","grown","growing","grew"],a:2,c:"品詞",jt:"今年は応募者数が増えている。",ej:"名詞を修飾する現在分詞 growing。",ee:"Present participle 'growing' modifies the noun."},
+ {q:"The venue is large ___ to hold 300 guests.",o:["enough","too","very","so"],a:0,c:"語法",jt:"その会場は300人を収容できるほど広い。",ej:"形容詞 + enough to do。",ee:"'adjective + enough + to do'."},
+ {q:"___ he studied hard, he passed easily.",o:["Because","Despite","However","Unless"],a:0,c:"接続詞",jt:"熱心に勉強したので彼は楽に合格した。",ej:"理由を導く Because。",ee:"'Because' introduces a reason clause."},
+ {q:"Please refer ___ the attached document.",o:["at","to","on","for"],a:1,c:"前置詞",jt:"添付資料をご参照ください。",ej:"refer to。",ee:"'refer to' = consult."},
+ {q:"The team consists ___ five members.",o:["in","of","with","from"],a:1,c:"前置詞",jt:"チームは5人で構成される。",ej:"consist of。",ee:"'consist of' = be made up of."},
+ {q:"She has ___ experience in marketing.",o:["many","a few","extensive","several"],a:2,c:"数量",jt:"彼女は販促の豊富な経験がある。",ej:"experience は不可算 → extensive。",ee:"'experience' is uncountable → 'extensive'."},
+ {q:"By the time we arrived, the show ___.",o:["starts","started","had started","will start"],a:2,c:"時制",jt:"私たちが到着した時にはショーは始まっていた。",ej:"過去より前 → 過去完了。",ee:"Earlier past event → past perfect."},
+ {q:"The instructions are easy ___.",o:["follow","following","to follow","followed"],a:2,c:"不定詞",jt:"その指示は分かりやすい。",ej:"easy to do。",ee:"'easy to follow' — to-infinitive."},
+ {q:"We need ___ information before deciding.",o:["few","many","further","fewer"],a:2,c:"数量",jt:"決定前に追加情報が必要だ。",ej:"information は不可算 → further。",ee:"'further' = additional (uncountable)."},
+ {q:"He works ___ than anyone else here.",o:["hard","harder","hardest","hardly"],a:1,c:"比較",jt:"彼はここの誰よりも懸命に働く。",ej:"than → 比較級 harder。",ee:"'than' → comparative."},
+ {q:"The building is ___ renovation this month.",o:["under","in","on","at"],a:0,c:"前置詞",jt:"建物は今月改修中だ。",ej:"under renovation で『改修中』。",ee:"'under renovation' = being renovated."},
+ {q:"Neither option ___ acceptable to the board.",o:["are","is","were","be"],a:1,c:"語法",jt:"どちらの案も取締役会に受け入れられない。",ej:"neither +単数 → is。",ee:"'neither' takes a singular verb."},
+ {q:"The delay was attributed ___ a supplier issue.",o:["to","for","of","with"],a:0,c:"語法",jt:"遅延は仕入先の問題によるものとされた。",ej:"attribute A to B の受動形。",ee:"'be attributed to' = caused by."},
+ {q:"Customers can return items ___ 30 days.",o:["during","within","until","by"],a:1,c:"前置詞",jt:"顧客は30日以内に返品できる。",ej:"within で『〜以内に』。",ee:"'within 30 days' = inside that period."},
+ {q:"The more efficient the process, ___ the cost.",o:["lower","the lower","lowest","the lowest"],a:1,c:"比較",jt:"工程が効率的なほど費用は下がる。",ej:"the 比較級, the 比較級。",ee:"'the + comparative, the + comparative'."},
+ {q:"Applications must be received ___ March 31.",o:["by","until","in","on"],a:0,c:"前置詞",jt:"応募は3月31日までに届かなければならない。",ej:"期限は by。until は継続。",ee:"'by' marks a deadline."},
+ {q:"___ arriving at the hotel, guests receive a drink.",o:["Upon","Despite","Although","Unless"],a:0,c:"前置詞",jt:"ホテル到着時に、客は飲み物を受け取る。",ej:"upon -ing で『〜するとすぐ』。",ee:"'upon + -ing' = as soon as."},
+ {q:"The success depends ___ teamwork.",o:["on","to","at","for"],a:0,c:"前置詞",jt:"成功はチームワーク次第だ。",ej:"depend on。",ee:"'depend on' is fixed."},
+ {q:"The flight was called ___ due to fog.",o:["off","out","up","in"],a:0,c:"語法",jt:"霧のため便は欠航になった。",ej:"call off で『中止する』。",ee:"'call off' = cancel."},
+ {q:"He apologized ___ the delay.",o:["for","at","of","with"],a:0,c:"前置詞",jt:"彼は遅れを詫びた。",ej:"apologize for。",ee:"'apologize for' + the cause."},
+ {q:"The results differ ___ our expectations.",o:["from","to","at","of"],a:0,c:"前置詞",jt:"結果は私たちの予想と異なる。",ej:"differ from。",ee:"'differ from' = be unlike."},
+ {q:"We are committed ___ providing quality service.",o:["to","for","at","on"],a:0,c:"動名詞",jt:"質の高いサービス提供に尽力している。",ej:"be committed to -ing。to は前置詞。",ee:"'committed to' + gerund."},
+ {q:"___ of the employees has an ID card.",o:["Each","All","Most","Some"],a:0,c:"数量",jt:"従業員は各自IDカードを持っている。",ej:"動詞が has(単数) → Each。",ee:"Singular 'has' requires 'each'."},
+ {q:"The report contains ___ errors.",o:["much","several","a little","less"],a:1,c:"数量",jt:"報告書にはいくつかの誤りがある。",ej:"errors は可算複数 → several。",ee:"Countable plural → 'several'."},
+ {q:"Hardly ___ the meeting begun when the alarm rang.",o:["has","had","have","having"],a:1,c:"倒置",jt:"会議が始まるや否や警報が鳴った。",ej:"Hardly had S 過去分詞 when。",ee:"'Hardly had + S + p.p. when' inversion."},
+ {q:"The office will be closed ___ further notice.",o:["until","by","for","in"],a:0,c:"前置詞",jt:"事務所は追って通知があるまで閉鎖される。",ej:"until further notice で『追って通知があるまで』。",ee:"'until further notice' is fixed."},
+ {q:"She is familiar ___ the new software.",o:["with","to","of","at"],a:0,c:"前置詞",jt:"彼女は新しいソフトに精通している。",ej:"be familiar with。",ee:"'familiar with' = knowing well."},
+ {q:"The company prides ___ on quality.",o:["it","itself","its","them"],a:1,c:"語法",jt:"その会社は品質を誇りにしている。",ej:"pride oneself on。",ee:"'pride oneself on' — reflexive."},
+ {q:"___ the manager nor the staff knew the reason.",o:["Either","Neither","Both","Not"],a:1,c:"接続詞",jt:"部長もスタッフも理由を知らなかった。",ej:"neither A nor B。",ee:"'Neither ... nor ...' pair."},
+ {q:"The package should arrive ___ two business days.",o:["within","during","until","since"],a:0,c:"前置詞",jt:"荷物は2営業日以内に届くはずだ。",ej:"within で『〜以内に』。",ee:"'within' = inside a period."},
+ {q:"We appreciate your ___ to detail.",o:["attend","attentive","attention","attentively"],a:2,c:"品詞",jt:"細部へのご配慮に感謝します。",ej:"your +名詞 → attention。",ee:"A noun follows possessive 'your'."},
+ {q:"The seminar was both informative ___ enjoyable.",o:["or","and","but","nor"],a:1,c:"接続詞",jt:"セミナーは有益で、かつ楽しかった。",ej:"both A and B。",ee:"'both ... and ...' pair."},
+ {q:"___ it rains, the event will be moved indoors.",o:["If","Despite","Because of","During"],a:0,c:"接続詞",jt:"雨が降れば行事は屋内に移される。",ej:"条件を導く If。",ee:"'If' introduces the condition."},
+ {q:"The device comes ___ a two-year warranty.",o:["with","in","at","for"],a:0,c:"前置詞",jt:"その機器には2年保証が付いてくる。",ej:"come with で『〜が付いてくる』。",ee:"'come with' = include."},
+ {q:"Employees must wear badges ___ all times.",o:["at","in","on","for"],a:0,c:"前置詞",jt:"従業員は常に名札を着用しなければならない。",ej:"at all times で『常に』。",ee:"'at all times' is fixed."},
+ {q:"The budget proposal is still ___ review.",o:["under","on","in","by"],a:0,c:"前置詞",jt:"予算案はまだ審査中だ。",ej:"under review で『審査中』。",ee:"'under review' = being reviewed."},
+ {q:"He was promoted ___ regional manager.",o:["to","at","in","for"],a:0,c:"前置詞",jt:"彼は地域統括に昇進した。",ej:"be promoted to +役職。",ee:"'promoted to' + position."},
+ {q:"The store offers a discount ___ bulk orders.",o:["on","to","at","of"],a:0,c:"前置詞",jt:"店は大口注文に割引を提供する。",ej:"discount on。",ee:"'a discount on' + items."},
+ {q:"___ whom should I address the letter?",o:["To","At","For","With"],a:0,c:"前置詞",jt:"手紙は誰宛にすべきですか。",ej:"address a letter to 人。",ee:"'address a letter to someone'."},
+ {q:"The factory operates twenty-four hours ___ day.",o:["a","the","one","in"],a:0,c:"語法",jt:"工場は1日24時間稼働する。",ej:"〜 hours a day で『1日あたり』。",ee:"'a day' = per day."},
+ {q:"The article was written ___ a famous economist.",o:["by","from","of","with"],a:0,c:"受動態",jt:"その記事は著名な経済学者によって書かれた。",ej:"受動態の動作主は by。",ee:"'by' marks the agent."},
+ {q:"We ran ___ of paper this morning.",o:["out","off","up","over"],a:0,c:"語法",jt:"今朝、紙を切らした。",ej:"run out of で『切らす』。",ee:"'run out of' = have no more."},
+ {q:"The invoice must be paid ___ 30 days of receipt.",o:["within","by","until","at"],a:0,c:"前置詞",jt:"請求書は受領後30日以内に支払うこと。",ej:"within 期間 of 起点。",ee:"'within X days of' a starting point."},
+ {q:"___ the high cost, the plan was approved.",o:["Despite","Although","Because","Since"],a:0,c:"前置詞",jt:"高い費用にもかかわらず計画は承認された。",ej:"despite +名詞。",ee:"'despite' + noun phrase."},
+ {q:"The manual explains how ___ the device.",o:["operate","operating","to operate","operated"],a:2,c:"不定詞",jt:"マニュアルは機器の操作方法を説明している。",ej:"how to do。",ee:"'how to' + base verb."},
+ {q:"The number of visitors ___ increasing.",o:["are","is","were","be"],a:1,c:"語法",jt:"来場者数は増えている。",ej:"the number of は単数扱い。",ee:"'the number of' → singular verb."},
+ {q:"A number of employees ___ attending.",o:["is","are","was","be"],a:1,c:"語法",jt:"多くの従業員が出席する予定だ。",ej:"a number of は複数扱い。",ee:"'a number of' → plural verb."},
+ {q:"The train was delayed ___ an accident.",o:["owing to","because","although","so"],a:0,c:"前置詞",jt:"列車は事故のため遅れた。",ej:"owing to +名詞。",ee:"'owing to' + noun = because of."},
+ {q:"Ms. Lee, ___ report won an award, will speak today.",o:["who","whose","whom","which"],a:1,c:"関係詞",jt:"報告書が受賞したリーさんが今日講演する。",ej:"所有格 → whose。",ee:"'whose' shows possession."},
+ {q:"The new policy applies ___ all departments.",o:["to","for","at","on"],a:0,c:"前置詞",jt:"新方針は全部門に適用される。",ej:"apply to。",ee:"'apply to' = be relevant to."},
+ {q:"I would rather ___ at home today.",o:["stay","staying","to stay","stayed"],a:0,c:"語法",jt:"今日はむしろ家にいたい。",ej:"would rather +原形。",ee:"'would rather' + base verb."},
+ {q:"The hotel is located ___ walking distance of the station.",o:["within","under","along","beside"],a:0,c:"前置詞",jt:"ホテルは駅から徒歩圏内にある。",ej:"within walking distance of。",ee:"'within walking distance of' fixed."},
+ {q:"It is essential that he ___ present at the meeting.",o:["is","be","was","been"],a:1,c:"仮定法",jt:"彼が会議に出席することが不可欠だ。",ej:"essential that S (should) 原形。",ee:"Subjunctive: base form after 'essential that'."},
+ {q:"Never before ___ sales been so strong.",o:["has","have","had","having"],a:1,c:"倒置",jt:"売上がこれほど好調だったことはかつてない。",ej:"Never before + 倒置。sales は複数 → have。",ee:"Negative inversion; plural 'sales' → 'have'."},
+ {q:"The contract is valid ___ one year.",o:["for","since","by","until"],a:0,c:"前置詞",jt:"契約は1年間有効だ。",ej:"期間には for。",ee:"'for' + duration."},
+ {q:"___ signing, please read the terms carefully.",o:["Before","Despite","Unless","Until"],a:0,c:"前置詞",jt:"署名の前に条件をよくお読みください。",ej:"before -ing。",ee:"'before + -ing'."},
+ {q:"The store is conveniently ___ near the station.",o:["locate","located","location","locating"],a:1,c:"品詞",jt:"その店は駅近くの便利な場所にある。",ej:"be located で『位置する』。",ee:"'be located' — passive form."},
+ {q:"All ___ must check in at the front desk.",o:["visit","visited","visitors","visiting"],a:2,c:"品詞",jt:"来訪者は全員、受付で手続きをすること。",ej:"主語になる名詞 visitors。",ee:"A noun is needed as the subject."},
+ {q:"The presentation was ___ organized.",o:["good","well","great","fine"],a:1,c:"品詞",jt:"発表はよくまとまっていた。",ej:"過去分詞を修飾する副詞 well。",ee:"The adverb 'well' modifies 'organized'."},
+ {q:"Prices vary ___ on the season.",o:["depend","depended","depending","dependent"],a:2,c:"品詞",jt:"価格は季節によって変わる。",ej:"depending on で『〜次第で』。",ee:"'depending on' = according to."},
+ {q:"The document requires the manager's ___.",o:["approve","approval","approved","approvingly"],a:1,c:"品詞",jt:"その書類には部長の承認が必要だ。",ej:"所有格の後は名詞 approval。",ee:"A noun follows the possessive."},
+ {q:"After ___ the course, you will receive a certificate.",o:["complete","completing","completed","completion of"],a:1,c:"動名詞",jt:"講座修了後に修了証を受け取れる。",ej:"前置詞 after +動名詞。",ee:"Gerund after the preposition 'after'."},
+ {q:"The elevator is ___ of order.",o:["out","off","away","down"],a:0,c:"語法",jt:"エレベーターは故障中だ。",ej:"out of order で『故障中』。",ee:"'out of order' = not working."},
+ {q:"The workshop is intended ___ beginners.",o:["for","to","at","with"],a:0,c:"前置詞",jt:"この講習は初心者向けだ。",ej:"be intended for。",ee:"'intended for' = designed for."},
+ {q:"The company has branches ___ the country.",o:["throughout","among","between","along"],a:0,c:"前置詞",jt:"その会社は全国に支店を持つ。",ej:"throughout で『〜の至る所に』。",ee:"'throughout' = in every part of."},
+ {q:"Payment can be made ___ credit card.",o:["by","in","with a","on"],a:0,c:"前置詞",jt:"支払いはクレジットカードで可能だ。",ej:"手段の by +無冠詞。",ee:"'by credit card' — no article after 'by'."},
+ {q:"The road will be closed ___ repairs are completed.",o:["until","by","during","since"],a:0,c:"接続詞",jt:"道路は修理完了まで閉鎖される。",ej:"『完了するまで』until +節。",ee:"'until' + clause."},
+ {q:"Her experience makes her well ___ for the role.",o:["suit","suits","suited","suiting"],a:2,c:"品詞",jt:"彼女の経験はその職務に適任だ。",ej:"well suited for で『適任の』。",ee:"'well suited for' = appropriate for."},
+ {q:"The meeting ran ___ than expected.",o:["long","longer","longest","lengthy"],a:1,c:"比較",jt:"会議は予想より長引いた。",ej:"than → 比較級 longer。",ee:"'than' requires the comparative."},
+ {q:"The team worked overtime ___ meet the deadline.",o:["to","for","so","that"],a:0,c:"不定詞",jt:"チームは締切に間に合わせるため残業した。",ej:"目的の to 不定詞。",ee:"'to' + verb expresses purpose."},
+ {q:"The store opens ___ 9 a.m.",o:["at","in","on","by"],a:0,c:"前置詞",jt:"店は午前9時に開く。",ej:"時刻には at。",ee:"'at' + clock time."},
+ {q:"The conference room is ___ the third floor.",o:["on","at","in","by"],a:0,c:"前置詞",jt:"会議室は3階にある。",ej:"階には on。",ee:"'on' + floor."},
+ {q:"The headquarters is ___ Osaka.",o:["in","at","on","to"],a:0,c:"前置詞",jt:"本社は大阪にある。",ej:"都市には in。",ee:"'in' + city."},
+ {q:"The results were announced ___ the press conference.",o:["at","in","on","by"],a:0,c:"前置詞",jt:"結果は記者会見で発表された。",ej:"行事の場には at。",ee:"'at' + event."},
+ {q:"She has a talent ___ solving problems.",o:["for","to","at","in"],a:0,c:"前置詞",jt:"彼女には問題解決の才能がある。",ej:"talent for -ing。",ee:"'a talent for' + gerund."},
+ {q:"The store is open ___ 10 a.m. to 8 p.m.",o:["from","at","by","since"],a:0,c:"前置詞",jt:"店は午前10時から午後8時まで営業する。",ej:"from A to B。",ee:"'from ... to ...' shows a range."},
+ {q:"The meeting is scheduled ___ two and four.",o:["between","among","during","within"],a:0,c:"前置詞",jt:"会議は2時から4時の間に予定されている。",ej:"between A and B(2者間)。",ee:"'between A and B' for two points."},
+ {q:"The idea is popular ___ young workers.",o:["among","between","within","along"],a:0,c:"前置詞",jt:"その案は若手従業員に人気だ。",ej:"3者以上の間は among。",ee:"'among' for three or more."},
+ {q:"Please remain seated ___ the performance.",o:["during","while","among","until"],a:0,c:"前置詞",jt:"上演中は着席のままでいてください。",ej:"during +名詞。while は節。",ee:"'during' + noun; 'while' + clause."},
+ {q:"He took notes ___ listening to the lecture.",o:["while","during","among","despite"],a:0,c:"接続詞",jt:"彼は講義を聞きながらメモを取った。",ej:"while -ing。during は名詞のみ。",ee:"'while + -ing'; 'during' cannot take -ing here."},
+ {q:"Everyone attended ___ Mr. Cole.",o:["except","besides","including","despite"],a:0,c:"前置詞",jt:"コール氏を除き全員が出席した。",ej:"except は除外を表す。",ee:"'except' = excluding."},
+ {q:"The fee is $50, ___ tax.",o:["including","except","despite","against"],a:0,c:"前置詞",jt:"料金は税込みで50ドルだ。",ej:"including で『〜を含めて』。",ee:"'including' = with ... counted in."},
+ {q:"The proposal goes ___ company policy.",o:["against","along","toward","beside"],a:0,c:"前置詞",jt:"その提案は会社の方針に反する。",ej:"go against で『反する』。",ee:"'go against' = conflict with."},
+ {q:"___ the weather forecast, tomorrow will be sunny.",o:["According to","Regardless","Owing","Instead"],a:0,c:"前置詞",jt:"天気予報によれば明日は晴れだ。",ej:"according to で『〜によれば』。",ee:"'according to' = as stated by."},
+ {q:"We took the bus ___ the train.",o:["instead of","according to","in spite","as far as"],a:0,c:"前置詞",jt:"電車の代わりにバスに乗った。",ej:"instead of で『〜の代わりに』。",ee:"'instead of' = in place of."},
+ {q:"She works ___ a consultant.",o:["as","like","for","by"],a:0,c:"前置詞",jt:"彼女はコンサルタントとして働いている。",ej:"資格・立場の as。",ee:"'as' = in the role of."},
+ {q:"The rental costs $30 ___ day.",o:["per","by","at","for"],a:0,c:"前置詞",jt:"レンタル料は1日30ドルだ。",ej:"per で『〜につき』。",ee:"'per' = for each."},
+ {q:"Please arrive 30 minutes ___ to departure.",o:["prior","ahead","before","early"],a:0,c:"前置詞",jt:"出発の30分前に到着してください。",ej:"prior to で『〜の前に』。",ee:"'prior to' = before."},
+ {q:"The event will proceed ___ of the weather.",o:["regardless","despite","because","instead"],a:0,c:"前置詞",jt:"天候にかかわらず行事は実施される。",ej:"regardless of で『〜にかかわらず』。",ee:"'regardless of' = no matter."},
+ {q:"The project succeeded thanks ___ everyone's effort.",o:["to","for","of","at"],a:0,c:"前置詞",jt:"皆の努力のおかげで計画は成功した。",ej:"thanks to で『〜のおかげで』。",ee:"'thanks to' = because of (positive)."},
+ {q:"She is ___ charge of the budget.",o:["in","on","at","with"],a:0,c:"前置詞",jt:"彼女は予算を担当している。",ej:"in charge of。",ee:"'in charge of' = responsible for."},
+ {q:"He spoke ___ behalf of the team.",o:["on","in","at","for"],a:0,c:"前置詞",jt:"彼はチームを代表して話した。",ej:"on behalf of。",ee:"'on behalf of' = representing."},
+ {q:"Please book your seat ___ advance.",o:["in","on","at","by"],a:0,c:"前置詞",jt:"座席は前もって予約してください。",ej:"in advance で『前もって』。",ee:"'in advance' = beforehand."},
+ {q:"The item is currently ___ of stock.",o:["out","off","away","short"],a:0,c:"語法",jt:"その商品は現在在庫切れだ。",ej:"out of stock で『在庫切れ』。",ee:"'out of stock' = sold out."},
+ {q:"___ addition to salary, we offer bonuses.",o:["In","On","At","For"],a:0,c:"前置詞",jt:"給与に加えて賞与も支給する。",ej:"in addition to で『〜に加えて』。",ee:"'in addition to' = besides."},
+ {q:"The policy is effective as ___ May 1.",o:["of","at","on","in"],a:0,c:"前置詞",jt:"その方針は5月1日付で有効になる。",ej:"as of で『〜付で』。",ee:"'as of' + date = starting from."},
+ {q:"The plan is better ___ terms of cost.",o:["in","on","at","by"],a:0,c:"前置詞",jt:"費用の点ではその案の方が良い。",ej:"in terms of で『〜の点で』。",ee:"'in terms of' = regarding."},
+ {q:"The rent is ___ on the first of each month.",o:["due","dues","duly","duty"],a:0,c:"品詞",jt:"家賃は毎月1日が支払期日だ。",ej:"due(形)で『支払期限の来た』。",ee:"'due' (adj.) = payable."},
+ {q:"The company is working ___ carbon neutrality.",o:["toward","against","beneath","across"],a:0,c:"前置詞",jt:"会社は炭素中立に向けて取り組んでいる。",ej:"toward で『〜に向けて』。",ee:"'toward' = in the direction of a goal."},
+ {q:"The chain has stores ___ the region.",o:["across","among","between","onto"],a:0,c:"前置詞",jt:"そのチェーンは地域全体に店舗を持つ。",ej:"across で『〜の全域に』。",ee:"'across' = throughout an area."},
+ {q:"We finished two days ___ of schedule.",o:["ahead","forward","front","early"],a:0,c:"語法",jt:"予定より2日早く終えた。",ej:"ahead of schedule で『予定より早く』。",ee:"'ahead of schedule' = earlier than planned."},
+ {q:"The project is running ___ schedule.",o:["behind","late","delay","slow"],a:0,c:"語法",jt:"計画は予定より遅れている。",ej:"behind schedule で『予定より遅れて』。",ee:"'behind schedule' = later than planned."},
+ {q:"The flight departed exactly ___ time.",o:["on","in","at","by"],a:0,c:"前置詞",jt:"便は定刻どおりに出発した。",ej:"on time で『定刻に』。",ee:"'on time' = punctually."},
+ {q:"Children ___ the age of 12 enter free.",o:["under","less","down","beneath"],a:0,c:"前置詞",jt:"12歳未満の子どもは入場無料だ。",ej:"under +年齢で『〜未満』。",ee:"'under' + age = younger than."},
+ {q:"The repair will take ___ least two days.",o:["at","in","on","for"],a:0,c:"語法",jt:"修理には少なくとも2日かかる。",ej:"at least で『少なくとも』。",ee:"'at least' = no less than."},
+ {q:"Submit the form no ___ than Friday.",o:["later","late","latest","lately"],a:0,c:"比較",jt:"金曜までに書式を提出してください。",ej:"no later than で『〜までに』。",ee:"'no later than' = by."},
+ {q:"___ case of emergency, use the stairs.",o:["In","On","At","By"],a:0,c:"前置詞",jt:"緊急の場合は階段を使用してください。",ej:"in case of で『〜の場合には』。",ee:"'in case of' + noun."},
+ {q:"___ regard to your inquiry, please see below.",o:["With","On","At","By"],a:0,c:"前置詞",jt:"お問い合わせの件については下記をご覧ください。",ej:"with regard to で『〜に関して』。",ee:"'with regard to' = concerning."},
+ {q:"Two guards are ___ duty tonight.",o:["on","in","at","by"],a:0,c:"前置詞",jt:"今夜は警備員2名が勤務中だ。",ej:"on duty で『勤務中』。",ee:"'on duty' = working."},
+ {q:"She took the day ___ to rest.",o:["off","out","away","down"],a:0,c:"語法",jt:"彼女は休養のため1日休みを取った。",ej:"take the day off で『休みを取る』。",ee:"'take a day off' = not work that day."},
+ {q:"We offer a wide ___ of services.",o:["vary","various","variety","variously"],a:2,c:"品詞",jt:"当社は幅広いサービスを提供している。",ej:"a variety of で名詞 variety。",ee:"'a wide variety of' — noun needed."},
+ {q:"The machine operates ___.",o:["quiet","quietly","quietness","quieter"],a:1,c:"品詞",jt:"その機械は静かに動く。",ej:"動詞修飾は副詞。",ee:"An adverb modifies the verb."},
+ {q:"Her ___ impressed the panel.",o:["perform","performance","performed","performing"],a:1,c:"品詞",jt:"彼女の実演は審査員を感心させた。",ej:"主語になる名詞 performance。",ee:"A noun is needed as subject."},
+ {q:"The hotel offers free ___ to the airport.",o:["transportation","transported","transporting","transportable"],a:0,c:"品詞",jt:"ホテルは空港まで無料送迎を提供する。",ej:"目的語になる名詞。",ee:"A noun is needed as the object."},
+ {q:"Please respond ___ to customer requests.",o:["prompt","promptly","promptness","prompted"],a:1,c:"品詞",jt:"顧客の要望には迅速に対応してください。",ej:"動詞 respond を修飾 → 副詞。",ee:"An adverb modifies 'respond'."},
+ {q:"The changes will improve ___.",o:["efficient","efficiency","efficiently","more efficient"],a:1,c:"品詞",jt:"その変更は効率を改善する。",ej:"目的語は名詞 efficiency。",ee:"The object must be a noun."},
+ {q:"It was a ___ decision.",o:["strategy","strategic","strategically","strategize"],a:1,c:"品詞",jt:"それは戦略的な決定だった。",ej:"名詞修飾は形容詞。",ee:"An adjective modifies the noun."},
+ {q:"The team responded ___ to the crisis.",o:["effective","effectively","effectiveness","effect"],a:1,c:"品詞",jt:"チームは危機に効果的に対応した。",ej:"動詞修飾は副詞。",ee:"An adverb modifies the verb."},
+ {q:"We received written ___ from the client.",o:["confirm","confirmed","confirmation","confirming"],a:2,c:"品詞",jt:"顧客から書面での確認を受け取った。",ej:"written +名詞。",ee:"A noun follows 'written'."},
+ {q:"The trainer gave clear ___.",o:["instruct","instructive","instructions","instructed"],a:2,c:"品詞",jt:"講師は明確な指示を出した。",ej:"目的語は名詞 instructions。",ee:"A noun is needed as the object."},
+ {q:"The product is ___ available online.",o:["wide","widely","width","widen"],a:1,c:"品詞",jt:"その製品はネットで広く入手できる。",ej:"形容詞 available を修飾 → 副詞。",ee:"'widely available' — adverb + adjective."},
+ {q:"His ___ of the market is impressive.",o:["know","known","knowledge","knowing"],a:2,c:"品詞",jt:"彼の市場に関する知識は見事だ。",ej:"所有格+名詞 knowledge。",ee:"A noun follows the possessive."},
+ {q:"The event was a great ___.",o:["succeed","success","successful","successfully"],a:1,c:"品詞",jt:"その行事は大成功だった。",ej:"a +形容詞+名詞 → success。",ee:"'a great success' — noun needed."},
+ {q:"She spoke ___ about the merger.",o:["confident","confidently","confidence","confide"],a:1,c:"品詞",jt:"彼女は合併について自信を持って話した。",ej:"動詞修飾は副詞。",ee:"An adverb modifies 'spoke'."},
+ {q:"We aim to reduce operating ___.",o:["costly","costs","costing","costed"],a:1,c:"品詞",jt:"運営費の削減を目指している。",ej:"operating costs で『運営費』。",ee:"'operating costs' — noun."},
+ {q:"The staff were highly ___.",o:["motivate","motivated","motivation","motivating"],a:1,c:"品詞",jt:"従業員の意欲は非常に高かった。",ej:"be motivated で『やる気がある』。",ee:"'be motivated' — past participle as adjective."},
+ {q:"The lecture was very ___.",o:["inform","informative","information","informed"],a:1,c:"品詞",jt:"講義はとても有益だった。",ej:"be動詞の補語は形容詞。",ee:"An adjective follows 'was'."},
+ {q:"Please handle the matter with ___.",o:["urgent","urgently","urgency","urged"],a:2,c:"品詞",jt:"その件は至急対応してください。",ej:"with +名詞 urgency。",ee:"A noun follows 'with'."},
+ {q:"The design is both ___ and practical.",o:["attract","attractive","attraction","attractively"],a:1,c:"品詞",jt:"その設計は魅力的かつ実用的だ。",ej:"practical と並ぶ形容詞。",ee:"Parallel with the adjective 'practical'."},
+ {q:"The company grew ___ over the past decade.",o:["rapid","rapidly","rapidity","more rapid"],a:1,c:"品詞",jt:"会社は過去10年で急成長した。",ej:"動詞修飾は副詞。",ee:"An adverb modifies 'grew'."},
+ {q:"The report offers a detailed ___ of sales.",o:["analyze","analysis","analytical","analyzed"],a:1,c:"品詞",jt:"報告書は売上の詳細な分析を示している。",ej:"a detailed +名詞。",ee:"A noun follows the adjective."},
+ {q:"The rooms are cleaned ___.",o:["daily","every","each","all"],a:0,c:"品詞",jt:"部屋は毎日清掃される。",ej:"daily は副詞で『毎日』。",ee:"'daily' works as an adverb."},
+ {q:"The manager praised her ___ work.",o:["exception","exceptional","exceptionally","except"],a:1,c:"品詞",jt:"部長は彼女の並外れた仕事ぶりを称えた。",ej:"名詞 work を修飾 → 形容詞。",ee:"An adjective modifies 'work'."},
+ {q:"Read the product ___ before use.",o:["describe","description","descriptive","described"],a:1,c:"品詞",jt:"使用前に製品説明をお読みください。",ej:"product description で名詞。",ee:"'product description' — noun."},
+ {q:"___ to the museum is free on Mondays.",o:["Admit","Admission","Admitted","Admitting"],a:1,c:"品詞",jt:"月曜は美術館の入館が無料だ。",ej:"主語になる名詞 Admission。",ee:"A noun is needed as subject."},
+ {q:"The device is ___ easy to use.",o:["remark","remarkable","remarkably","remarked"],a:2,c:"品詞",jt:"その機器は驚くほど使いやすい。",ej:"形容詞 easy を修飾 → 副詞。",ee:"An adverb modifies the adjective."},
+ {q:"We value open ___ within the team.",o:["communicate","communication","communicative","communicated"],a:1,c:"品詞",jt:"チーム内の開かれた意思疎通を重視している。",ej:"open +名詞。",ee:"A noun follows the adjective 'open'."},
+ {q:"The new model is highly ___.",o:["rely","reliable","reliably","reliance"],a:1,c:"品詞",jt:"新型は非常に信頼性が高い。",ej:"be動詞の補語は形容詞。",ee:"An adjective follows 'is'."},
+ {q:"Tickets are ___ at the door.",o:["avail","available","availability","availably"],a:1,c:"品詞",jt:"チケットは入口で購入できる。",ej:"be available で『入手可能』。",ee:"'be available' — adjective."},
+ {q:"She answered every question ___.",o:["accurate","accurately","accuracy","accurateness"],a:1,c:"品詞",jt:"彼女はすべての質問に正確に答えた。",ej:"動詞修飾は副詞。",ee:"An adverb modifies 'answered'."},
+ {q:"The seminar covers ___ management.",o:["finance","financial","financially","financed"],a:1,c:"品詞",jt:"セミナーは財務管理を扱う。",ej:"financial management で形容詞+名詞。",ee:"'financial management' — adjective + noun."},
+ {q:"His main ___ is quality control.",o:["responsible","responsibly","responsibility","respond"],a:2,c:"品詞",jt:"彼の主な職責は品質管理だ。",ej:"主語になる名詞 responsibility。",ee:"A noun is needed as subject."},
+ {q:"The store has a good ___ of gifts.",o:["select","selective","selection","selected"],a:2,c:"品詞",jt:"その店は贈答品の品ぞろえが良い。",ej:"a good +名詞 selection。",ee:"'a good selection of' — noun."},
+ {q:"The policy was ___ explained.",o:["clear","clearly","clarity","clearer"],a:1,c:"品詞",jt:"方針は明確に説明された。",ej:"過去分詞修飾は副詞。",ee:"An adverb modifies 'explained'."},
+ {q:"The venue can ___ hold 500 people.",o:["easy","easily","ease","easier"],a:1,c:"品詞",jt:"その会場は楽に500人を収容できる。",ej:"動詞修飾は副詞。",ee:"An adverb modifies 'hold'."},
+ {q:"He suggested ___ the meeting online.",o:["hold","holding","to hold","held"],a:1,c:"動名詞",jt:"彼は会議のオンライン開催を提案した。",ej:"suggest -ing。",ee:"'suggest' + gerund."},
+ {q:"We decided ___ the launch.",o:["postpone","postponing","to postpone","postponed"],a:2,c:"不定詞",jt:"発売の延期を決めた。",ej:"decide to do。",ee:"'decide to' + base verb."},
+ {q:"Avoid ___ personal calls at work.",o:["make","making","to make","made"],a:1,c:"動名詞",jt:"職場での私用電話は避けてください。",ej:"avoid -ing。",ee:"'avoid' + gerund."},
+ {q:"She agreed ___ the contract.",o:["sign","signing","to sign","signed"],a:2,c:"不定詞",jt:"彼女は契約への署名に同意した。",ej:"agree to do。",ee:"'agree to' + base verb."},
+ {q:"The team finished ___ the samples.",o:["test","testing","to test","tested"],a:1,c:"動名詞",jt:"チームは試料の検査を終えた。",ej:"finish -ing。",ee:"'finish' + gerund."},
+ {q:"Don't forget ___ the door when you leave.",o:["lock","locking","to lock","locked"],a:2,c:"不定詞",jt:"出るときは施錠を忘れないでください。",ej:"forget to do(これからすること)。",ee:"'forget to do' = fail to do (future)."},
+ {q:"I enjoy ___ with new clients.",o:["work","working","to work","worked"],a:1,c:"動名詞",jt:"新規顧客との仕事を楽しんでいる。",ej:"enjoy -ing。",ee:"'enjoy' + gerund."},
+ {q:"He offered ___ the report.",o:["check","checking","to check","checked"],a:2,c:"不定詞",jt:"彼は報告書の確認を申し出た。",ej:"offer to do。",ee:"'offer to' + base verb."},
+ {q:"The rules prohibit ___ in the lab.",o:["smoke","smoking","to smoke","smoked"],a:1,c:"動名詞",jt:"規則は実験室での喫煙を禁じている。",ej:"prohibit -ing。",ee:"'prohibit' + gerund."},
+ {q:"We plan ___ a new branch.",o:["open","opening","to open","opened"],a:2,c:"不定詞",jt:"新支店の開設を計画している。",ej:"plan to do。",ee:"'plan to' + base verb."},
+ {q:"The staff kept ___ despite the noise.",o:["work","working","to work","worked"],a:1,c:"動名詞",jt:"騒音にもかかわらず従業員は働き続けた。",ej:"keep -ing。",ee:"'keep' + gerund = continue."},
+ {q:"She promised ___ back by noon.",o:["call","calling","to call","called"],a:2,c:"不定詞",jt:"彼女は正午までに折り返すと約束した。",ej:"promise to do。",ee:"'promise to' + base verb."},
+ {q:"Would you mind ___ the window?",o:["close","closing","to close","closed"],a:1,c:"動名詞",jt:"窓を閉めていただけますか。",ej:"mind -ing。",ee:"'mind' + gerund."},
+ {q:"They refused ___ the offer.",o:["accept","accepting","to accept","accepted"],a:2,c:"不定詞",jt:"彼らはその申し出を断った。",ej:"refuse to do。",ee:"'refuse to' + base verb."},
+ {q:"Consider ___ an expert before deciding.",o:["consult","consulting","to consult","consulted"],a:1,c:"動名詞",jt:"決定前に専門家への相談を検討してください。",ej:"consider -ing。",ee:"'consider' + gerund."},
+ {q:"The goal is ___ costs by 10%.",o:["reduce","reducing","to reduce","reduced"],a:2,c:"不定詞",jt:"目標は費用を1割削減することだ。",ej:"The goal is to do。",ee:"'The goal is to' + base verb."},
+ {q:"He denied ___ the file.",o:["delete","deleting","to delete","deleted"],a:1,c:"動名詞",jt:"彼はファイルを削除したことを否定した。",ej:"deny -ing。",ee:"'deny' + gerund."},
+ {q:"We can't afford ___ the deadline.",o:["miss","missing","to miss","missed"],a:2,c:"不定詞",jt:"締切を逃す余裕はない。",ej:"afford to do。",ee:"'afford to' + base verb."},
+ {q:"Please remember ___ your badge tomorrow.",o:["bring","bringing","to bring","brought"],a:2,c:"不定詞",jt:"明日は名札を忘れずに持参してください。",ej:"remember to do(これからすること)。",ee:"'remember to do' = don't forget (future)."},
+ {q:"It's no use ___ about the past.",o:["complain","complaining","to complain","complained"],a:1,c:"動名詞",jt:"過去のことを嘆いても無駄だ。",ej:"It's no use -ing。",ee:"'It's no use' + gerund."},
+ {q:"___ the printer breaks, call IT support.",o:["Whenever","Despite","Owing to","Instead of"],a:0,c:"接続詞",jt:"プリンタが壊れたらいつでもIT窓口に連絡を。",ej:"whenever +節で『〜のときはいつでも』。",ee:"'whenever' + clause."},
+ {q:"The store was closed, ___ we went home.",o:["so","because","although","unless"],a:0,c:"接続詞",jt:"店が閉まっていたので帰宅した。",ej:"結果を導く so。",ee:"'so' introduces a result."},
+ {q:"___ he was tired, he kept working.",o:["Although","Despite","Because of","So"],a:0,c:"接続詞",jt:"疲れていたが彼は働き続けた。",ej:"although +節。",ee:"'although' + clause."},
+ {q:"Call me ___ you have any questions.",o:["if","despite","during","owing to"],a:0,c:"接続詞",jt:"質問があればお電話ください。",ej:"条件の if。",ee:"'if' introduces a condition."},
+ {q:"We left early ___ we could catch the train.",o:["so that","because of","despite","in spite of"],a:0,c:"接続詞",jt:"電車に間に合うよう早めに出発した。",ej:"so that +節で目的。",ee:"'so that' + clause shows purpose."},
+ {q:"___ you submit the form, keep a copy.",o:["Once","Despite","During","Because of"],a:0,c:"接続詞",jt:"提出したら控えを保管してください。",ej:"once で『いったん〜したら』。",ee:"'once' = as soon as / after."},
+ {q:"Stay here ___ I come back.",o:["until","by","despite","during"],a:0,c:"接続詞",jt:"戻るまでここにいてください。",ej:"until +節。",ee:"'until' + clause."},
+ {q:"___ demand increases, we will hire more staff.",o:["As","Despite","During","Instead of"],a:0,c:"接続詞",jt:"需要が増えるにつれて増員する。",ej:"as で『〜につれて』。",ee:"'as' = in proportion as."},
+ {q:"Take an umbrella ___ it rains.",o:["in case","so that","even though","as if"],a:0,c:"接続詞",jt:"雨に備えて傘を持って行きなさい。",ej:"in case +節で『〜に備えて』。",ee:"'in case' = as a precaution."},
+ {q:"He didn't attend ___ he was ill.",o:["because","despite","owing to","due to"],a:0,c:"接続詞",jt:"病気だったので彼は欠席した。",ej:"節を導くのは because。他は名詞のみ。",ee:"'because' + clause; the others take nouns."},
+ {q:"___ signed, the contract cannot be changed.",o:["Once","During","Despite","Because of"],a:0,c:"接続詞",jt:"一度署名したら契約は変更できない。",ej:"once +分詞で『いったん〜されると』。",ee:"'once' + participle."},
+ {q:"Both the price ___ the quality matter.",o:["and","or","nor","but"],a:0,c:"接続詞",jt:"価格も品質も重要だ。",ej:"both A and B。",ee:"'both ... and ...' pair."},
+ {q:"You can pay either by card ___ in cash.",o:["or","and","nor","but"],a:0,c:"接続詞",jt:"カードでも現金でも支払えます。",ej:"either A or B。",ee:"'either ... or ...' pair."},
+ {q:"The offer is valid ___ supplies last.",o:["while","despite","during","owing to"],a:0,c:"接続詞",jt:"この提供は在庫がある間有効だ。",ej:"while +節。",ee:"'while supplies last' — fixed phrase."},
+ {q:"___ we discussed, the deadline is Friday.",o:["As","Despite","During","Unless"],a:0,c:"接続詞",jt:"話し合ったとおり、締切は金曜だ。",ej:"as で『〜のとおり』。",ee:"'as we discussed' = as agreed."},
+ {q:"He acts ___ he owned the company.",o:["as if","even","so that","now that"],a:0,c:"仮定法",jt:"彼はまるで会社の所有者であるかのように振る舞う。",ej:"as if +過去形。",ee:"'as if' + past tense."},
+ {q:"___ that the budget is approved, we can start.",o:["Now","Despite","During","Instead"],a:0,c:"接続詞",jt:"予算が承認された今、開始できる。",ej:"now that で『今や〜なので』。",ee:"'now that' = since (reason)."},
+ {q:"Finish the draft ___ you leave today.",o:["before","until","despite","during"],a:0,c:"接続詞",jt:"今日退社する前に草稿を仕上げてください。",ej:"完了動詞には before。until は継続動詞に使う。",ee:"'before' with completed actions; 'until' needs a continuing verb."},
+ {q:"Neither the cost ___ the schedule was discussed.",o:["nor","or","and","but"],a:0,c:"接続詞",jt:"費用も日程も議論されなかった。",ej:"neither A nor B。",ee:"'neither ... nor ...' pair."},
+ {q:"___ it was late, they continued the meeting.",o:["Even though","Despite","Because of","Owing to"],a:0,c:"接続詞",jt:"遅い時間だったが、彼らは会議を続けた。",ej:"even though +節。",ee:"'even though' + clause."},
+ {q:"The client ___ called yesterday wants a quote.",o:["who","which","whose","whom"],a:0,c:"関係詞",jt:"昨日電話をくれた顧客が見積もりを求めている。",ej:"人＋主格 → who。",ee:"Person + subject → 'who'."},
+ {q:"This is the file ___ you requested.",o:["that","who","whose","what"],a:0,c:"関係詞",jt:"これがご依頼のファイルです。",ej:"物＋目的格 → that。",ee:"Thing + object → 'that'."},
+ {q:"The hotel ___ we stayed was renovated.",o:["where","which","who","whom"],a:0,c:"関係詞",jt:"私たちが泊まったホテルは改装されていた。",ej:"場所＋完全な文 → where。",ee:"Place + complete clause → 'where'."},
+ {q:"The day ___ the store opened was rainy.",o:["when","where","which","who"],a:0,c:"関係詞",jt:"開店した日は雨だった。",ej:"時＋完全な文 → when。",ee:"Time + complete clause → 'when'."},
+ {q:"The reason ___ he resigned is unclear.",o:["why","which","where","who"],a:0,c:"関係詞",jt:"彼が辞任した理由は不明だ。",ej:"reason why。",ee:"'the reason why' — fixed pattern."},
+ {q:"Anyone ___ wishes to join should sign up.",o:["who","which","whom","whose"],a:0,c:"関係詞",jt:"参加希望者は誰でも登録してください。",ej:"anyone(人)＋主格 → who。",ee:"'anyone who' + verb."},
+ {q:"The tools, ___ were bought last year, need repair.",o:["which","that","who","what"],a:0,c:"関係詞",jt:"昨年購入したその工具は修理が必要だ。",ej:"非制限用法は which。that不可。",ee:"Non-restrictive → 'which', never 'that'."},
+ {q:"She explained ___ the system works.",o:["how","who","whose","whom"],a:0,c:"関係詞",jt:"彼女はシステムの仕組みを説明した。",ej:"how +完全な文。",ee:"'how' + complete clause."},
+ {q:"The building ___ roof was damaged is closed.",o:["whose","which","who","where"],a:0,c:"関係詞",jt:"屋根が損傷した建物は閉鎖されている。",ej:"所有格 → whose。",ee:"'whose' shows possession."},
+ {q:"___ you need is more practice.",o:["What","That","Which","Who"],a:0,c:"関係詞",jt:"あなたに必要なのはさらなる練習だ。",ej:"what =『〜すること・もの』。",ee:"'what' = the thing which."},
+ {q:"The person to ___ I spoke was helpful.",o:["whom","who","whose","which"],a:0,c:"関係詞",jt:"私が話をした相手は親切だった。",ej:"前置詞の後は whom。",ee:"After a preposition → 'whom'."},
+ {q:"He gave a reason, ___ nobody believed.",o:["which","that","what","who"],a:0,c:"関係詞",jt:"彼は理由を述べたが、誰もそれを信じなかった。",ej:"非制限用法(コンマあり) → which。",ee:"Non-restrictive clause → 'which'."},
+ {q:"By next month, we ___ the project.",o:["complete","completed","will have completed","have completed"],a:2,c:"時制",jt:"来月までに私たちは計画を完了しているだろう。",ej:"未来完了 will have 過去分詞。",ee:"Future perfect: will have + p.p."},
+ {q:"She ___ in Kyoto since 2020.",o:["lives","lived","has lived","living"],a:2,c:"時制",jt:"彼女は2020年から京都に住んでいる。",ej:"since → 現在完了。",ee:"'since' → present perfect."},
+ {q:"When I called, he ___ a meeting.",o:["has","was having","will have","have"],a:1,c:"時制",jt:"電話したとき、彼は会議中だった。",ej:"過去のある時点の進行 → 過去進行形。",ee:"Past progressive for an ongoing past action."},
+ {q:"The train ___ at 8:15 every morning.",o:["leave","leaves","left","leaving"],a:1,c:"時制",jt:"列車は毎朝8時15分に出発する。",ej:"習慣・時刻表は現在形。",ee:"Habits/timetables → simple present."},
+ {q:"We ___ the contract two weeks ago.",o:["sign","signed","have signed","will sign"],a:1,c:"時制",jt:"2週間前に契約に署名した。",ej:"ago → 過去形。現在完了は不可。",ee:"'ago' → simple past, not present perfect."},
+ {q:"Look! It ___ outside.",o:["snows","snowed","is snowing","snow"],a:2,c:"時制",jt:"見て、外は雪が降っている。",ej:"目の前の進行 → 現在進行形。",ee:"Action happening now → present progressive."},
+ {q:"He ___ for the company for ten years before retiring.",o:["works","worked","had worked","will work"],a:2,c:"時制",jt:"退職する前、彼はその会社に10年勤めていた。",ej:"過去の基準よりさらに前 → 過去完了。",ee:"Earlier than a past point → past perfect."},
+ {q:"I will email you when the report ___ ready.",o:["is","will be","was","were"],a:0,c:"時制",jt:"報告書が仕上がり次第メールします。",ej:"時の副詞節では未来も現在形。",ee:"Time clauses use present, not 'will'."},
+ {q:"By the time you arrive, the meeting ___.",o:["will have ended","ends","ended","has ended"],a:0,c:"時制",jt:"あなたが着く頃には会議は終わっているだろう。",ej:"未来のある時点までの完了 → 未来完了。",ee:"Completion before a future point → future perfect."},
+ {q:"She ___ the report right now.",o:["writes","is writing","wrote","has written"],a:1,c:"時制",jt:"彼女は今まさに報告書を書いている。",ej:"right now → 現在進行形。",ee:"'right now' → present progressive."},
+ {q:"They ___ in this office since it opened.",o:["work","worked","have worked","had worked"],a:2,c:"時制",jt:"開設以来、彼らはこの事務所で働いている。",ej:"since +過去の起点 → 現在完了。",ee:"'since' + past event → present perfect."},
+ {q:"We ___ a new printer last week.",o:["buy","bought","have bought","will buy"],a:1,c:"時制",jt:"先週、新しいプリンタを買った。",ej:"last week → 過去形。",ee:"'last week' → simple past."},
+ {q:"The manager ___ back by three.",o:["will be","is being","was","has been"],a:0,c:"時制",jt:"部長は3時までに戻る予定だ。",ej:"未来の予定 will be back。",ee:"'will be back' — future."},
+ {q:"He ___ just finished the call.",o:["has","have","is","are"],a:0,c:"時制",jt:"彼はちょうど電話を終えたところだ。",ej:"三人称単数 → has。",ee:"Third person singular → 'has'."},
+ {q:"While she ___ dinner, the phone rang.",o:["cooks","was cooking","is cooking","has cooked"],a:1,c:"時制",jt:"彼女が夕食を作っている間に電話が鳴った。",ej:"while +過去進行形。",ee:"'while' + past progressive."},
+ {q:"The invitations ___ sent yesterday.",o:["was","were","is","be"],a:1,c:"受動態",jt:"招待状は昨日発送された。",ej:"複数主語＋過去 → were。",ee:"Plural subject, past → 'were'."},
+ {q:"English ___ spoken at the front desk.",o:["is","are","be","been"],a:0,c:"受動態",jt:"受付では英語が話されている。",ej:"不可算単数 → is spoken。",ee:"'English is spoken' — singular."},
+ {q:"The issue is ___ addressed now.",o:["be","being","been","to be"],a:1,c:"受動態",jt:"その問題は現在対処されているところだ。",ej:"進行形の受動 is being 過去分詞。",ee:"Progressive passive: is being + p.p."},
+ {q:"The winners will ___ announced Friday.",o:["be","being","been","to be"],a:0,c:"受動態",jt:"受賞者は金曜に発表される。",ej:"will be 過去分詞。",ee:"'will be' + p.p."},
+ {q:"The road ___ repaired last month.",o:["is","was","were","be"],a:1,c:"受動態",jt:"その道路は先月修理された。",ej:"単数＋過去 → was。",ee:"Singular subject, past → 'was'."},
+ {q:"All data must ___ backed up daily.",o:["be","being","been","is"],a:0,c:"受動態",jt:"すべてのデータは毎日バックアップされなければならない。",ej:"must be 過去分詞。",ee:"Modal + be + p.p."},
+ {q:"The samples have ___ tested twice.",o:["be","being","been","is"],a:2,c:"受動態",jt:"試料は2回検査されている。",ej:"have been 過去分詞。",ee:"Present perfect passive: have been + p.p."},
+ {q:"The report is expected ___ by June.",o:["to complete","completing","to be completed","completed"],a:2,c:"受動態",jt:"報告書は6月までに完成する見込みだ。",ej:"be expected to be 過去分詞。",ee:"'expected to be completed' — passive infinitive."},
+ {q:"The forms should be filled ___ in ink.",o:["out","about","over","among"],a:0,c:"語法",jt:"書式はインクで記入してください。",ej:"fill out で『記入する』。",ee:"'fill out' = complete a form."},
+ {q:"A new manager ___ appointed next week.",o:["will be","will","has","is been"],a:0,c:"受動態",jt:"来週、新しい部長が任命される。",ej:"未来の受動 will be 過去分詞。",ee:"Future passive: will be + p.p."},
+ {q:"This is ___ printer in the office.",o:["the fastest","faster","fast","more fast"],a:0,c:"比較",jt:"これは職場で最も速いプリンタだ。",ej:"最上級 the +est。",ee:"Superlative: 'the fastest'."},
+ {q:"The new office is twice ___ large as the old one.",o:["as","so","more","much"],a:0,c:"比較",jt:"新しい事務所は以前の2倍の広さだ。",ej:"twice as 〜 as。",ee:"'twice as ... as' pattern."},
+ {q:"Prices are ___ higher this year.",o:["much","very","many","more"],a:0,c:"比較",jt:"今年は価格がかなり高い。",ej:"比較級の強調は much。very不可。",ee:"'much' intensifies comparatives; 'very' cannot."},
+ {q:"He arrived ___ than anyone else.",o:["earlier","early","earliest","more early"],a:0,c:"比較",jt:"彼は他の誰よりも早く到着した。",ej:"than → 比較級 earlier。",ee:"'than' → comparative."},
+ {q:"This task is ___ difficult than it looks.",o:["less","least","little","fewer"],a:0,c:"比較",jt:"この仕事は見た目ほど難しくない。",ej:"less +原級 than。",ee:"'less + adjective + than'."},
+ {q:"Of the three plans, this is ___ expensive.",o:["the least","less","least","the less"],a:0,c:"比較",jt:"3つの案の中でこれが最も安い。",ej:"3つ以上の最小 → the least。",ee:"'the least' — superlative of 'little'."},
+ {q:"Sales were slightly ___ than forecast.",o:["lower","low","lowest","more low"],a:0,c:"比較",jt:"売上は予測をわずかに下回った。",ej:"than → 比較級 lower。",ee:"'than' → comparative 'lower'."},
+ {q:"No other branch is as busy ___ this one.",o:["as","than","so","that"],a:0,c:"比較",jt:"この支店ほど忙しい支店は他にない。",ej:"as 〜 as。",ee:"'as ... as' comparison."},
+ {q:"The sooner we start, ___ we finish.",o:["the earlier","earlier","earliest","the earliest"],a:0,c:"比較",jt:"早く始めるほど早く終わる。",ej:"the 比較級, the 比較級。",ee:"'the sooner ..., the earlier ...'."},
+ {q:"This material is superior ___ the previous one.",o:["to","than","as","over"],a:0,c:"比較",jt:"この素材は以前のものより優れている。",ej:"superior to。than不可。",ee:"'superior to', never 'superior than'."},
+ {q:"___ information is available on our website.",o:["More","Many","Few","A number of"],a:0,c:"数量",jt:"詳しい情報は当社サイトでご覧いただけます。",ej:"information は不可算 → More。",ee:"Uncountable → 'more information'."},
+ {q:"Only a ___ seats are left.",o:["few","little","much","less"],a:0,c:"数量",jt:"残席はごくわずかだ。",ej:"可算複数 → a few。",ee:"Countable plural → 'a few'."},
+ {q:"We have ___ time before the deadline.",o:["little","few","many","a number of"],a:0,c:"数量",jt:"締切まで時間がほとんどない。",ej:"不可算 → little。",ee:"Uncountable → 'little'."},
+ {q:"___ employee received a bonus.",o:["Every","All","Most","Both"],a:0,c:"数量",jt:"すべての従業員が賞与を受け取った。",ej:"every +単数名詞。",ee:"'every' + singular noun."},
+ {q:"___ of the equipment was damaged.",o:["None","Neither","Few","Many"],a:0,c:"数量",jt:"機器はどれも損傷していなかった。",ej:"不可算＋単数動詞 → None。",ee:"'none of' + uncountable + singular verb."},
+ {q:"There isn't ___ paper left.",o:["much","many","few","a number of"],a:0,c:"数量",jt:"紙はあまり残っていない。",ej:"不可算 → much。",ee:"Uncountable → 'much'."},
+ {q:"The company hired ___ dozen interns.",o:["a","an","the","one of"],a:0,c:"数量",jt:"会社は12人ほどの実習生を雇った。",ej:"a dozen で『12の』。",ee:"'a dozen' = twelve."},
+ {q:"Both ___ the managers agreed.",o:["of","in","at","for"],a:0,c:"数量",jt:"両部長とも同意した。",ej:"both of +the 複数。",ee:"'both of the' + plural."},
+ {q:"Please take ___ of the schedule change.",o:["note","view","mind","idea"],a:0,c:"語法",jt:"予定変更にご留意ください。",ej:"take note of で『留意する』。",ee:"'take note of' = pay attention to."},
+ {q:"The plan is subject ___ approval.",o:["to","of","for","at"],a:0,c:"語法",jt:"この計画は承認を条件とする。",ej:"be subject to。",ee:"'subject to' = conditional on."},
+ {q:"We came ___ with a new idea.",o:["up","out","over","off"],a:0,c:"語法",jt:"私たちは新しい案を思いついた。",ej:"come up with で『思いつく』。",ee:"'come up with' = think of."},
+ {q:"Please turn ___ the lights when leaving.",o:["off","away","over","into"],a:0,c:"語法",jt:"退出時は電気を消してください。",ej:"turn off で『消す』。",ee:"'turn off' = switch off."},
+ {q:"The meeting was put ___ until Monday.",o:["off","away","out","under"],a:0,c:"語法",jt:"会議は月曜まで延期された。",ej:"put off で『延期する』。",ee:"'put off' = postpone."},
+ {q:"I'll get back ___ you by tomorrow.",o:["to","at","for","with"],a:0,c:"語法",jt:"明日までに折り返しご連絡します。",ej:"get back to で『折り返す』。",ee:"'get back to' = reply later."},
+ {q:"She takes ___ of the accounting.",o:["care","look","deal","keep"],a:0,c:"語法",jt:"彼女が経理を担当している。",ej:"take care of で『引き受ける』。",ee:"'take care of' = handle."},
+ {q:"The figures don't add ___.",o:["up","on","in","off"],a:0,c:"語法",jt:"数字のつじつまが合わない。",ej:"add up で『計算が合う』。",ee:"'add up' = make sense (numbers)."},
+ {q:"We are looking ___ hiring two designers.",o:["into","after","up","out"],a:0,c:"語法",jt:"デザイナー2名の採用を検討している。",ej:"look into で『検討する』。",ee:"'look into' = investigate/consider."},
+ {q:"Please carry ___ the inspection as planned.",o:["out","away","over","off"],a:0,c:"語法",jt:"計画どおり検査を実施してください。",ej:"carry out で『実施する』。",ee:"'carry out' = perform."}
+];
+
+const LISTEN = [
+ {p:"Where is the nearest train station?",o:["Just around the corner.","At three o'clock.","Yes, I took the train."],a:0,t:"Where",ej:"場所を尋ねる → 場所で答える。"},
+ {p:"When does the meeting start?",o:["In the conference room.","At ten thirty.","With the new client."],a:1,t:"When",ej:"時を尋ねる → 時刻で答える。"},
+ {p:"Who is in charge of the project?",o:["Ms. Tanaka is.","By next Monday.","In the main office."],a:0,t:"Who",ej:"人を尋ねる → 人名で答える。"},
+ {p:"How was the conference?",o:["It was very informative.","On the second floor.","Twice a year."],a:0,t:"How",ej:"感想を尋ねる → 評価で答える。"},
+ {p:"Why was the shipment delayed?",o:["Because of bad weather.","To the warehouse.","Yes, it arrived."],a:0,t:"Why",ej:"理由を尋ねる → because で答える。"},
+ {p:"What time should I arrive?",o:["By nine, please.","At the front desk.","It's quite far."],a:0,t:"What",ej:"時刻を尋ねる → 時間で答える。"},
+ {p:"Could you send me the report?",o:["Sure, right away.","It's a long report.","No, I haven't read it."],a:0,t:"依頼",ej:"依頼への自然な承諾。"},
+ {p:"Would you like some coffee?",o:["Yes, that would be nice.","In the kitchen.","I made it myself."],a:0,t:"勧誘",ej:"勧誘には Yes/No で応じる。"},
+ {p:"The printer isn't working, is it?",o:["No, it's out of ink.","Yes, please print it.","It's a new model."],a:0,t:"否定疑問",ej:"故障の確認に No で同意し理由を添える。"},
+ {p:"Do you want to meet today or tomorrow?",o:["Tomorrow works better.","In the meeting room.","Yes, I do."],a:0,t:"選択",ej:"選択疑問にはどちらかを選んで答える。"},
+ {p:"Where did you put the files?",o:["On your desk.","Last Friday.","They're important."],a:0,t:"Where",ej:"場所を尋ねる → 場所で答える。"},
+ {p:"How many people are coming?",o:["About twenty.","At noon.","By car."],a:0,t:"How many",ej:"数を尋ねる → 数で答える。"},
+ {p:"Has the invoice been sent yet?",o:["Yes, this morning.","To the supplier.","It's quite high."],a:0,t:"完了",ej:"完了の確認に時点で答える。"},
+ {p:"Whose laptop is this?",o:["I think it's Mark's.","On the table.","Since yesterday."],a:0,t:"Whose",ej:"所有者を尋ねる → 人で答える。"},
+ {p:"Can I leave early today?",o:["Of course, no problem.","At the station.","It was yesterday."],a:0,t:"許可",ej:"許可を求める → 承諾で答える。"},
+ {p:"Why don't we take a break?",o:["Good idea.","On the third floor.","It's a long break."],a:0,t:"提案",ej:"Why don't we は提案 → 賛同で答える。"},
+ {p:"What's the agenda for today?",o:["Mostly the budget review.","At ten.","In the boardroom."],a:0,t:"What",ej:"内容を尋ねる → 議題で答える。"},
+ {p:"Did you finish the presentation?",o:["Almost, just one slide left.","In the meeting.","It's about sales."],a:0,t:"完了",ej:"進捗の確認に状況で答える。"},
+ {p:"Which color do you prefer?",o:["The blue one, I think.","At the store.","Yes, I like it."],a:0,t:"選択",ej:"どちらか好みを尋ねる → 選んで答える。"},
+ {p:"How long will the repair take?",o:["About two hours.","In the garage.","It's expensive."],a:0,t:"How long",ej:"所要時間を尋ねる → 期間で答える。"},
+ {p:"Isn't the deadline next week?",o:["Actually, it's this Friday.","To the client.","Yes, it's long."],a:0,t:"否定疑問",ej:"確認に対し訂正して答える。"},
+ {p:"Should we order more supplies?",o:["Yes, we're running low.","In the storage room.","It was last week."],a:0,t:"提案",ej:"提案に理由付きで賛同する。"},
+ {p:"What do you think of the new office?",o:["I really like it.","At nine.","By subway."],a:0,t:"What",ej:"感想を尋ねる → 評価で答える。"},
+ {p:"Where can I find the manager?",o:["She's in her office.","At three.","It's urgent."],a:0,t:"Where",ej:"人の所在を尋ねる → 場所で答える。"},
+ {p:"When will the shipment arrive?",o:["Sometime next week.","At the warehouse.","Yes, it did."],a:0,t:"When",ej:"時を尋ねる → 時期で答える。"},
+ {p:"Who approved this budget?",o:["The finance director.","Last quarter.","In the report."],a:0,t:"Who",ej:"人を尋ねる → 役職・人で答える。"},
+ {p:"Where should I sign?",o:["At the bottom of the page.","At noon.","Yes, please."],a:0,t:"Where",ej:"場所を尋ねる → 位置で答える。"},
+ {p:"How often do you travel for work?",o:["About once a month.","To Osaka.","By train."],a:0,t:"How often",ej:"頻度を尋ねる → 回数で答える。"},
+ {p:"Why is the office closed today?",o:["It's a public holiday.","On the fifth floor.","At nine."],a:0,t:"Why",ej:"理由を尋ねる → 原因で答える。"},
+ {p:"Would you prefer tea or coffee?",o:["Coffee, please.","In the break room.","Yes, thanks."],a:0,t:"選択",ej:"選択疑問はどちらかを選んで答える。"},
+ {p:"Can you help me move these boxes?",o:["Sure, no problem.","They're heavy.","In the storage."],a:0,t:"依頼",ej:"依頼への自然な承諾。"},
+ {p:"Isn't this seat taken?",o:["No, it's free.","Yes, please sit.","It's comfortable."],a:0,t:"否定疑問",ej:"空席の確認に No＋説明で答える。"},
+ {p:"What's the total cost?",o:["Around fifty dollars.","At the counter.","Yes, it is."],a:0,t:"What",ej:"金額を尋ねる → 額で答える。"},
+ {p:"Do you know where the manual is?",o:["It's in the top drawer.","Last week.","It's useful."],a:0,t:"Where",ej:"場所を尋ねる間接疑問 → 位置で答える。"},
+ {p:"Should I email or call the client?",o:["Email is fine.","At three.","Yes, do."],a:0,t:"選択",ej:"どちらか尋ねる → 選んで答える。"},
+ {p:"How was your business trip?",o:["Very productive.","To Tokyo.","By plane."],a:0,t:"How",ej:"感想を尋ねる → 評価で答える。"},
+ {p:"Has the meeting been rescheduled?",o:["Yes, to Thursday.","In room 4.","It's important."],a:0,t:"完了",ej:"変更の有無に時点で答える。"},
+ {p:"Why don't you take the afternoon off?",o:["That sounds great.","At the office.","It's sunny."],a:0,t:"提案",ej:"Why don't you は提案 → 賛同で答える。"},
+ {p:"Where did you buy this printer?",o:["From an online store.","Last month.","It's fast."],a:0,t:"Where",ej:"購入先を尋ねる → 場所で答える。"},
+ {p:"When is the report due?",o:["By end of day.","In the folder.","Yes, soon."],a:0,t:"When",ej:"締切を尋ねる → 期限で答える。"},
+ {p:"Could you turn down the volume?",o:["Of course.","It's loud music.","No, I can't hear."],a:0,t:"依頼",ej:"依頼への自然な承諾。"},
+ {p:"Aren't you joining the lunch?",o:["No, I have a meeting.","Yes, it's tasty.","At the restaurant."],a:0,t:"否定疑問",ej:"不参加を No＋理由で答える。"},
+ {p:"How do I get to the airport from here?",o:["Take the express train.","At six.","It's far."],a:0,t:"How",ej:"手段を尋ねる → 方法で答える。"},
+ {p:"How much does the ticket cost?",o:["Twenty dollars.","At the box office.","Yes, it's cheap."],a:0,t:"How much",ej:"金額を尋ねる → 額で答える。"},
+ {p:"Who's giving the keynote speech?",o:["The CEO is.","At nine.","In the main hall."],a:0,t:"Who",ej:"人を尋ねる → 人で答える。"},
+ {p:"When can we expect the results?",o:["By Friday afternoon.","In the lab.","Yes, we can."],a:0,t:"When",ej:"時期を尋ねる → 期限で答える。"},
+ {p:"Where is the copy machine?",o:["Next to the elevator.","Ten copies, please.","At two o'clock."],a:0,t:"Where",ej:"場所を尋ねる → 位置で答える。"},
+ {p:"Could you forward me the schedule?",o:["Sure, I'll do it now.","It's a busy schedule.","On Monday."],a:0,t:"依頼",ej:"依頼への自然な承諾。"},
+ {p:"Why did the price go up?",o:["Material costs increased.","At the store.","Yes, it's expensive."],a:0,t:"Why",ej:"理由を尋ねる → 原因で答える。"},
+ {p:"Haven't you met the new director?",o:["No, not yet.","Yes, it's new.","In the directory."],a:0,t:"否定疑問",ej:"未経験を No で答える。"}
+];
+
+/* ============================ STATE / STORAGE ============================ */
+const LS="toeic800pro_v1";
+let mem={};
+const Store={
+  get(k){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return mem[k]||null;} },
+  set(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;} },
+  del(k){ try{localStorage.removeItem(k);}catch(e){delete mem[k];} }
+};
+let state = Store.get(LS) || {examDate:null,settings:{voice:true,rate:0.92},v:{},g:{},l:{}};
+state.settings = state.settings || {voice:true,rate:0.92};
+state.v=state.v||{}; state.g=state.g||{}; state.l=state.l||{};
+function save(){ Store.set(LS,state); }
+
+const $=id=>document.getElementById(id);
+let tab="vocab", mode="all", queue=[], qi=0, sessionRight=0, sessionTotal=0, answered=false, timerId=null;
+
+/* ---- tap-anywhere advance (armed only after a correct answer) ---- */
+let advArmed=false;
+document.addEventListener("click",()=>{
+  if(advArmed){ advArmed=false; qi++; renderQuestion(); }
+});
+
+/* ---------- audio ---------- */
+let synth = window.speechSynthesis || null;
+function speak(text, opts){
+  if(!state.settings.voice || !synth) return;
+  try{
+    synth.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang="en-US"; u.rate=(opts&&opts.rate)||state.settings.rate; u.pitch=1;
+    synth.speak(u);
+  }catch(e){}
+}
+function unlockAudio(){ if(synth){ try{const u=new SpeechSynthesisUtterance(" ");u.volume=0;synth.speak(u);}catch(e){} } }
+
+/* ---------- weighting ---------- */
+function vStat(w){ return state.v[w] || {s:0,r:0,wr:0}; }
+function vWeight(w){ const st=vStat(w); let wt=1+st.wr*2.2-st.r*0.6; if(st.r>=3&&st.wr===0)wt=0.25; return Math.max(0.2,wt); }
+function isStar(w){ const st=vStat(w); return st.wr>=2; }
+function gStat(i){ return state.g[i]||{r:0,wr:0}; }
+function lStat(i){ return state.l[i]||{r:0,wr:0}; }
+
+function weightedPick(items, weightFn, n){
+  const pool=items.map((it,idx)=>({it,idx,w:weightFn(it,idx)}));
+  const out=[]; const used=new Set();
+  for(let k=0;k<n && used.size<pool.length;k++){
+    const avail=pool.filter(p=>!used.has(p.idx));
+    let tot=avail.reduce((s,p)=>s+p.w,0); let rnd=Math.random()*tot; let chosen=avail[0];
+    for(const p of avail){ rnd-=p.w; if(rnd<=0){chosen=p;break;} }
+    used.add(chosen.idx); out.push(chosen.idx);
+  }
+  return out;
+}
+
+/* ============================ RENDER ============================ */
+const SESSION_LEN=12;
+
+function buildQueue(){
+  qi=0; sessionRight=0; sessionTotal=0;
+  if(tab==="vocab"){
+    let idxs=VOCAB.map((_,i)=>i);
+    if(mode==="weak") idxs=idxs.filter(i=>isStar(VOCAB[i].w)||vStat(VOCAB[i].w).wr>0);
+    if(idxs.length===0) idxs=VOCAB.map((_,i)=>i);
+    const wf=(it)=>vWeight(VOCAB[it].w===undefined?it.w:VOCAB[it].w?VOCAB[it].w:it);
+    queue=weightedPick(idxs.map(i=>VOCAB[i]),(it)=>vWeight(it.w),Math.min(SESSION_LEN,idxs.length)).map(k=>idxs[k]);
+  } else if(tab==="grammar"){
+    let idxs=GRAMMAR.map((_,i)=>i);
+    if(mode==="weak") idxs=idxs.filter(i=>gStat(i).wr>0);
+    if(idxs.length===0) idxs=GRAMMAR.map((_,i)=>i);
+    shuffle(idxs); queue=idxs.slice(0,Math.min(SESSION_LEN,idxs.length));
+  } else {
+    let idxs=LISTEN.map((_,i)=>i);
+    if(mode==="weak") idxs=idxs.filter(i=>lStat(i).wr>0);
+    if(idxs.length===0) idxs=LISTEN.map((_,i)=>i);
+    shuffle(idxs); queue=idxs.slice(0,Math.min(SESSION_LEN,idxs.length));
+  }
+}
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} }
+
+function renderModes(){
+  const m=$("modes"); m.innerHTML="";
+  let chips=[];
+  if(tab==="grammar"){
+    chips=[["10s","10秒"],["20s","20秒"],["free","制限なし"],["weak","★弱点"]];
+    if(!["10s","20s","free","weak"].includes(mode)) mode="10s";
+  } else {
+    chips=[["all","全範囲"],["weak","★弱点のみ"]];
+    if(!["all","weak"].includes(mode)) mode="all";
+  }
+  chips.forEach(([k,label])=>{
+    const c=document.createElement("div");
+    c.className="chip"+(mode===k?" on":""); c.textContent=label;
+    c.onclick=()=>{ mode=k; renderModes(); startSession(); };
+    m.appendChild(c);
+  });
+}
+
+function timerSeconds(){ if(mode==="10s")return 10; if(mode==="20s")return 20; return 0; }
+
+function startSession(){
+  clearTimer();
+  buildQueue();
+  renderQuestion();
+}
+
+function updateProgress(){
+  const total=queue.length;
+  $("pcount").textContent=`${Math.min(qi+1,total)} / ${total}`;
+  $("pbar").style.width=(total?(qi/total*100):0)+"%";
+  $("paccu").textContent= sessionTotal? `正答率 ${Math.round(sessionRight/sessionTotal*100)}%` : "正答率 –";
+  $("hcount").innerHTML = tab==="vocab"?`単語 <b>${VOCAB.length}</b>`:tab==="grammar"?`文法 <b>${GRAMMAR.length}</b>`:`聴解 <b>${LISTEN.length}</b>`;
+}
+
+function clearTimer(){ if(timerId){clearInterval(timerId);timerId=null;} $("timer").classList.add("hidden"); }
+
+function renderQuestion(){
+  answered=false; advArmed=false; clearTimer();
+  updateProgress();
+  if(qi>=queue.length){ return renderDone(); }
+  if(tab==="vocab") renderVocab();
+  else if(tab==="grammar") renderGrammar();
+  else renderListen();
+}
+
+/* ----- VOCAB ----- */
+function renderVocab(){
+  const it=VOCAB[queue[qi]];
+  const opts=[it.j,...it.d]; const correct=it.j;
+  shuffle(opts);
+  const star=isStar(it.w)?'<span class="star">★</span>':'';
+  $("stage").innerHTML=`
+    <div class="card">
+      <div class="qcat">${it.p==="v."?"動詞":it.p==="adj."?"形容詞":"名詞"}・意味を選択</div>
+      <div class="word">${it.w}<span class="pos">${it.p}</span>${star}</div>
+      <div style="margin-top:10px"><button class="replay" id="rep">🔊 発音</button></div>
+      <div class="opts" id="opts"></div>
+      <div id="post"></div>
+    </div>`;
+  $("rep").onclick=()=>speak(it.w);
+  speak(it.w);
+  const ob=$("opts");
+  opts.forEach((o,k)=>{
+    const b=document.createElement("button"); b.className="opt";
+    b.innerHTML=`<span class="k">${"ABCD"[k]}</span>${o}`;
+    b.onclick=()=>answerVocab(b,o===correct,it,ob);
+    ob.appendChild(b);
+  });
+}
+function answerVocab(btn,ok,it,ob){
+  if(answered)return; answered=true;
+  const st=vStat(it.w); st.s++; ok?st.r++:st.wr++; state.v[it.w]=st; save();
+  sessionTotal++; if(ok)sessionRight++;
+  [...ob.children].forEach(b=>{ b.disabled=true;
+    const isC=b.textContent.replace(/^[ABCD]/,"").trim()===it.j;
+    if(isC)b.classList.add("correct"); else if(b===btn&&!ok)b.classList.add("wrong"); else b.classList.add("dim");
+  });
+  const post=$("post");
+  post.innerHTML=`<div class="vex">${it.ex.map(e=>`<div class="row"><div class="e">${e.e}</div><div class="t">${e.t}</div></div>`).join("")}</div>
+    <button class="next-btn" id="nv">${qi+1>=queue.length?"結果を見る":"次へ →"}</button>`;
+  if(ok){ celebrate(); setTimeout(()=>speak(it.ex[0].e),350); setTimeout(()=>{ advArmed=true; },300); }
+  else { speak(it.ex[0].e); }
+  $("nv").onclick=()=>{ qi++; renderQuestion(); };
+}
+
+/* ----- GRAMMAR ----- */
+function renderGrammar(){
+  const i=queue[qi]; const it=GRAMMAR[i];
+  $("stage").innerHTML=`
+    <div class="card">
+      <div class="qcat">${it.c}</div>
+      <div class="qtext">${it.q.replace("___","<u>?</u>")}</div>
+      <div class="opts" id="opts"></div>
+      <div id="post"></div>
+    </div>`;
+  const ob=$("opts"); const order=[0,1,2,3]; shuffle(order);
+  order.forEach((oi,k)=>{
+    const b=document.createElement("button"); b.className="opt";
+    b.innerHTML=`<span class="k">${"ABCD"[k]}</span>${it.o[oi]}`;
+    b.onclick=()=>answerGrammar(b,oi===it.a,it,i,ob);
+    ob.appendChild(b);
+  });
+  const secs=timerSeconds();
+  if(secs>0) startTimer(secs,()=>{ if(!answered) answerGrammar(null,false,it,i,ob,true); });
+}
+function startTimer(secs,onEnd){
+  const T=$("timer"), num=$("tnum"), bar=$("tbar");
+  T.classList.remove("hidden","warn","danger");
+  let left=secs; num.textContent=left; bar.style.transition="none"; bar.style.width="100%";
+  requestAnimationFrame(()=>{ bar.style.transition=`width ${secs}s linear`; bar.style.width="0%"; });
+  timerId=setInterval(()=>{
+    left--; num.textContent=Math.max(0,left);
+    if(left<=3)T.classList.add("danger"); else if(left<=secs/2)T.classList.add("warn");
+    if(left<=0){ clearInterval(timerId); timerId=null; onEnd(); }
+  },1000);
+}
+function answerGrammar(btn,ok,it,i,ob,timeout){
+  if(answered)return; answered=true; clearTimer();
+  const st=gStat(i); ok?st.r++:st.wr++; state.g[i]=st; save();
+  sessionTotal++; if(ok)sessionRight++;
+  [...ob.children].forEach(b=>{ b.disabled=true;
+    const isC=b.textContent.replace(/^[ABCD]/,"").trim()===it.o[it.a];
+    if(isC)b.classList.add("correct"); else if(b===btn&&!ok)b.classList.add("wrong"); else b.classList.add("dim");
+  });
+  if(ok){
+    celebrate();
+    $("post").innerHTML=`
+      <div class="okjt">
+        <div class="jline"><span class="jtag">訳</span>${it.jt}</div>
+        <div class="uline">${it.ee}</div>
+        <div class="taphint">画面のどこかをタップで次へ →</div>
+      </div>`;
+    setTimeout(()=>{ advArmed=true; },300);
+    setTimeout(()=>{ if(advArmed){ advArmed=false; qi++; renderQuestion(); } },4000);
+  } else {
+    showLearn(it,timeout);
+  }
+}
+function goNext(){ qi++; renderQuestion(); }
+function showLearn(it,timeout){
+  const correct=it.o[it.a];
+  $("post").innerHTML=`
+    <div class="learn">
+      <div class="lh"><span class="ic">!</span>学びのチャンス</div>
+      <div class="ans">正解 → <span class="en">${correct}</span></div>
+      <div class="jline" style="margin-bottom:8px"><span class="jtag">訳</span>${it.jt}</div>
+      <div class="exp">${timeout?"⏱ 時間切れ。落ち着いて解説を。<br>":""}${it.ej}<span class="en">${it.ee}</span></div>
+      <button class="next-btn" id="ng">理解した・次へ →</button>
+    </div>`;
+  $("ng").onclick=goNext;
+}
+
+/* ----- LISTEN ----- */
+function renderListen(){
+  const i=queue[qi]; const it=LISTEN[i];
+  $("stage").innerHTML=`
+    <div class="card">
+      <div class="qcat">Part 2 ・ ${it.t}</div>
+      <div class="listen-hint">質問を聞いて、最も自然な応答を選んでください</div>
+      <div style="text-align:center;margin:6px 0 4px"><button class="replay" id="rep">🔊 もう一度聞く</button></div>
+      <div class="opts" id="opts"></div>
+      <div id="post"></div>
+    </div>`;
+  $("rep").onclick=()=>speakListen(it);
+  speakListen(it);
+  const ob=$("opts"); const order=[0,1,2]; shuffle(order);
+  order.forEach((oi,k)=>{
+    const b=document.createElement("button"); b.className="opt";
+    b.innerHTML=`<span class="k">${"ABC"[k]}</span><span style="opacity:.35">（${"ABC"[k]}）</span>`;
+    b.dataset.txt=it.o[oi];
+    b.onclick=()=>answerListen(b,oi===it.a,it,i,ob);
+    ob.appendChild(b);
+  });
+}
+function speakListen(it){
+  if(!state.settings.voice||!synth){ return; }
+  try{ synth.cancel();
+    const q=new SpeechSynthesisUtterance(it.p); q.lang="en-US"; q.rate=state.settings.rate;
+    synth.speak(q);
+    ["A","B","C"].forEach((L,k)=>{ const u=new SpeechSynthesisUtterance(L+". "+it.o[k]); u.lang="en-US"; u.rate=state.settings.rate; synth.speak(u); });
+  }catch(e){}
+}
+function answerListen(btn,ok,it,i,ob){
+  if(answered)return; answered=true;
+  const st=lStat(i); ok?st.r++:st.wr++; state.l[i]=st; save();
+  sessionTotal++; if(ok)sessionRight++;
+  [...ob.children].forEach(b=>{ b.disabled=true;
+    const isC=b.dataset.txt===it.o[it.a];
+    b.innerHTML=b.innerHTML.split("<span style")[0]+`<span style="opacity:.85">${b.dataset.txt}</span>`;
+    if(isC)b.classList.add("correct"); else if(b===btn&&!ok)b.classList.add("wrong"); else b.classList.add("dim");
+  });
+  if(ok){ celebrate(); setTimeout(()=>{ advArmed=true; },300); }
+  $("post").innerHTML=`
+    <div class="${ok?'':'learn'}" style="${ok?'margin-top:14px':''}">
+      ${ok?'':'<div class="lh"><span class="ic">!</span>学びのチャンス</div>'}
+      <div class="ans"><span class="en">${it.o[it.a]}</span></div>
+      <div class="exp">${it.ej}</div>
+      <button class="next-btn" id="nl">${qi+1>=queue.length?"結果を見る":"次へ →"}</button>
+    </div>`;
+  $("nl").onclick=goNext;
+}
+
+/* ----- celebration ----- */
+function celebrate(){
+  const card=document.querySelector(".card"); if(!card)return;
+  const b=document.createElement("div"); b.className="burst";
+  let rays="";
+  for(let i=0;i<12;i++){ rays+=`<div class="ray" style="--rot:${i*30}deg"></div>`; }
+  b.innerHTML=`<div class="glow"></div><div class="rays">${rays}</div><div class="yatta">やったね</div>`;
+  card.appendChild(b);
+  requestAnimationFrame(()=>b.classList.add("go"));
+  setTimeout(()=>b.remove(),1100);
+}
+
+/* ----- done ----- */
+function renderDone(){
+  clearTimer();
+  const pct=sessionTotal?Math.round(sessionRight/sessionTotal*100):0;
+  const msg=pct>=90?"完璧に近い。この調子。":pct>=70?"good。弱点を★モードで詰めよう。":pct>=50?"伸びしろ大。もう1セット。":"基礎から。★弱点モードで反復を。";
+  $("stage").innerHTML=`
+    <div class="card done">
+      <div class="big">${pct>=70?"🎯":"📘"}</div>
+      <h2>セッション終了</h2>
+      <div class="score">${sessionRight} / ${sessionTotal}</div>
+      <p>正答率 ${pct}%<br>${msg}</p>
+      <button class="big-btn" id="again" style="margin-top:18px">もう1セット</button>
+    </div>`;
+  $("again").onclick=startSession;
+  $("pbar").style.width="100%";
+}
+
+/* ============================ COUNTDOWN ============================ */
+function renderCountdown(){
+  const el=$("daysLeft");
+  if(!state.examDate){ el.textContent="タップして設定"; el.innerHTML='<span style="color:var(--dim)">タップして設定</span>'; return; }
+  const d=new Date(state.examDate); const today=new Date(); today.setHours(0,0,0,0);
+  const diff=Math.ceil((d-today)/86400000);
+  el.innerHTML = diff>=0 ? `あと<b>${diff}</b>日` : `<span style="color:var(--dim)">試験日経過</span>`;
+}
+$("countdown").onclick=()=>{
+  const v=prompt("試験日を入力 (例: 2026-07-20)", state.examDate?state.examDate.slice(0,10):"");
+  if(v){ const d=new Date(v); if(!isNaN(d.getTime())){ state.examDate=d.toISOString(); save(); renderCountdown(); } }
+};
+
+/* ============================ TABS / EVENTS ============================ */
+document.querySelectorAll(".tab").forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    tab=t.dataset.tab; mode = tab==="grammar"?"10s":"all";
+    renderModes(); startSession();
+  };
+});
+
+$("voice").onchange=e=>{ state.settings.voice=e.target.checked; if(!state.settings.voice&&synth)synth.cancel(); save(); };
+$("rate").oninput=e=>{ state.settings.rate=parseFloat(e.target.value); const v=state.settings.rate; $("rateLbl").textContent=v<0.8?"ゆっくり":v>1.0?"速め":"標準"; };
+$("rate").onchange=()=>save();
+
+$("reset").onclick=()=>{
+  if(!confirm("学習記録・★弱点をすべて削除します。よろしいですか？"))return;
+  Store.del(LS); state={examDate:state.examDate,settings:state.settings,v:{},g:{},l:{}}; save();
+  startSession(); renderCountdown();
+};
+
+$("startBtn").onclick=()=>{
+  unlockAudio();
+  state.settings.voice=$("voice").checked;
+  state.settings.rate=parseFloat($("rate").value); save();
+  $("primer").classList.add("hidden"); $("app").classList.remove("hidden");
+  renderModes(); renderCountdown(); startSession();
+};
+
+/* ---- exam date (start screen) ---- */
+function daysUntil(iso){
+  const d=new Date(iso); const today=new Date(); today.setHours(0,0,0,0);
+  return Math.ceil((d-today)/86400000);
+}
+function refreshExamSub(){
+  const el=$("examSub");
+  if(state.examDate){
+    const n=daysUntil(state.examDate);
+    el.innerHTML = n>=0 ? `試験まで <b style="color:var(--gold)">あと${n}日</b>` : `<span style="color:var(--dim)">試験日を過ぎています</span>`;
+  } else { el.textContent="残り日数を表示します"; }
+}
+$("examDateInput").onchange=e=>{
+  const v=e.target.value;
+  if(v){ const d=new Date(v); if(!isNaN(d.getTime())){ state.examDate=d.toISOString(); save(); refreshExamSub(); renderCountdown(); } }
+};
+
+/* init start screen */
+$("pv").textContent=VOCAB.length; $("pg").textContent=GRAMMAR.length; $("pl").textContent=LISTEN.length;
+$("voice").checked=state.settings.voice; $("rate").value=state.settings.rate;
+if(state.examDate) $("examDateInput").value=state.examDate.slice(0,10);
+refreshExamSub();
+(function(){ const v=state.settings.rate; $("rateLbl").textContent=v<0.8?"ゆっくり":v>1.0?"速め":"標準"; })();
+</script>
+</body>
+</html>
