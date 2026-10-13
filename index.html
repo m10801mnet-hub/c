@@ -200,6 +200,34 @@
   .done p{color:var(--muted);font-size:14px;}
   .done .score{font-size:40px;font-weight:800;color:var(--gold);margin:8px 0;}
 
+  /* ---------- review notebook ---------- */
+  .rvcard{background:linear-gradient(160deg,#1A2236 0%,var(--surface) 70%);border:1px solid var(--indigo-deep);border-radius:16px;padding:16px;margin:0 0 14px;text-align:left;}
+  .rvcard .rt{font-size:15px;font-weight:800;}
+  .rvcard .rt small{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:2px;}
+  .rvnums{display:flex;gap:8px;margin:12px 0;}
+  .rvnums div{flex:1;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 4px;text-align:center;}
+  .rvnums b{display:block;font-size:20px;font-weight:800;}
+  .rvnums span{font-size:10px;color:var(--muted);}
+  .rvnums .due b{color:var(--gold);} .rvnums .all b{color:var(--indigo);} .rvnums .grad b{color:var(--green);}
+  .rv-btn{display:block;width:100%;padding:13px;border:1px solid var(--gold-deep);border-radius:12px;background:rgba(244,192,78,.12);color:var(--gold);font-size:15px;font-weight:800;cursor:pointer;}
+  .rv-btn[disabled]{opacity:.45;cursor:default;}
+  .rvlink{background:none;border:none;color:var(--muted);font-size:12px;text-decoration:underline;margin-top:10px;cursor:pointer;padding:0;}
+  .rvlist{margin-top:10px;max-height:340px;overflow:auto;border-top:1px solid var(--line);}
+  .rvitem{display:flex;align-items:center;gap:8px;padding:9px 2px;border-bottom:1px solid var(--line);font-size:13px;}
+  .rvitem .ty{flex:0 0 auto;font-size:10px;font-weight:800;border-radius:5px;padding:1px 6px;border:1px solid var(--line2);color:var(--muted);}
+  .rvitem .tx{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .rvitem .nx{flex:0 0 auto;font-size:11px;color:var(--dim);}
+  .rvitem .x{flex:0 0 auto;background:none;border:none;color:var(--dim);font-size:18px;cursor:pointer;padding:0 4px;}
+  .addrv{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:12px;padding:12px;border-radius:12px;border:1px dashed var(--gold-deep);background:transparent;color:var(--gold);font-size:14px;font-weight:800;cursor:pointer;}
+  .addrv.on{border-style:solid;background:rgba(244,192,78,.14);}
+  .rvtag{display:inline-block;font-size:11px;font-weight:800;color:var(--gold);margin-left:8px;letter-spacing:0;text-transform:none;}
+  .lenrow{display:flex;align-items:center;gap:10px;}
+  .lenrow b{min-width:44px;text-align:right;font-size:16px;color:var(--indigo);}
+  .presets{display:flex;gap:6px;margin-top:8px;}
+  .presets span{flex:1;text-align:center;padding:6px 0;border-radius:8px;background:var(--surface2);border:1px solid var(--line);font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;}
+  .presets span.on{color:var(--indigo);border-color:var(--indigo-deep);background:var(--indigo-bg);}
+  .logo{cursor:pointer;}
+
   @media (prefers-reduced-motion: reduce){
     .burst.go .ray,.burst.go .glow,.burst.go .yatta,.learn{animation:none;}
   }
@@ -221,7 +249,23 @@
       <div style="flex:1"><div>試験日</div><div class="sub" id="examSub">残り日数を表示します</div></div>
       <input type="date" id="examDateInput" style="background:var(--surface2);border:1px solid var(--line2);color:var(--text);border-radius:9px;padding:8px 10px;font-size:14px;">
     </div>
+    <div class="rvcard">
+      <div class="rt">📒 復習帳<small>解いた直後に「＋復習帳」で登録。3回連続正解で卒業。</small></div>
+      <div class="rvnums">
+        <div class="due"><b id="rvDue">0</b><span>今日の復習</span></div>
+        <div class="all"><b id="rvAll">0</b><span>登録中</span></div>
+        <div class="grad"><b id="rvGrad">0</b><span>卒業</span></div>
+      </div>
+      <button class="rv-btn" id="rvStart">復習帳で学習する</button>
+      <button class="rvlink" id="rvToggle">登録一覧を見る</button>
+      <div class="rvlist hidden" id="rvList"></div>
+    </div>
     <button class="big-btn" id="startBtn">特訓を始める</button>
+    <div class="toggle-row" style="display:block">
+      <div class="lenrow"><div style="flex:1;min-width:0"><div style="white-space:nowrap">1セットの問題数</div><div class="sub">1〜50問で自由に設定</div></div>
+        <input type="range" id="slen" min="1" max="50" step="1" value="12" style="width:96px"><b id="slenLbl">12問</b></div>
+      <div class="presets" id="presets"><span data-n="10">10問</span><span data-n="20">20問</span><span data-n="30">30問</span><span data-n="50">50問</span></div>
+    </div>
     <div class="toggle-row">
       <div><div>音声読み上げ</div><div class="sub">単語・例文・リスニングを発音</div></div>
       <label class="switch"><input type="checkbox" id="voice" checked><span class="slider"></span></label>
@@ -237,13 +281,14 @@
 <div id="app" class="hidden">
   <header>
     <div class="brand">
-      <div class="logo">TOEIC 800<span class="pro">PRO</span></div>
+      <div class="logo" id="homeBtn">‹ TOEIC 800<span class="pro">PRO</span></div>
       <div class="count" id="hcount"></div>
     </div>
     <div class="tabs">
       <div class="tab active" data-tab="vocab">単語<span class="sub">VOCAB</span></div>
       <div class="tab" data-tab="grammar">文法<span class="sub">SPEED</span></div>
       <div class="tab" data-tab="listen">聴解<span class="sub">PART2</span></div>
+      <div class="tab" data-tab="review">復習<span class="sub" id="rvTabSub">0</span></div>
     </div>
   </header>
 
@@ -1295,6 +1340,8 @@ const Store={
 let state = Store.get(LS) || {examDate:null,settings:{voice:true,rate:0.92},v:{},g:{},l:{}};
 state.settings = state.settings || {voice:true,rate:0.92};
 state.v=state.v||{}; state.g=state.g||{}; state.l=state.l||{};
+state.rv=state.rv||{}; state.rvDone=state.rvDone||{};
+if(!state.settings.len) state.settings.len=12;
 function save(){ Store.set(LS,state); }
 
 const $=id=>document.getElementById(id);
@@ -1339,10 +1386,82 @@ function weightedPick(items, weightFn, n){
 }
 
 /* ============================ RENDER ============================ */
-const SESSION_LEN=12;
+function sessLen(){ const n=parseInt(state.settings.len,10); return Math.max(1,Math.min(50,isNaN(n)?12:n)); }
+
+/* ---------- 復習帳 ----------
+   item: {k:"v"|"g"|"l", i:index, add:ms, st:連続正解数, due:次回出題ms}
+   復習で正解 → 1日後 → 3日後 → 7日後、3回連続正解で卒業 / 不正解 → 連続0・すぐ再出題 */
+const RV_GAP=[1,3,7]; const RV_GRAD=3; const DAY=86400000;
+const rvKey=(k,i)=>k+":"+i;
+function rvHas(k,i){ return !!state.rv[rvKey(k,i)]; }
+function rvToggle(k,i){
+  const key=rvKey(k,i);
+  if(state.rv[key]) delete state.rv[key];
+  else { state.rv[key]={k,i,add:Date.now(),st:0,due:Date.now()}; delete state.rvDone[key]; }
+  save(); rvRefreshCounts(); return !!state.rv[key];
+}
+function rvResult(k,i,ok){
+  const key=rvKey(k,i), it=state.rv[key]; if(!it) return null;
+  if(ok){
+    it.st++;
+    if(it.st>=RV_GRAD){ delete state.rv[key]; state.rvDone[key]={k,i,at:Date.now()}; save(); rvRefreshCounts(); return {r:"grad"}; }
+    it.due=Date.now()+RV_GAP[it.st-1]*DAY;
+    save(); rvRefreshCounts(); return {r:"next",st:it.st,gap:RV_GAP[it.st-1]};
+  }
+  it.st=0; it.due=Date.now(); save(); rvRefreshCounts(); return {r:"reset"};
+}
+function rvItems(){ return Object.values(state.rv); }
+function rvDueItems(){ const now=Date.now(); return rvItems().filter(x=>x.due<=now); }
+function rvRefreshCounts(){
+  const d=rvDueItems().length, a=rvItems().length, g=Object.keys(state.rvDone).length;
+  if($("rvDue")){ $("rvDue").textContent=d; $("rvAll").textContent=a; $("rvGrad").textContent=g; }
+  if($("rvStart")){ $("rvStart").disabled=a===0; $("rvStart").textContent= a===0?"まだ登録がありません": d>0?`今日の復習 ${d}問を解く`:"今日の分は完了・登録分をまとめて解く"; }
+  if($("rvTabSub")) $("rvTabSub").textContent=d>0?`今日${d}`:"0";
+}
+function esc(t){ return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function rvLabel(x){
+  if(x.k==="v"){ const it=VOCAB[x.i]; return it?`${it.w} — ${it.j}`:"?"; }
+  if(x.k==="g"){ const it=GRAMMAR[x.i]; return it?it.q.replace("___",it.o[it.a].toUpperCase()):"?"; }
+  const it=LISTEN[x.i]; return it?it.p:"?";
+}
+function rvWhen(x){ const d=x.due-Date.now(); return d<=0?"今日":`${Math.ceil(d/DAY)}日後`; }
+function rvRenderList(){
+  const el=$("rvList"); const items=rvItems().sort((a,b)=>a.due-b.due);
+  if(!items.length){ el.innerHTML='<div style="padding:12px 0;color:var(--dim);font-size:13px">登録はまだありません。問題を解いた直後の「＋ 復習帳に追加」で登録できます。</div>'; return; }
+  el.innerHTML=items.map(x=>`<div class="rvitem"><span class="ty">${x.k==="v"?"単語":x.k==="g"?"文法":"聴解"}</span><span class="tx">${esc(rvLabel(x))}</span><span class="nx">${"●".repeat(x.st)}${"○".repeat(RV_GRAD-x.st)} ${rvWhen(x)}</span><button class="x" data-key="${rvKey(x.k,x.i)}" aria-label="削除">×</button></div>`).join("");
+  el.querySelectorAll(".x").forEach(b=>b.onclick=()=>{ delete state.rv[b.dataset.key]; save(); rvRefreshCounts(); rvRenderList(); });
+}
+/* 解答直後のワンタップ登録ボタン */
+let holdAuto=false;
+function mountRv(k,i){
+  const post=$("post"); if(!post) return;
+  const b=document.createElement("button"); b.className="addrv";
+  const paint=()=>{ const on=rvHas(k,i); b.classList.toggle("on",on); b.innerHTML=on?"✓ 復習帳に登録済み（タップで外す）":"＋ 復習帳に追加"; };
+  paint();
+  b.onclick=e=>{ e.stopPropagation(); const was=advArmed; holdAuto=true; advArmed=false; rvToggle(k,i); paint();
+    const h=post.querySelector(".taphint"); if(h) h.textContent="画面のどこかをタップで次へ →"; if(was) setTimeout(()=>{ advArmed=true; },250); };
+  const anchor=post.querySelector(".next-btn,.taphint");
+  if(anchor) anchor.parentNode.insertBefore(b,anchor); else post.appendChild(b);
+}
+function curItem(){ const q=queue[qi]; return tab==="review"?q:{k:tab==="vocab"?"v":tab==="grammar"?"g":"l",i:q}; }
+function afterAnswer(ok){
+  const c=curItem();
+  if(tab==="review"){
+    const r=rvResult(c.k,c.i,ok); if(!r) return;
+    const t=document.createElement("span"); t.className="rvtag";
+    t.textContent= r.r==="grad"?"🎓 卒業！3回連続正解": r.r==="next"?`連続 ${r.st}/${RV_GRAD}・次は${r.gap}日後`:"連続リセット・また出ます";
+    const cat=document.querySelector(".card .qcat"); if(cat) cat.appendChild(t);
+  } else mountRv(c.k,c.i);
+}
 
 function buildQueue(){
   qi=0; sessionRight=0; sessionTotal=0;
+  const SESSION_LEN=sessLen();
+  if(tab==="review"){
+    const items=(mode==="all"? rvItems() : rvDueItems()).sort((a,b)=>a.due-b.due);
+    queue=items.slice(0,SESSION_LEN).map(x=>({k:x.k,i:x.i})); shuffle(queue);
+    return;
+  }
   if(tab==="vocab"){
     let idxs=VOCAB.map((_,i)=>i);
     if(mode==="weak") idxs=idxs.filter(i=>isStar(VOCAB[i].w)||vStat(VOCAB[i].w).wr>0);
@@ -1366,7 +1485,10 @@ function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.rando
 function renderModes(){
   const m=$("modes"); m.innerHTML="";
   let chips=[];
-  if(tab==="grammar"){
+  if(tab==="review"){
+    chips=[["due","今日の分"],["all","登録すべて"]];
+    if(!["due","all"].includes(mode)) mode="due";
+  } else if(tab==="grammar"){
     chips=[["10s","10秒"],["20s","20秒"],["free","制限なし"],["weak","★弱点"]];
     if(!["10s","20s","free","weak"].includes(mode)) mode="10s";
   } else {
@@ -1394,7 +1516,7 @@ function updateProgress(){
   $("pcount").textContent=`${Math.min(qi+1,total)} / ${total}`;
   $("pbar").style.width=(total?(qi/total*100):0)+"%";
   $("paccu").textContent= sessionTotal? `正答率 ${Math.round(sessionRight/sessionTotal*100)}%` : "正答率 –";
-  $("hcount").innerHTML = tab==="vocab"?`単語 <b>${VOCAB.length}</b>`:tab==="grammar"?`文法 <b>${GRAMMAR.length}</b>`:`聴解 <b>${LISTEN.length}</b>`;
+  $("hcount").innerHTML = tab==="review"?`復習帳 <b>${rvItems().length}</b>`: tab==="vocab"?`単語 <b>${VOCAB.length}</b>`:tab==="grammar"?`文法 <b>${GRAMMAR.length}</b>`:`聴解 <b>${LISTEN.length}</b>`;
 }
 
 function clearTimer(){ if(timerId){clearInterval(timerId);timerId=null;} $("timer").classList.add("hidden"); }
@@ -1403,14 +1525,16 @@ function renderQuestion(){
   answered=false; advArmed=false; clearTimer();
   updateProgress();
   if(qi>=queue.length){ return renderDone(); }
-  if(tab==="vocab") renderVocab();
-  else if(tab==="grammar") renderGrammar();
-  else renderListen();
+  holdAuto=false;
+  const c=curItem();
+  if(c.k==="v") renderVocab(c.i);
+  else if(c.k==="g") renderGrammar(c.i);
+  else renderListen(c.i);
 }
 
 /* ----- VOCAB ----- */
-function renderVocab(){
-  const it=VOCAB[queue[qi]];
+function renderVocab(vi){
+  const it=VOCAB[vi];
   const opts=[it.j,...it.d]; const correct=it.j;
   shuffle(opts);
   const star=isStar(it.w)?'<span class="star">★</span>':'';
@@ -1446,11 +1570,12 @@ function answerVocab(btn,ok,it,ob){
   if(ok){ celebrate(); setTimeout(()=>speak(it.ex[0].e),350); setTimeout(()=>{ advArmed=true; },300); }
   else { speak(it.ex[0].e); }
   $("nv").onclick=()=>{ qi++; renderQuestion(); };
+  afterAnswer(ok);
 }
 
 /* ----- GRAMMAR ----- */
-function renderGrammar(){
-  const i=queue[qi]; const it=GRAMMAR[i];
+function renderGrammar(i){
+  const it=GRAMMAR[i];
   $("stage").innerHTML=`
     <div class="card">
       <div class="qcat">${it.c}</div>
@@ -1496,10 +1621,11 @@ function answerGrammar(btn,ok,it,i,ob,timeout){
         <div class="taphint">画面のどこかをタップで次へ →</div>
       </div>`;
     setTimeout(()=>{ advArmed=true; },300);
-    setTimeout(()=>{ if(advArmed){ advArmed=false; qi++; renderQuestion(); } },4000);
+    const myQ=qi; setTimeout(()=>{ if(advArmed&&!holdAuto&&qi===myQ){ advArmed=false; qi++; renderQuestion(); } },4000);
   } else {
     showLearn(it,timeout);
   }
+  afterAnswer(ok);
 }
 function goNext(){ qi++; renderQuestion(); }
 function showLearn(it,timeout){
@@ -1516,8 +1642,8 @@ function showLearn(it,timeout){
 }
 
 /* ----- LISTEN ----- */
-function renderListen(){
-  const i=queue[qi]; const it=LISTEN[i];
+function renderListen(i){
+  const it=LISTEN[i];
   $("stage").innerHTML=`
     <div class="card">
       <div class="qcat">Part 2 ・ ${it.t}</div>
@@ -1563,6 +1689,7 @@ function answerListen(btn,ok,it,i,ob){
       <button class="next-btn" id="nl">${qi+1>=queue.length?"結果を見る":"次へ →"}</button>
     </div>`;
   $("nl").onclick=goNext;
+  afterAnswer(ok);
 }
 
 /* ----- celebration ----- */
@@ -1581,7 +1708,13 @@ function celebrate(){
 function renderDone(){
   clearTimer();
   const pct=sessionTotal?Math.round(sessionRight/sessionTotal*100):0;
-  const msg=pct>=90?"完璧に近い。この調子。":pct>=70?"good。弱点を★モードで詰めよう。":pct>=50?"伸びしろ大。もう1セット。":"基礎から。★弱点モードで反復を。";
+  if(tab==="review" && sessionTotal===0){
+    const a=rvItems().length;
+    $("stage").innerHTML=`<div class="card done"><div class="big">📒</div><h2>${a?"今日の復習は完了":"復習帳は空です"}</h2>
+      <p>${a?`登録中 ${a}問は、次回の予定日に自動で出題されます。<br>今すぐ解くなら「登録すべて」を選択。`:"各問題の解答直後に出る「＋ 復習帳に追加」で登録できます。"}</p></div>`;
+    $("pbar").style.width="100%"; return;
+  }
+  const msg=tab==="review"?`卒業 累計${Object.keys(state.rvDone).length}問。間違えた分は残っています。`:pct>=90?"完璧に近い。この調子。":pct>=70?"good。弱点を★モードで詰めよう。":pct>=50?"伸びしろ大。もう1セット。":"基礎から。★弱点モードで反復を。";
   $("stage").innerHTML=`
     <div class="card done">
       <div class="big">${pct>=70?"🎯":"📘"}</div>
@@ -1612,7 +1745,7 @@ document.querySelectorAll(".tab").forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     t.classList.add("active");
-    tab=t.dataset.tab; mode = tab==="grammar"?"10s":"all";
+    tab=t.dataset.tab; mode = tab==="grammar"?"10s":tab==="review"?"due":"all";
     renderModes(); startSession();
   };
 });
@@ -1622,17 +1755,32 @@ $("rate").oninput=e=>{ state.settings.rate=parseFloat(e.target.value); const v=s
 $("rate").onchange=()=>save();
 
 $("reset").onclick=()=>{
-  if(!confirm("学習記録・★弱点をすべて削除します。よろしいですか？"))return;
-  Store.del(LS); state={examDate:state.examDate,settings:state.settings,v:{},g:{},l:{}}; save();
+  if(!confirm("学習記録・★弱点・復習帳をすべて削除します。よろしいですか？"))return;
+  Store.del(LS); state={examDate:state.examDate,settings:state.settings,v:{},g:{},l:{},rv:{},rvDone:{}}; save(); rvRefreshCounts();
   startSession(); renderCountdown();
 };
+
+function openApp(t){
+  unlockAudio();
+  tab=t; mode= t==="grammar"?"10s":t==="review"?(rvDueItems().length?"due":"all"):"all";
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===t));
+  $("primer").classList.add("hidden"); $("app").classList.remove("hidden");
+  renderModes(); renderCountdown(); startSession(); window.scrollTo(0,0);
+}
+$("homeBtn").onclick=e=>{ e.stopPropagation(); clearTimer(); if(synth)try{synth.cancel();}catch(_){}
+  $("app").classList.add("hidden"); $("primer").classList.remove("hidden"); rvRefreshCounts(); if(!$("rvList").classList.contains("hidden")) rvRenderList(); window.scrollTo(0,0); };
+$("rvStart").onclick=()=>openApp("review");
+$("rvToggle").onclick=()=>{ const l=$("rvList"); l.classList.toggle("hidden"); $("rvToggle").textContent=l.classList.contains("hidden")?"登録一覧を見る":"一覧を閉じる"; if(!l.classList.contains("hidden")) rvRenderList(); };
+function paintLen(){ const n=sessLen(); $("slen").value=n; $("slenLbl").textContent=n+"問"; document.querySelectorAll("#presets span").forEach(x=>x.classList.toggle("on",+x.dataset.n===n)); }
+$("slen").oninput=e=>{ state.settings.len=+e.target.value; paintLen(); };
+$("slen").onchange=()=>save();
+document.querySelectorAll("#presets span").forEach(x=>x.onclick=()=>{ state.settings.len=+x.dataset.n; save(); paintLen(); });
 
 $("startBtn").onclick=()=>{
   unlockAudio();
   state.settings.voice=$("voice").checked;
   state.settings.rate=parseFloat($("rate").value); save();
-  $("primer").classList.add("hidden"); $("app").classList.remove("hidden");
-  renderModes(); renderCountdown(); startSession();
+  openApp(document.querySelector(".tab.active").dataset.tab==="review"?"vocab":document.querySelector(".tab.active").dataset.tab);
 };
 
 /* ---- exam date (start screen) ---- */
@@ -1656,7 +1804,7 @@ $("examDateInput").onchange=e=>{
 $("pv").textContent=VOCAB.length; $("pg").textContent=GRAMMAR.length; $("pl").textContent=LISTEN.length;
 $("voice").checked=state.settings.voice; $("rate").value=state.settings.rate;
 if(state.examDate) $("examDateInput").value=state.examDate.slice(0,10);
-refreshExamSub();
+refreshExamSub(); paintLen(); rvRefreshCounts();
 (function(){ const v=state.settings.rate; $("rateLbl").textContent=v<0.8?"ゆっくり":v>1.0?"速め":"標準"; })();
 
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
