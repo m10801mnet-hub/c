@@ -200,6 +200,44 @@
   .done p{color:var(--muted);font-size:14px;}
   .done .score{font-size:40px;font-weight:800;color:var(--gold);margin:8px 0;}
 
+  /* ---------- scrollable tabs ---------- */
+  .tabs{overflow-x:auto;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{flex:0 0 auto;min-width:62px;padding:9px 10px;}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .stat{padding:11px 4px;}
+  .stat .n{font-size:20px;}
+  /* ---------- reading / conversation ---------- */
+  .psg{white-space:pre-wrap;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:14.5px;line-height:1.7;color:#d9e0ec;font-family:Georgia,"Times New Roman",serif;}
+  .psg-ti{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:8px;}
+  .mq{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line2);}
+  .mq .qn{font-size:15px;font-weight:700;line-height:1.55;}
+  .mq .opts{margin-top:10px;}
+  .mq .opt{font-size:14.5px;padding:11px 13px;}
+  .mq .why{margin-top:8px;font-size:13px;color:#cdd6ec;background:var(--indigo-bg);border:1px solid var(--indigo-deep);border-radius:10px;padding:8px 11px;}
+  .mq .why.ok{background:rgba(95,208,160,.08);border-color:rgba(95,208,160,.35);}
+  .script{margin-top:14px;font-size:14px;line-height:1.65;}
+  .script div{margin-bottom:6px;}
+  .script b{display:inline-block;width:26px;color:var(--indigo);}
+  .playbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:12px;border:1px solid var(--line2);background:var(--surface2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  /* ---------- speaking ---------- */
+  .ja-big{font-size:21px;font-weight:700;line-height:1.6;margin:4px 0 6px;}
+  .scene{display:inline-block;font-size:11px;font-weight:800;color:var(--gold);border:1px solid var(--gold-deep);border-radius:6px;padding:1px 8px;margin-bottom:10px;}
+  .en-ans{margin-top:14px;font-size:19px;font-weight:700;color:var(--green);line-height:1.5;}
+  .heard{margin-top:10px;font-size:13px;color:var(--muted);}
+  .heard b{color:var(--text);}
+  .row2{display:flex;gap:9px;margin-top:14px;}
+  .row2 button{flex:1;padding:13px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;border:1px solid var(--line2);background:var(--surface2);color:var(--text);}
+  .row2 .good{background:rgba(95,208,160,.14);border-color:var(--green);color:var(--green);}
+  .row2 .bad{background:rgba(232,113,138,.10);border-color:var(--red);color:var(--red);}
+  .row2 .mic{background:var(--indigo-bg);border-color:var(--indigo-deep);color:var(--indigo);}
+  .row2 .mic.rec{background:var(--red);color:#2a0c12;border-color:var(--red);animation:hintPulse 1s infinite;}
+  .row2 .sug{outline:2px solid currentColor;outline-offset:2px;}
+  /* ---------- backup ---------- */
+  .bkrow{display:flex;gap:8px;margin-top:10px;}
+  .bkrow button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line2);background:var(--surface2);color:var(--text);font-size:13px;font-weight:700;cursor:pointer;}
+  .bkwarn{color:var(--gold) !important;}
+
   /* ---------- review notebook ---------- */
   .rvcard{background:linear-gradient(160deg,#1A2236 0%,var(--surface) 70%);border:1px solid var(--indigo-deep);border-radius:16px;padding:16px;margin:0 0 14px;text-align:left;}
   .rvcard .rt{font-size:15px;font-weight:800;}
@@ -239,11 +277,14 @@
 <div id="primer" class="wrap">
   <div class="primer">
     <h1>TOEIC 800<span class="pro">P R O</span></h1>
-    <p>単語・文法スピードドリル・リスニングの3本立て。間違えた問題は<b style="color:var(--gold)">★</b>で記録し、出題頻度を自動で上げます。</p>
+    <p>単語・文法・リスニング・長文読解に、話す練習まで。間違えた問題は<b style="color:var(--gold)">★</b>で記録し、出題頻度を自動で上げます。</p>
     <div class="stat-row">
       <div class="stat"><div class="n" id="pv">–</div><div class="l">単語</div></div>
       <div class="stat"><div class="n" id="pg">–</div><div class="l">文法</div></div>
-      <div class="stat"><div class="n" id="pl">–</div><div class="l">リスニング</div></div>
+      <div class="stat"><div class="n" id="pl">–</div><div class="l">応答 P2</div></div>
+      <div class="stat"><div class="n" id="pc">–</div><div class="l">会話 P3</div></div>
+      <div class="stat"><div class="n" id="pr">–</div><div class="l">読解 P7</div></div>
+      <div class="stat"><div class="n" id="ps">–</div><div class="l">英作文</div></div>
     </div>
     <div class="toggle-row" style="margin-bottom:18px">
       <div style="flex:1"><div>試験日</div><div class="sub" id="examSub">残り日数を表示します</div></div>
@@ -265,6 +306,11 @@
       <div class="lenrow"><div style="flex:1;min-width:0"><div style="white-space:nowrap">1セットの問題数</div><div class="sub">1〜50問で自由に設定</div></div>
         <input type="range" id="slen" min="1" max="50" step="1" value="12" style="width:96px"><b id="slenLbl">12問</b></div>
       <div class="presets" id="presets"><span data-n="10">10問</span><span data-n="20">20問</span><span data-n="30">30問</span><span data-n="50">50問</span></div>
+    </div>
+    <div class="toggle-row" style="display:block">
+      <div><div>学習データのバックアップ</div><div class="sub" id="bkSub">記録は端末に保存されます。機種変更前に書き出してください。</div></div>
+      <div class="bkrow"><button id="bkOut">⬇ 書き出す</button><button id="bkIn">⬆ 読み込む</button></div>
+      <input type="file" id="bkFile" accept=".json,application/json" class="hidden">
     </div>
     <div class="toggle-row">
       <div><div>音声読み上げ</div><div class="sub">単語・例文・リスニングを発音</div></div>
@@ -288,6 +334,9 @@
       <div class="tab active" data-tab="vocab">単語<span class="sub">VOCAB</span></div>
       <div class="tab" data-tab="grammar">文法<span class="sub">SPEED</span></div>
       <div class="tab" data-tab="listen">聴解<span class="sub">PART2</span></div>
+      <div class="tab" data-tab="convo">会話<span class="sub">PART3</span></div>
+      <div class="tab" data-tab="reading">読解<span class="sub">PART7</span></div>
+      <div class="tab" data-tab="speak">英作文<span class="sub">SPEAK</span></div>
       <div class="tab" data-tab="review">復習<span class="sub" id="rvTabSub">0</span></div>
     </div>
   </header>
@@ -1329,6 +1378,22 @@ const LISTEN = [
  {"p":"What do you say we order pizza?","o":["I'm all for it.","I said pizza.","The order is late."],"a":0,"t":"提案","ej":"What do you say ~ は提案 → 賛成。"}
 ];
 
+const READING = [{"ty": "Eメール", "ti": "Office Relocation", "tx": "To: All Staff\nFrom: Karen Wells, Facilities\nSubject: Office relocation\n\nAs announced last month, our Kyoto office will move to the Horikawa Building on November 18. Please pack your personal items in the boxes provided by November 15. Movers will transport desks and equipment over the weekend. The IT team will reconnect computers on Monday morning, so please expect limited network access until 11 a.m. If you have any large items that need special handling, contact me by November 10.", "jt": "京都オフィスが11月18日に堀川ビルへ移転。私物は15日までに梱包、特殊な荷物は10日までに連絡。月曜午前11時までネット接続が限定的。", "qs": [{"q": "What is the purpose of the e-mail?", "o": ["To introduce a new employee", "To give details about an office move", "To announce a new IT system", "To request new furniture"], "a": 1, "ej": "移転日・梱包期限などの詳細を伝えている。"}, {"q": "By when should staff pack their personal items?", "o": ["November 10", "November 15", "November 18", "November 20"], "a": 1, "ej": "pack your personal items ... by November 15。"}, {"q": "What will happen on Monday morning?", "o": ["Movers will arrive", "Boxes will be delivered", "Computers will be reconnected", "A party will be held"], "a": 2, "ej": "IT team will reconnect computers on Monday morning。"}]}, {"ty": "お知らせ", "ti": "Parking Notice", "tx": "NOTICE TO ALL TENANTS\n\nThe east parking lot will be closed from April 3 to April 7 for resurfacing. During this period, tenants may park in the west lot or at City Garage on Elm Street. Parking at City Garage is free with a validated ticket, which can be obtained at the front desk of this building. We apologize for any inconvenience.\n— Greenfield Property Management", "jt": "東駐車場が4月3〜7日に舗装工事で閉鎖。西駐車場か市営ガレージを利用。受付で認証すれば無料。", "qs": [{"q": "Why will the east parking lot be closed?", "o": ["It will be repaved", "It will be expanded", "It will be sold", "It will be cleaned"], "a": 0, "ej": "resurfacing（舗装し直し）＝repaved。言い換えに注意。"}, {"q": "How can tenants park at City Garage for free?", "o": ["By arriving early", "By showing a parking permit", "By getting a ticket validated at the front desk", "By paying in advance"], "a": 2, "ej": "validated ticket ... at the front desk。"}]}, {"ty": "広告", "ti": "Bright Clean Services", "tx": "BRIGHT CLEAN SERVICES\nProfessional office cleaning since 2008\n\n• Daily, weekly, or monthly plans\n• Eco-friendly products at no extra cost\n• Fully insured staff\n\nNew customers receive 20% off their first three months. Offer valid for contracts signed before June 30. Call 075-555-0192 for a free on-site estimate.", "jt": "オフィス清掃会社の広告。環境配慮製品は追加料金なし。6月30日までの契約で最初の3か月20%引き。無料見積もりあり。", "qs": [{"q": "What is indicated about Bright Clean Services?", "o": ["It was founded recently", "It uses environmentally friendly products", "It only offers monthly plans", "It charges for estimates"], "a": 1, "ej": "Eco-friendly products ＝ environmentally friendly。"}, {"q": "How can new customers receive a discount?", "o": ["By signing a contract before June 30", "By referring a friend", "By paying annually", "By ordering online"], "a": 0, "ej": "Offer valid for contracts signed before June 30。"}, {"q": "What is offered free of charge?", "o": ["The first month of service", "Window cleaning", "An on-site estimate", "Insurance"], "a": 2, "ej": "a free on-site estimate。"}]}, {"ty": "チャット", "ti": "Text Messages", "tx": "Daniel Ortiz (9:12 A.M.)\nI'm stuck in traffic on Route 9. I might be 20 minutes late for the client meeting.\n\nMiho Sato (9:14 A.M.)\nNo problem. I'll start with the product demo and you can join for the pricing discussion.\n\nDaniel Ortiz (9:15 A.M.)\nThanks. The price sheets are in the blue folder on my desk.\n\nMiho Sato (9:16 A.M.)\nGot it. I'll bring them.", "jt": "渋滞で会議に遅れる同僚の代わりにデモを先に始め、価格表を持っていくやり取り。", "qs": [{"q": "Why is Mr. Ortiz contacting Ms. Sato?", "o": ["To cancel a meeting", "To say he will be late", "To ask for directions", "To request a new price"], "a": 1, "ej": "I might be 20 minutes late。"}, {"q": "At 9:16 A.M., what does Ms. Sato mean when she writes, \"Got it\"?", "o": ["She has received a package", "She understands where the documents are", "She has finished the demo", "She found a parking space"], "a": 1, "ej": "直前の「価格表は青いフォルダ」に対する了解。意図問題は直前の発言を見る。"}, {"q": "What will Ms. Sato most likely do first at the meeting?", "o": ["Discuss pricing", "Present a product demonstration", "Introduce Mr. Ortiz", "Sign a contract"], "a": 1, "ej": "I'll start with the product demo。"}]}, {"ty": "メモ", "ti": "Memo: Expense Reports", "tx": "MEMO\nTo: Sales Department\nFrom: Accounting\nRe: New expense procedure\n\nStarting next month, all expense reports must be submitted through the online system instead of on paper. Receipts should be photographed and uploaded with each report. Reports submitted after the 5th of the following month will be processed in the next payment cycle. A short training session will be held on Thursday at 3 p.m. in Room 402.", "jt": "来月から経費精算は紙ではなくオンライン。領収書は撮影して添付。翌月5日以降の提出は次回支払いへ。木曜15時に402号室で研修。", "qs": [{"q": "What change is being announced?", "o": ["A new payment amount", "A switch to online expense reports", "A new accounting manager", "A change in sales targets"], "a": 1, "ej": "through the online system instead of on paper。"}, {"q": "What should employees do with receipts?", "o": ["Mail them to accounting", "Keep them for one year", "Take photos of them and upload them", "Give them to their manager"], "a": 2, "ej": "Receipts should be photographed and uploaded。"}, {"q": "What will happen on Thursday?", "o": ["A training session", "A sales meeting", "A system upgrade", "A payment"], "a": 0, "ej": "A short training session will be held on Thursday。"}]}, {"ty": "記事", "ti": "Local Business News", "tx": "KYOTO — Hanaya Tea, a family-owned shop founded in 1952, will open its first overseas location in Singapore this spring. The company's president, Yuki Hanaya, said that online orders from Southeast Asia have tripled over the past two years. The new store will feature a tasting counter and offer workshops on traditional tea preparation. Hanaya Tea also plans to hire ten local staff members.", "jt": "1952年創業の茶店が初の海外店をシンガポールに出店。東南アジアからのネット注文が2年で3倍。試飲カウンターと講座を設け、現地で10人採用予定。", "qs": [{"q": "What is the article mainly about?", "o": ["A new tea product", "A company's international expansion", "A change in company leadership", "A cooking competition"], "a": 1, "ej": "first overseas location ＝ 海外展開。"}, {"q": "According to the article, why is the company opening the store?", "o": ["Its online sales from the region have grown", "Rent in Kyoto has increased", "A competitor closed", "The government offered funding"], "a": 0, "ej": "online orders from Southeast Asia have tripled。"}, {"q": "What will the new store offer?", "o": ["Free delivery", "Tea preparation classes", "Discounts for members", "A restaurant"], "a": 1, "ej": "workshops on traditional tea preparation ＝ classes。"}]}, {"ty": "Eメール", "ti": "Order Confirmation", "tx": "Dear Mr. Lin,\n\nThank you for your order (#48210) of 200 printed tote bags. Unfortunately, the navy blue color you selected is temporarily out of stock. We can ship black bags immediately, or navy bags on May 20. Please let us know your preference by replying to this e-mail. If we do not hear from you by May 8, we will ship the black bags.\n\nBest regards,\nAnna Price, Customer Service", "jt": "注文した紺色のバッグが一時在庫切れ。黒なら即発送、紺なら5月20日。5月8日までに返事がなければ黒を発送。", "qs": [{"q": "Why did Ms. Price write to Mr. Lin?", "o": ["To confirm a payment", "To report a problem with an order", "To offer a new product", "To request a review"], "a": 1, "ej": "選んだ色が在庫切れという問題の連絡。"}, {"q": "What will happen if Mr. Lin does not reply by May 8?", "o": ["The order will be canceled", "He will receive a refund", "Black bags will be sent", "Navy bags will be sent on May 20"], "a": 2, "ej": "If we do not hear from you by May 8, we will ship the black bags。"}]}, {"ty": "求人", "ti": "Job Posting", "tx": "Project Coordinator — Exhibition Design\n\nMorita Display Co. seeks a project coordinator to manage trade show booths from design to installation. Responsibilities include scheduling, budget tracking, and communicating with clients and subcontractors. Applicants must have at least three years of related experience and be able to travel domestically. Knowledge of CAD software is preferred but not required. Send a résumé and portfolio to hr@moritadisplay.jp by July 31.", "jt": "展示会ブース設計〜施工を管理するプロジェクトコーディネーター募集。経験3年以上、国内出張可。CADは歓迎だが必須ではない。7月31日までに履歴書と作品集を送付。", "qs": [{"q": "What is a requirement for the position?", "o": ["CAD certification", "Three years of related experience", "International travel", "A design degree"], "a": 1, "ej": "must have at least three years of related experience。CADは preferred（歓迎）。"}, {"q": "What is NOT mentioned as a responsibility?", "o": ["Scheduling", "Tracking budgets", "Hiring new staff", "Communicating with subcontractors"], "a": 2, "ej": "NOT問題は選択肢を本文と1つずつ照合。採用業務は書かれていない。"}, {"q": "What should applicants submit?", "o": ["A cover letter only", "A résumé and a portfolio", "References", "A completed test"], "a": 1, "ej": "Send a résumé and portfolio。"}]}, {"ty": "お知らせ", "ti": "Library Hours", "tx": "Riverside Public Library\n\nBeginning September 1, the library will extend its weekday hours to 9 p.m. to better serve working residents. Weekend hours will remain 10 a.m. to 5 p.m. In addition, the second-floor study rooms can now be reserved online up to one week in advance. Each reservation is limited to two hours.", "jt": "9月1日から平日の開館時間を21時まで延長。週末は変わらず。2階の学習室は1週間前からネット予約可、1回2時間まで。", "qs": [{"q": "Why is the library changing its hours?", "o": ["To reduce costs", "To accommodate people who work", "To hold special events", "To prepare for renovation"], "a": 1, "ej": "to better serve working residents。"}, {"q": "What is true about the study rooms?", "o": ["They are on the first floor", "They can be booked online", "They are free on weekends only", "They can be reserved for a full day"], "a": 1, "ej": "can now be reserved online。2時間まで。"}]}, {"ty": "Eメール", "ti": "Meeting Follow-up", "tx": "Hi Team,\n\nThanks for a productive meeting this morning. To summarize: Raj will finalize the supplier list by Friday, Emma will draft the customer survey, and I will present the updated budget to management next Tuesday. Our next meeting is moved from Wednesday to Thursday at 10 a.m. because the conference room is unavailable.\n\nBest,\nLaura", "jt": "会議のまとめ。ラジは金曜までに仕入先リスト、エマはアンケート案、ローラは来週火曜に予算説明。次回会議は会議室の都合で木曜10時に変更。", "qs": [{"q": "What will Laura do next Tuesday?", "o": ["Finalize a supplier list", "Write a survey", "Present a budget", "Book a room"], "a": 2, "ej": "I will present the updated budget ... next Tuesday。"}, {"q": "Why was the next meeting rescheduled?", "o": ["Laura will be traveling", "A room is not available", "A client requested it", "The budget is not ready"], "a": 1, "ej": "because the conference room is unavailable。"}]}, {"ty": "レビュー", "ti": "Customer Review", "tx": "★★★★☆\nI ordered a standing desk from Office Plus for my home office. The desk is sturdy and the height adjusts smoothly. Assembly took about an hour, a bit longer than the 30 minutes stated in the manual. Delivery was two days earlier than promised, which was a pleasant surprise. I would recommend it, but the price is slightly high compared to similar models.\n— T. Nakamura", "jt": "スタンディングデスクのレビュー。頑丈で高さ調整もスムーズ。組立は説明書の30分より長い約1時間。配送は予定より2日早い。価格はやや高め。", "qs": [{"q": "What did the reviewer like about the delivery?", "o": ["It was free", "It arrived early", "It included assembly", "It was well packaged"], "a": 1, "ej": "two days earlier than promised。"}, {"q": "What was a drawback of the product?", "o": ["It was unstable", "It was difficult to adjust", "Its price was somewhat high", "It arrived damaged"], "a": 2, "ej": "the price is slightly high。"}, {"q": "What is suggested about the assembly?", "o": ["It required special tools", "It took longer than expected", "It was done by the store", "It took 30 minutes"], "a": 1, "ej": "about an hour, a bit longer than the 30 minutes stated。"}]}, {"ty": "案内", "ti": "Seminar Schedule", "tx": "Small Business Growth Seminar\nSaturday, October 12 — Kyoto Convention Hall\n\n9:30 Registration\n10:00 Keynote: \"Building a Brand Online\" — Dr. Lisa Moore\n11:30 Panel: Financing Options for Startups\n12:30 Lunch (provided)\n1:30 Workshop: Social Media Marketing\n\nAdmission: ¥3,000 (¥2,000 if registered by October 1)", "jt": "中小企業セミナー。基調講演、パネル、昼食付き、SNS講座。参加費3,000円、10月1日までの登録で2,000円。", "qs": [{"q": "What will happen at 11:30?", "o": ["Registration", "A keynote speech", "A discussion on funding", "Lunch"], "a": 2, "ej": "Panel: Financing Options ＝ 資金調達の議論。"}, {"q": "How can participants pay less?", "o": ["By registering early", "By bringing a colleague", "By skipping lunch", "By attending only the morning"], "a": 0, "ej": "¥2,000 if registered by October 1。"}]}, {"ty": "Eメール", "ti": "Complaint Response", "tx": "Dear Ms. Green,\n\nWe are sorry to hear that your hotel room was not cleaned during your stay on March 3. This does not reflect our usual standards. We have shared your comments with our housekeeping manager. As an apology, we would like to offer you a complimentary night on your next visit. Please use the code GUEST24 when booking on our website.\n\nSincerely,\nMarco Ruiz, Guest Relations Manager", "jt": "部屋が清掃されていなかった苦情への謝罪。清掃責任者に共有し、次回1泊無料。予約時にコード入力。", "qs": [{"q": "What problem did Ms. Green report?", "o": ["Her bill was incorrect", "Her room was not cleaned", "Her reservation was lost", "The hotel was noisy"], "a": 1, "ej": "your hotel room was not cleaned。"}, {"q": "What is Ms. Green offered?", "o": ["A refund", "A room upgrade", "A free night", "A meal voucher"], "a": 2, "ej": "complimentary night ＝ 無料宿泊。complimentary は頻出。"}]}, {"ty": "記事", "ti": "Company Announcement", "tx": "Nova Electronics announced on Monday that Ken Ishida will become its new chief executive officer on January 1. Mr. Ishida, who currently leads the company's European division, joined Nova as an engineer 18 years ago. He will replace Susan Clark, who is retiring after ten years as CEO. Ms. Clark will remain on the board of directors as an adviser.", "jt": "ノヴァ社の新CEOに欧州部門長のイシダ氏が1月1日就任。18年前に技術者として入社。退任するクラーク氏は顧問として取締役会に残る。", "qs": [{"q": "What is the article mainly about?", "o": ["A product launch", "A leadership change", "A company merger", "A new factory"], "a": 1, "ej": "新CEO就任＝経営陣の交代。"}, {"q": "What is true about Mr. Ishida?", "o": ["He is new to the company", "He started at Nova as an engineer", "He will retire next year", "He works in Asia"], "a": 1, "ej": "joined Nova as an engineer 18 years ago。"}, {"q": "What will Ms. Clark do after January 1?", "o": ["Leave the company completely", "Lead the European division", "Serve as an adviser", "Start a new company"], "a": 2, "ej": "remain on the board of directors as an adviser。"}]}, {"ty": "フォーム", "ti": "Feedback Form", "tx": "Workshop Feedback — Presentation Skills\nName: Ryo Tanaka   Department: Marketing\n\nOverall rating: 4 / 5\nComments: The instructor gave practical tips that I can use right away, especially on opening a talk. However, the session was too short to practice in groups. I would attend a follow-up session if it included more hands-on exercises.", "jt": "プレゼン研修の感想。実践的なコツは良かったが、グループ練習の時間が短い。実習が増えるなら続編に参加したい。", "qs": [{"q": "What did Mr. Tanaka like about the workshop?", "o": ["The location", "The practical advice", "The length", "The handouts"], "a": 1, "ej": "practical tips that I can use right away。"}, {"q": "What does Mr. Tanaka suggest?", "o": ["Shortening the session", "Adding more practice activities", "Changing the instructor", "Holding it online"], "a": 1, "ej": "more hands-on exercises ＝ 実習を増やす。"}]}, {"ty": "お知らせ", "ti": "System Maintenance", "tx": "IT Notice: Scheduled Maintenance\n\nThe company e-mail system will be unavailable on Saturday, June 8, from 10 p.m. to 2 a.m. During this time, messages sent to you will be stored and delivered once service resumes. Employees who need to contact clients urgently during this period should use their company mobile phones. No action is required on your part.", "jt": "土曜22時〜2時にメール停止。届いたメールは復旧後に配信。急ぎは会社携帯で。対応は不要。", "qs": [{"q": "What will happen to messages sent during the maintenance?", "o": ["They will be deleted", "They will be returned to the sender", "They will be delivered later", "They will be forwarded to mobile phones"], "a": 2, "ej": "stored and delivered once service resumes。"}, {"q": "What are employees asked to do?", "o": ["Change their passwords", "Nothing in particular", "Back up their files", "Log out by 10 p.m."], "a": 1, "ej": "No action is required on your part。"}]}];
+
+const CONVO = [{"sc": [["W", "Hi, I'm calling about the conference room booking for Friday. We need it from two to four."], ["M", "Let me check. I'm sorry, Room A is already booked then, but Room C is free."], ["W", "Room C is fine. Does it have a projector?"], ["M", "It does. I'll also have someone set up chairs for twelve people."]], "jt": "金曜の会議室予約。Aは埋まっていてCを案内。プロジェクターあり、12人分の椅子を準備。", "qs": [{"q": "Why is the woman calling?", "o": ["To cancel a meeting", "To reserve a room", "To order a projector", "To change a delivery"], "a": 1, "ej": "calling about the conference room booking。"}, {"q": "What problem does the man mention?", "o": ["A projector is broken", "A room is unavailable", "The building is closed", "The price has increased"], "a": 1, "ej": "Room A is already booked。"}, {"q": "What does the man say he will do?", "o": ["Send an invoice", "Arrange seating", "Call back later", "Book a restaurant"], "a": 1, "ej": "set up chairs for twelve people ＝ arrange seating。"}]}, {"sc": [["M", "Excuse me, I bought this printer here last week, but it keeps jamming."], ["W", "I'm sorry about that. Do you have your receipt?"], ["M", "Yes, here it is."], ["W", "Thank you. Since it's still under warranty, I can exchange it for a new one right now."]], "jt": "先週買ったプリンターが詰まる。レシートを確認し、保証期間内なので新品と交換。", "qs": [{"q": "Where most likely are the speakers?", "o": ["At a bank", "At an electronics store", "At a post office", "At a printing company"], "a": 1, "ej": "bought this printer here ＝ 家電店。場所問題は冒頭がヒント。"}, {"q": "What does the woman ask for?", "o": ["An ID card", "A receipt", "A phone number", "A credit card"], "a": 1, "ej": "Do you have your receipt?"}, {"q": "What will the woman do next?", "o": ["Repair the printer", "Give a refund", "Replace the printer", "Call a technician"], "a": 2, "ej": "exchange it for a new one ＝ replace。"}]}, {"sc": [["W", "Tom, have you finished the sales report for the Osaka branch?"], ["M", "Almost. I'm still waiting for the figures from the marketing team."], ["W", "The director wants it by tomorrow morning."], ["M", "OK. I'll call marketing right now and finish it tonight."]], "jt": "大阪支店の売上報告書。マーケティングの数字待ち。明朝締切なので今すぐ電話して今夜仕上げる。", "qs": [{"q": "What are the speakers discussing?", "o": ["A job interview", "A sales report", "A new branch opening", "A marketing campaign"], "a": 1, "ej": "the sales report for the Osaka branch。"}, {"q": "Why has the man not finished his work?", "o": ["He was on vacation", "He needs data from another team", "His computer broke", "He was given the wrong deadline"], "a": 1, "ej": "waiting for the figures from the marketing team。"}, {"q": "What will the man do next?", "o": ["Contact a department", "Meet the director", "Go to Osaka", "Ask for an extension"], "a": 0, "ej": "I'll call marketing right now。"}]}, {"sc": [["M", "Welcome to Lakeside Hotel. How can I help you?"], ["W", "I have a reservation under Kimura for three nights."], ["M", "Yes, Ms. Kimura. Breakfast is served from seven to ten in the restaurant on the second floor."], ["W", "Great. And could I get a late checkout on my last day?"], ["M", "Certainly. I can extend it to one o'clock at no charge."]], "jt": "ホテルのチェックイン。3泊予約。朝食は2階で7〜10時。最終日のレイトチェックアウトを13時まで無料で延長。", "qs": [{"q": "Who most likely is the man?", "o": ["A chef", "A hotel receptionist", "A travel agent", "A taxi driver"], "a": 1, "ej": "Welcome to Lakeside Hotel ＝ フロント係。"}, {"q": "Where is breakfast served?", "o": ["In the lobby", "In the guest rooms", "On the second floor", "Next door"], "a": 2, "ej": "in the restaurant on the second floor。"}, {"q": "What does the woman request?", "o": ["A room upgrade", "A later checkout time", "Airport transportation", "A wake-up call"], "a": 1, "ej": "could I get a late checkout。"}]}, {"sc": [["W", "Did you hear the train line to the airport is closed this weekend for repairs?"], ["M", "Really? I'm flying to Seoul on Saturday morning."], ["W", "There's a shuttle bus from the central station instead. It leaves every twenty minutes."], ["M", "Thanks. I'd better leave home earlier than I planned."]], "jt": "週末は空港線が工事で運休。代わりに中央駅から20分おきのシャトルバス。早めに出発する。", "qs": [{"q": "What problem does the woman mention?", "o": ["A flight is delayed", "A train service is suspended", "A bus is full", "A road is closed"], "a": 1, "ej": "train line ... is closed this weekend for repairs。"}, {"q": "What does the woman suggest?", "o": ["Taking a taxi", "Changing the flight", "Using a shuttle bus", "Driving to the airport"], "a": 2, "ej": "There's a shuttle bus ... instead。"}, {"q": "What does the man decide to do?", "o": ["Cancel his trip", "Depart earlier", "Stay at a hotel", "Fly on Sunday"], "a": 1, "ej": "leave home earlier than I planned。"}]}, {"sc": [["M", "Hi, Sarah. I'm putting together the budget for the company picnic. Do you know how many people are coming?"], ["W", "About eighty, including families."], ["M", "That's more than last year. We might need a bigger venue."], ["W", "I can call Greenwood Park to see if the large pavilion is available."]], "jt": "社内ピクニックの予算。家族込みで約80人と昨年より多い。大きな会場が必要かも。公園の大型パビリオンの空きを確認する。", "qs": [{"q": "What event are the speakers planning?", "o": ["A conference", "A company picnic", "A product launch", "A retirement party"], "a": 1, "ej": "the company picnic。"}, {"q": "What does the man say about the number of attendees?", "o": ["It is smaller than expected", "It has increased from last year", "It is not confirmed", "It includes clients"], "a": 1, "ej": "That's more than last year。"}, {"q": "What does the woman offer to do?", "o": ["Prepare food", "Check a venue's availability", "Send invitations", "Reduce the budget"], "a": 1, "ej": "see if the large pavilion is available。"}]}, {"sc": [["W", "Hello, this is Dr. Lee's office. I'm calling to remind you of your appointment tomorrow at ten."], ["M", "Oh, thank you. Actually, something came up at work. Could I come in the afternoon instead?"], ["W", "We have an opening at three thirty."], ["M", "That works. Please put me down for three thirty."]], "jt": "歯科（医院）の予約確認電話。仕事の都合で午後に変更希望、15時半に変更。", "qs": [{"q": "Why is the woman calling?", "o": ["To confirm an appointment", "To request payment", "To offer a job", "To cancel a delivery"], "a": 0, "ej": "remind you of your appointment ＝ 予約確認。"}, {"q": "Why does the man want to change the time?", "o": ["He is ill", "He has a work commitment", "He will be traveling", "He forgot the address"], "a": 1, "ej": "something came up at work。"}, {"q": "What time will the man come?", "o": ["10:00 a.m.", "1:00 p.m.", "3:00 p.m.", "3:30 p.m."], "a": 3, "ej": "put me down for three thirty。"}]}, {"sc": [["M", "Linda, the client just e-mailed. They want to see three logo designs instead of two."], ["W", "Three? We present them on Thursday. That doesn't give us much time."], ["M", "I know. Could you ask Ben to help with the third one?"], ["W", "Sure. He just finished another project, so he should have time."]], "jt": "顧客がロゴ案を2案から3案に増やしたいと要望。木曜発表で時間がない。手が空いたベンに3案目を頼む。", "qs": [{"q": "What did the client request?", "o": ["A lower price", "An additional design", "An earlier meeting", "A different color"], "a": 1, "ej": "three logo designs instead of two ＝ 追加1案。"}, {"q": "What is the woman concerned about?", "o": ["The budget", "The schedule", "The quality", "The client's location"], "a": 1, "ej": "That doesn't give us much time。"}, {"q": "What does the woman say about Ben?", "o": ["He is on vacation", "He is available", "He is the client", "He made a mistake"], "a": 1, "ej": "he should have time ＝ 手が空いている。"}]}, {"sc": [["W", "I'd like to open a business account for my bakery."], ["M", "Certainly. Have you brought your business registration certificate?"], ["W", "Yes, and my ID."], ["M", "Perfect. The process takes about twenty minutes. Please have a seat and fill out this form."]], "jt": "パン屋の事業用口座開設。登録証と身分証を持参。約20分。座って用紙記入。", "qs": [{"q": "Where most likely does the conversation take place?", "o": ["At a bakery", "At a bank", "At a city office", "At a law firm"], "a": 1, "ej": "open a business account ＝ 銀行。"}, {"q": "What does the man ask about?", "o": ["A registration document", "A recipe", "An appointment time", "A loan amount"], "a": 0, "ej": "business registration certificate。"}, {"q": "What does the man ask the woman to do?", "o": ["Come back later", "Complete a form", "Call her accountant", "Pay a fee"], "a": 1, "ej": "fill out this form。"}]}, {"sc": [["M", "The new coffee machine in the break room isn't working."], ["W", "Again? I reported it to facilities on Monday."], ["M", "Maybe we should contact the supplier directly. It's still under warranty."], ["W", "Good idea. I'll find their number in the purchase records."]], "jt": "休憩室の新しいコーヒーマシンが故障。月曜に施設担当へ報告済み。保証期間内なので業者に直接連絡、購入記録で番号を探す。", "qs": [{"q": "What problem are the speakers discussing?", "o": ["A broken machine", "A late delivery", "A missing order", "A high bill"], "a": 0, "ej": "isn't working ＝ 故障。"}, {"q": "What does the man suggest?", "o": ["Buying a new machine", "Contacting the supplier", "Moving the break room", "Asking a coworker"], "a": 1, "ej": "contact the supplier directly。"}, {"q": "What will the woman do next?", "o": ["Look up contact information", "Repair the machine", "Visit facilities", "Write a review"], "a": 0, "ej": "find their number ＝ 連絡先を調べる。"}]}, {"sc": [["W", "How did the trade show in Tokyo go?"], ["M", "Very well. We collected over two hundred business cards, and several companies want samples."], ["W", "That's great. When can we send them?"], ["M", "The warehouse said they can ship by Wednesday."]], "jt": "東京の展示会は好評。名刺200枚超、複数社がサンプル希望。倉庫が水曜までに発送可能。", "qs": [{"q": "What event did the man attend?", "o": ["A training session", "A trade show", "A job fair", "A board meeting"], "a": 1, "ej": "the trade show in Tokyo。"}, {"q": "What do some companies want?", "o": ["Product samples", "A discount", "A catalog", "A meeting"], "a": 0, "ej": "several companies want samples。"}, {"q": "According to the man, what will happen by Wednesday?", "o": ["Contracts will be signed", "Samples will be shipped", "A report will be written", "Payment will arrive"], "a": 1, "ej": "can ship by Wednesday。"}]}, {"sc": [["M", "I'm thinking about taking the online data analysis course the company is offering."], ["W", "I took it last spring. It was really useful for my reports."], ["M", "How long does it take?"], ["W", "About six weeks, two hours a week. And the company pays the full fee."]], "jt": "会社提供のデータ分析オンライン講座。女性は昨春受講し役立った。6週間・週2時間、費用は会社が全額負担。", "qs": [{"q": "What are the speakers mainly discussing?", "o": ["A software purchase", "A training course", "A new report format", "A job opening"], "a": 1, "ej": "online data analysis course。"}, {"q": "What does the woman say about the course?", "o": ["It was difficult", "It was helpful", "It was expensive", "It was canceled"], "a": 1, "ej": "really useful ＝ helpful。"}, {"q": "Who will pay for the course?", "o": ["The man", "The woman", "The company", "The instructor"], "a": 2, "ej": "the company pays the full fee。"}]}, {"sc": [["W", "Excuse me, I'm looking for the shoes I saw on your website, but I can't find them in the store."], ["M", "Some online items are only sold on the website. Let me check our system."], ["M", "Yes, they're online only. But I can order them for you and have them delivered here for free."], ["W", "Great, please do that."]], "jt": "サイトで見た靴が店頭にない。ネット限定商品だが、店員が注文して店舗への無料配送を手配。", "qs": [{"q": "What is the woman looking for?", "o": ["A store location", "A pair of shoes", "A refund", "A gift card"], "a": 1, "ej": "the shoes I saw on your website。"}, {"q": "What does the man explain?", "o": ["The item is sold out", "The item is only available online", "The store is closing", "The price has changed"], "a": 1, "ej": "they're online only。"}, {"q": "What does the man offer?", "o": ["A discount", "Free delivery to the store", "A different color", "A membership card"], "a": 1, "ej": "delivered here for free。"}]}, {"sc": [["M", "Our team lunch is scheduled for Friday, but it's supposed to rain."], ["W", "We booked the patio at Riverside Grill, right?"], ["M", "Yes. Maybe we should ask if they have a table inside."], ["W", "I'll call them this afternoon."]], "jt": "金曜のチームランチは雨予報。テラス席を予約済みなので、屋内席があるか確認。午後に電話する。", "qs": [{"q": "What is the man concerned about?", "o": ["The cost", "The weather", "The menu", "The location"], "a": 1, "ej": "it's supposed to rain。"}, {"q": "What does the man suggest?", "o": ["Canceling the lunch", "Changing to an indoor table", "Moving the date", "Ordering delivery"], "a": 1, "ej": "ask if they have a table inside。"}, {"q": "What will the woman do this afternoon?", "o": ["Contact the restaurant", "Send a memo", "Check the forecast", "Buy umbrellas"], "a": 0, "ej": "I'll call them ＝ レストランに連絡。"}]}, {"sc": [["W", "Hi, Mr. Park. I'm calling from Apex Recruiting. We'd like to invite you for a second interview."], ["M", "Thank you. When would that be?"], ["W", "Next Tuesday at eleven. You'll meet the department manager, and please bring samples of your design work."], ["M", "I'll be there. Thank you."]], "jt": "人材会社から二次面接の案内。来週火曜11時、部長と面談。デザイン作品のサンプルを持参。", "qs": [{"q": "Why is the woman calling?", "o": ["To offer a job", "To arrange an interview", "To request a reference", "To cancel an application"], "a": 1, "ej": "invite you for a second interview。"}, {"q": "Who will the man meet?", "o": ["The company president", "A department manager", "Another applicant", "A recruiter"], "a": 1, "ej": "You'll meet the department manager。"}, {"q": "What should the man bring?", "o": ["A certificate", "Examples of his work", "A reference letter", "His passport"], "a": 1, "ej": "samples of your design work ＝ examples。"}]}, {"sc": [["M", "The shipment of paper for the print shop arrived, but we got only half of what we ordered."], ["W", "Did the driver say anything?"], ["M", "He said the rest will come on Monday. But we have a big job due on Saturday."], ["W", "Then let's borrow some from our other branch for now."]], "jt": "印刷用紙が半分しか届かず残りは月曜。土曜締切の大口案件があるので、当面は他支店から借りる。", "qs": [{"q": "What problem does the man report?", "o": ["An order was incomplete", "A machine broke", "A driver was late", "A price was wrong"], "a": 0, "ej": "only half of what we ordered。"}, {"q": "Why is the man worried?", "o": ["A large job is due soon", "A client complained", "The shop will close", "A worker is absent"], "a": 0, "ej": "a big job due on Saturday。"}, {"q": "What does the woman suggest?", "o": ["Canceling the job", "Borrowing supplies from another location", "Ordering from a new supplier", "Working on Sunday"], "a": 1, "ej": "borrow some from our other branch。"}]}];
+
+const PHRASES = [["メール", "ご連絡ありがとうございます。", "Thank you for getting in touch."], ["メール", "添付の資料をご確認ください。", "Please find the attached document."], ["メール", "ご返信が遅くなり申し訳ありません。", "I apologize for the late reply."], ["メール", "ご都合のよい日時をお知らせください。", "Please let me know when would be convenient for you."], ["メール", "ご不明な点があればお気軽にご連絡ください。", "If you have any questions, please feel free to contact me."], ["メール", "引き続きよろしくお願いいたします。", "I look forward to continuing to work with you."], ["メール", "念のため確認させてください。", "Just to confirm, could you check this for me?"], ["メール", "この件について進捗を共有します。", "I'd like to give you an update on this matter."], ["メール", "金曜日までにご返答いただけますか。", "Could you get back to me by Friday?"], ["メール", "来週お打ち合わせの時間をいただけますか。", "Could we schedule a meeting next week?"], ["会議", "始めましょうか。", "Shall we get started?"], ["会議", "本日の議題は三つあります。", "We have three items on today's agenda."], ["会議", "その点について補足させてください。", "Let me add something to that point."], ["会議", "もう少し詳しく説明していただけますか。", "Could you explain that in a little more detail?"], ["会議", "おっしゃることはわかりますが、別の見方もあります。", "I see your point, but there's another way to look at it."], ["会議", "その案に賛成です。", "I agree with that proposal."], ["会議", "時間が押しているので次に進みましょう。", "We're running short on time, so let's move on."], ["会議", "この件は持ち帰って検討します。", "Let me take this back and think it over."], ["会議", "次のステップを確認しましょう。", "Let's go over the next steps."], ["会議", "誰がこの作業を担当しますか。", "Who will be in charge of this task?"], ["電話", "お電話ありがとうございます。営業部の的場です。", "Thank you for calling. This is Matoba from the sales department."], ["電話", "田中さんはいらっしゃいますか。", "May I speak to Mr. Tanaka, please?"], ["電話", "ただいま席を外しております。", "He's away from his desk at the moment."], ["電話", "折り返しお電話させましょうか。", "Would you like him to call you back?"], ["電話", "伝言をお願いできますか。", "Could I leave a message?"], ["電話", "少々お待ちください。", "Please hold for a moment."], ["電話", "もう一度おっしゃっていただけますか。", "Could you say that again, please?"], ["電話", "電波が悪いようです。", "I'm afraid the connection is bad."], ["交渉", "ご予算はどのくらいですか。", "What is your budget for this?"], ["交渉", "数量によっては割引が可能です。", "We can offer a discount depending on the quantity."], ["交渉", "その価格では難しいです。", "That price would be difficult for us."], ["交渉", "納期を一週間早めることは可能ですか。", "Would it be possible to move the delivery date up by a week?"], ["交渉", "お互いに納得できる条件を探しましょう。", "Let's find terms that work for both of us."], ["交渉", "社内で確認してからご連絡します。", "I'll check internally and get back to you."], ["交渉", "見積もりをお送りいただけますか。", "Could you send us a quote?"], ["現場", "作業は予定どおり進んでいます。", "The work is progressing on schedule."], ["現場", "二日ほど遅れが出ています。", "We're running about two days behind schedule."], ["現場", "安全確認を最優先してください。", "Please make safety checks your top priority."], ["現場", "図面に変更があります。", "There's been a change to the drawings."], ["現場", "材料が明日の朝に届きます。", "The materials will arrive tomorrow morning."], ["現場", "設置は今日中に完了する予定です。", "We expect to finish the installation today."], ["現場", "問題が見つかったのですぐに対応します。", "We found a problem, so we'll deal with it right away."], ["現場", "業者と調整して日程を決めます。", "I'll coordinate with the contractors to set the schedule."], ["プレゼン", "本日はお時間をいただきありがとうございます。", "Thank you for taking the time to meet with us today."], ["プレゼン", "まず概要からご説明します。", "Let me start with an overview."], ["プレゼン", "こちらのグラフをご覧ください。", "Please take a look at this chart."], ["プレゼン", "要点は三つです。", "There are three key points."], ["プレゼン", "この結果、コストを48%削減できました。", "As a result, we were able to cut costs by 48 percent."], ["プレゼン", "ご質問があればどうぞ。", "I'd be happy to take any questions."], ["プレゼン", "まとめると、この計画は費用対効果が高いです。", "To sum up, this plan is highly cost-effective."], ["面接", "展示会の設計から施工まで15年の経験があります。", "I have fifteen years of experience in exhibition design and construction."], ["面接", "複数の業者をまとめて大型案件を管理してきました。", "I've managed large projects by coordinating multiple contractors."], ["面接", "私の強みは設計と現場の両方を理解していることです。", "My strength is that I understand both design and on-site work."], ["面接", "御社のプロジェクトに貢献したいと考えています。", "I'd like to contribute to your company's projects."], ["日常業務", "この資料を確認していただけますか。", "Could you take a look at this document?"], ["日常業務", "手伝いましょうか。", "Would you like some help?"], ["日常業務", "今日中に終わらせます。", "I'll get it done by the end of the day."], ["日常業務", "優先順位を教えてください。", "Could you tell me which is the priority?"], ["日常業務", "確認でき次第ご連絡します。", "I'll let you know as soon as I confirm."], ["日常業務", "お先に失礼します。", "I'm heading out now. See you tomorrow."]];
+
+/* 英作文の出題プール：ビジネス定番 + 文法例文 + 単語例文 */
+const SPEAK = (()=>{
+  const out=[];
+  PHRASES.forEach((x,n)=>out.push({id:"p"+n,src:"p",sc:x[0],ja:x[1],en:x[2]}));
+  GRAMMAR.forEach((g,i)=>out.push({id:"g"+i,src:"g",sc:"文法："+g.c,ja:g.jt,en:g.q.replace("___",g.o[g.a])}));
+  VOCAB.forEach((v,i)=>(v.ex||[]).forEach((e,j)=>out.push({id:"v"+i+"_"+j,src:"v",sc:"単語："+v.w,ja:e.t,en:e.e})));
+  return out;
+})();
+const SPEAK_IDX={}; SPEAK.forEach((x,n)=>SPEAK_IDX[x.id]=n);
+
 /* ============================ STATE / STORAGE ============================ */
 const LS="toeic800pro_v1";
 let mem={};
@@ -1341,6 +1406,7 @@ let state = Store.get(LS) || {examDate:null,settings:{voice:true,rate:0.92},v:{}
 state.settings = state.settings || {voice:true,rate:0.92};
 state.v=state.v||{}; state.g=state.g||{}; state.l=state.l||{};
 state.rv=state.rv||{}; state.rvDone=state.rvDone||{};
+state.r=state.r||{}; state.c=state.c||{}; state.s=state.s||{};
 if(!state.settings.len) state.settings.len=12;
 function save(){ Store.set(LS,state); }
 
@@ -1422,13 +1488,17 @@ function esc(t){ return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",
 function rvLabel(x){
   if(x.k==="v"){ const it=VOCAB[x.i]; return it?`${it.w} — ${it.j}`:"?"; }
   if(x.k==="g"){ const it=GRAMMAR[x.i]; return it?it.q.replace("___",it.o[it.a].toUpperCase()):"?"; }
+  if(x.k==="r"){ const it=READING[x.i]; return it?`${it.ty}：${it.ti}`:"?"; }
+  if(x.k==="c"){ const it=CONVO[x.i]; return it?it.sc[0][1]:"?"; }
+  if(x.k==="s"){ const it=SPEAK[SPEAK_IDX[x.i]]; return it?it.ja:"?"; }
   const it=LISTEN[x.i]; return it?it.p:"?";
 }
+const KLABEL={v:"単語",g:"文法",l:"応答",c:"会話",r:"読解",s:"英作"};
 function rvWhen(x){ const d=x.due-Date.now(); return d<=0?"今日":`${Math.ceil(d/DAY)}日後`; }
 function rvRenderList(){
   const el=$("rvList"); const items=rvItems().sort((a,b)=>a.due-b.due);
   if(!items.length){ el.innerHTML='<div style="padding:12px 0;color:var(--dim);font-size:13px">登録はまだありません。問題を解いた直後の「＋ 復習帳に追加」で登録できます。</div>'; return; }
-  el.innerHTML=items.map(x=>`<div class="rvitem"><span class="ty">${x.k==="v"?"単語":x.k==="g"?"文法":"聴解"}</span><span class="tx">${esc(rvLabel(x))}</span><span class="nx">${"●".repeat(x.st)}${"○".repeat(RV_GRAD-x.st)} ${rvWhen(x)}</span><button class="x" data-key="${rvKey(x.k,x.i)}" aria-label="削除">×</button></div>`).join("");
+  el.innerHTML=items.map(x=>`<div class="rvitem"><span class="ty">${KLABEL[x.k]||"?"}</span><span class="tx">${esc(rvLabel(x))}</span><span class="nx">${"●".repeat(x.st)}${"○".repeat(RV_GRAD-x.st)} ${rvWhen(x)}</span><button class="x" data-key="${rvKey(x.k,x.i)}" aria-label="削除">×</button></div>`).join("");
   el.querySelectorAll(".x").forEach(b=>b.onclick=()=>{ delete state.rv[b.dataset.key]; save(); rvRefreshCounts(); rvRenderList(); });
 }
 /* 解答直後のワンタップ登録ボタン */
@@ -1443,7 +1513,10 @@ function mountRv(k,i){
   const anchor=post.querySelector(".next-btn,.taphint");
   if(anchor) anchor.parentNode.insertBefore(b,anchor); else post.appendChild(b);
 }
-function curItem(){ const q=queue[qi]; return tab==="review"?q:{k:tab==="vocab"?"v":tab==="grammar"?"g":"l",i:q}; }
+const TAB2K={vocab:"v",grammar:"g",listen:"l",convo:"c",reading:"r",speak:"s"};
+function curItem(){ const q=queue[qi]; return tab==="review"?q:{k:TAB2K[tab],i:q}; }
+function xStat(k,i){ const m=state[k]; return (m&&m[i])||{r:0,wr:0}; }
+function xRecord(k,i,ok){ const st=xStat(k,i); ok?st.r++:st.wr++; state[k][i]=st; save(); }
 function afterAnswer(ok){
   const c=curItem();
   if(tab==="review"){
@@ -1460,6 +1533,20 @@ function buildQueue(){
   if(tab==="review"){
     const items=(mode==="all"? rvItems() : rvDueItems()).sort((a,b)=>a.due-b.due);
     queue=items.slice(0,SESSION_LEN).map(x=>({k:x.k,i:x.i})); shuffle(queue);
+    return;
+  }
+  if(tab==="reading"||tab==="convo"){
+    const k=TAB2K[tab], arr=tab==="reading"?READING:CONVO;
+    let idxs=arr.map((_,i)=>i);
+    if(mode==="weak") idxs=idxs.filter(i=>xStat(k,i).wr>0);
+    if(mode==="new") idxs=idxs.filter(i=>{const st=xStat(k,i);return st.r+st.wr===0;});
+    if(idxs.length===0) idxs=arr.map((_,i)=>i);
+    shuffle(idxs); queue=idxs.slice(0,Math.min(SESSION_LEN,idxs.length)); return;
+  }
+  if(tab==="speak"){
+    let pool=SPEAK.filter(x=> mode==="weak"? xStat("s",x.id).wr>0 : x.src===(mode||"p"));
+    if(pool.length===0) pool=SPEAK.filter(x=>x.src==="p");
+    queue=weightedPick(pool,(x)=>{const st=xStat("s",x.id);return Math.max(0.2,1+st.wr*2-st.r*0.7);},Math.min(SESSION_LEN,pool.length)).map(n=>pool[n].id);
     return;
   }
   if(tab==="vocab"){
@@ -1485,7 +1572,13 @@ function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.rando
 function renderModes(){
   const m=$("modes"); m.innerHTML="";
   let chips=[];
-  if(tab==="review"){
+  if(tab==="reading"||tab==="convo"){
+    chips=[["all","全範囲"],["new","未着手"],["weak","★弱点"]];
+    if(!["all","new","weak"].includes(mode)) mode="all";
+  } else if(tab==="speak"){
+    chips=[["p","ビジネス定番"],["g","文法例文"],["v","単語例文"],["weak","★言えなかった"]];
+    if(!["p","g","v","weak"].includes(mode)) mode="p";
+  } else if(tab==="review"){
     chips=[["due","今日の分"],["all","登録すべて"]];
     if(!["due","all"].includes(mode)) mode="due";
   } else if(tab==="grammar"){
@@ -1516,7 +1609,7 @@ function updateProgress(){
   $("pcount").textContent=`${Math.min(qi+1,total)} / ${total}`;
   $("pbar").style.width=(total?(qi/total*100):0)+"%";
   $("paccu").textContent= sessionTotal? `正答率 ${Math.round(sessionRight/sessionTotal*100)}%` : "正答率 –";
-  $("hcount").innerHTML = tab==="review"?`復習帳 <b>${rvItems().length}</b>`: tab==="vocab"?`単語 <b>${VOCAB.length}</b>`:tab==="grammar"?`文法 <b>${GRAMMAR.length}</b>`:`聴解 <b>${LISTEN.length}</b>`;
+  $("hcount").innerHTML = tab==="reading"?`読解 <b>${READING.length}</b>セット`: tab==="convo"?`会話 <b>${CONVO.length}</b>セット`: tab==="speak"?`英作文 <b>${SPEAK.length}</b>`: tab==="review"?`復習帳 <b>${rvItems().length}</b>`: tab==="vocab"?`単語 <b>${VOCAB.length}</b>`:tab==="grammar"?`文法 <b>${GRAMMAR.length}</b>`:`聴解 <b>${LISTEN.length}</b>`;
 }
 
 function clearTimer(){ if(timerId){clearInterval(timerId);timerId=null;} $("timer").classList.add("hidden"); }
@@ -1528,6 +1621,9 @@ function renderQuestion(){
   holdAuto=false;
   const c=curItem();
   if(c.k==="v") renderVocab(c.i);
+  else if(c.k==="r") renderSet("r",c.i);
+  else if(c.k==="c") renderSet("c",c.i);
+  else if(c.k==="s") renderSpeak(c.i);
   else if(c.k==="g") renderGrammar(c.i);
   else renderListen(c.i);
 }
@@ -1692,6 +1788,120 @@ function answerListen(btn,ok,it,i,ob){
   afterAnswer(ok);
 }
 
+/* ----- READING (Part 7) / CONVERSATION (Part 3) ----- */
+function pickVoices(){
+  if(!synth) return [null,null];
+  const vs=synth.getVoices().filter(v=>/^en[-_](US|GB|AU|CA)/i.test(v.lang));
+  const male=vs.find(v=>/male|david|daniel|alex|fred|guy|james|george|aaron/i.test(v.name)&&!/female/i.test(v.name));
+  const female=vs.find(v=>/female|samantha|zira|susan|karen|victoria|jenny|aria|allison|ava/i.test(v.name));
+  return [male||vs[0]||null, female||vs[1]||vs[0]||null];
+}
+function playConvo(it){
+  if(!synth){ return; }
+  try{ synth.cancel();
+    const [mv,wv]=pickVoices();
+    it.sc.forEach(([who,line])=>{ const u=new SpeechSynthesisUtterance(line); u.lang="en-US"; u.rate=state.settings.rate;
+      const v=who==="M"?mv:wv; if(v) u.voice=v; u.pitch= who==="M"?0.8:1.25; synth.speak(u); });
+  }catch(e){}
+}
+function renderSet(k,i){
+  const it=(k==="r"?READING:CONVO)[i];
+  const head = k==="r"
+    ? `<div class="qcat">Part 7 ・ ${esc(it.ty)}</div><div class="psg"><div class="psg-ti">${esc(it.ti)}</div>${esc(it.tx)}</div>`
+    : `<div class="qcat">Part 3 ・ 会話問題</div><div class="listen-hint">会話を聞いて、設問に答えてください（問題文は先読みOK）</div><button class="playbtn" id="play">🔊 会話を再生</button>`;
+  $("stage").innerHTML=`<div class="card">${head}<div id="mqs"></div><div id="post"></div></div>`;
+  if(k==="c"){ $("play").onclick=e=>{ e.stopPropagation(); playConvo(it); }; setTimeout(()=>playConvo(it),300); }
+  let done=0, allOk=true;
+  const box=$("mqs");
+  it.qs.forEach((q,n)=>{
+    const d=document.createElement("div"); d.className="mq";
+    d.innerHTML=`<div class="qn">${n+1}. ${esc(q.q)}</div><div class="opts"></div>`;
+    const ob=d.querySelector(".opts");
+    q.o.forEach((o,oi)=>{
+      const b=document.createElement("button"); b.className="opt";
+      b.innerHTML=`<span class="k">${"ABCD"[oi]}</span>${esc(o)}`;
+      b.onclick=e=>{ e.stopPropagation(); if(ob.dataset.done) return; ob.dataset.done=1;
+        const ok=oi===q.a; if(!ok) allOk=false; sessionTotal++; if(ok) sessionRight++;
+        [...ob.children].forEach((x,xi)=>{ x.disabled=true; if(xi===q.a) x.classList.add("correct"); else if(x===b) x.classList.add("wrong"); else x.classList.add("dim"); });
+        const w=document.createElement("div"); w.className="why"+(ok?" ok":""); w.textContent=(ok?"○ ":"× 正解は "+"ABCD"[q.a]+"。")+q.ej; d.appendChild(w);
+        updateProgress(); done++;
+        if(done===it.qs.length) finishSet(k,i,it,allOk);
+      };
+      ob.appendChild(b);
+    });
+    box.appendChild(d);
+  });
+}
+function finishSet(k,i,it,ok){
+  answered=true; xRecord(k,i,ok);
+  if(ok) celebrate();
+  const script = k==="c" ? `<div class="script">${it.sc.map(([w,l])=>`<div><b>${w}:</b>${esc(l)}</div>`).join("")}</div>` : "";
+  $("post").innerHTML=`<div class="${ok?'okjt':'learn'}">
+      <div class="jline"><span class="jtag">要旨</span>${esc(it.jt)}</div>${script}
+      <button class="next-btn" id="ns">${qi+1>=queue.length?"結果を見る":"次へ →"}</button></div>`;
+  $("ns").onclick=e=>{ e.stopPropagation(); if(synth)try{synth.cancel();}catch(_){} goNext(); };
+  afterAnswer(ok);
+}
+
+/* ----- SPEAKING (瞬間英作文・音読) ----- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+function normWords(t){ return t.toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9' ]+/g," ").split(/\s+/).filter(Boolean); }
+function matchRate(said,target){
+  const a=normWords(said), b=normWords(target); if(!b.length) return 0;
+  const pool=a.slice(); let hit=0;
+  b.forEach(w=>{ const j=pool.indexOf(w); if(j>=0){hit++;pool.splice(j,1);} });
+  return Math.round(hit/b.length*100);
+}
+function renderSpeak(id){
+  const it=SPEAK[SPEAK_IDX[id]];
+  $("stage").innerHTML=`<div class="card">
+    <div class="qcat">瞬間英作文 ・ 声に出して</div>
+    <div class="scene">${esc(it.sc)}</div>
+    <div class="ja-big">${esc(it.ja)}</div>
+    <div class="listen-hint" style="text-align:left">英語で言ってみてから答えを確認。${SR?"🎤で発音チェックもできます。":""}</div>
+    <div class="row2" id="act">${SR?'<button class="mic" id="mic">🎤 話す</button>':''}<button id="show">答えを見る</button></div>
+    <div id="heard" class="heard"></div>
+    <div id="post"></div></div>`;
+  let score=null;
+  const reveal=()=>{
+    if($("enAns")) return;
+    const p=$("post");
+    p.innerHTML=`<div class="en-ans" id="enAns">${esc(it.en)}</div>
+      <div style="margin-top:8px"><button class="replay" id="rep">🔊 お手本（音読して真似る）</button></div>
+      <div class="row2"><button class="good${score!==null&&score>=80?' sug':''}" id="gOk">○ 言えた</button><button class="bad${score!==null&&score<80?' sug':''}" id="gNg">× 言えなかった</button></div>`;
+    $("rep").onclick=e=>{ e.stopPropagation(); speak(it.en); };
+    speak(it.en);
+    const grade=ok=>{ if(answered) return; answered=true; sessionTotal++; if(ok){sessionRight++; celebrate();}
+      xRecord("s",id,ok); updateProgress();
+      $("gOk").disabled=$("gNg").disabled=true; (ok?$("gNg"):$("gOk")).style.opacity=.35;
+      const nb=document.createElement("button"); nb.className="next-btn"; nb.textContent=qi+1>=queue.length?"結果を見る":"次へ →";
+      nb.onclick=e=>{ e.stopPropagation(); goNext(); }; $("post").appendChild(nb);
+      afterAnswer(ok);
+    };
+    $("gOk").onclick=e=>{ e.stopPropagation(); grade(true); };
+    $("gNg").onclick=e=>{ e.stopPropagation(); grade(false); };
+  };
+  $("show").onclick=e=>{ e.stopPropagation(); reveal(); };
+  if(SR){
+    let rec=null;
+    $("mic").onclick=e=>{ e.stopPropagation();
+      if(rec){ try{rec.stop();}catch(_){} return; }
+      if(synth) try{synth.cancel();}catch(_){}
+      rec=new SR(); rec.lang="en-US"; rec.interimResults=false; rec.maxAlternatives=3;
+      const m=$("mic"); m.classList.add("rec"); m.textContent="● 聞き取り中…（タップで終了）";
+      rec.onresult=ev=>{
+        let best="",bs=-1;
+        for(const alt of ev.results[0]){ const r=matchRate(alt.transcript,it.en); if(r>bs){bs=r;best=alt.transcript;} }
+        score=bs; $("heard").innerHTML=`聞き取り：<b>${esc(best)}</b><br>一致率 <b style="color:${bs>=80?'var(--green)':bs>=50?'var(--gold)':'var(--red)'}">${bs}%</b>${bs>=80?" ・ 合格ライン":" ・ お手本を聞いてもう一度"}`;
+        reveal();
+      };
+      rec.onerror=ev=>{ $("heard").textContent= ev.error==="not-allowed"?"マイクが許可されていません。端末の設定でマイクを許可してください。":"聞き取れませんでした。もう一度どうぞ。"; };
+      rec.onend=()=>{ rec=null; const m2=$("mic"); if(m2){ m2.classList.remove("rec"); m2.textContent="🎤 もう一度話す"; } };
+      try{ rec.start(); }catch(_){ rec=null; }
+    };
+  }
+}
+
 /* ----- celebration ----- */
 function celebrate(){
   const card=document.querySelector(".card"); if(!card)return;
@@ -1745,7 +1955,9 @@ document.querySelectorAll(".tab").forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     t.classList.add("active");
-    tab=t.dataset.tab; mode = tab==="grammar"?"10s":tab==="review"?"due":"all";
+    try{ t.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"}); }catch(_){}
+    tab=t.dataset.tab; mode = tab==="grammar"?"10s":tab==="review"?"due":tab==="speak"?"p":"all";
+    if(synth) try{synth.cancel();}catch(_){}
     renderModes(); startSession();
   };
 });
@@ -1756,25 +1968,59 @@ $("rate").onchange=()=>save();
 
 $("reset").onclick=()=>{
   if(!confirm("学習記録・★弱点・復習帳をすべて削除します。よろしいですか？"))return;
-  Store.del(LS); state={examDate:state.examDate,settings:state.settings,v:{},g:{},l:{},rv:{},rvDone:{}}; save(); rvRefreshCounts();
+  Store.del(LS); state={examDate:state.examDate,settings:state.settings,v:{},g:{},l:{},r:{},c:{},s:{},rv:{},rvDone:{}}; save(); rvRefreshCounts();
   startSession(); renderCountdown();
 };
 
 function openApp(t){
   unlockAudio();
-  tab=t; mode= t==="grammar"?"10s":t==="review"?(rvDueItems().length?"due":"all"):"all";
+  tab=t; mode= t==="grammar"?"10s":t==="review"?(rvDueItems().length?"due":"all"):t==="speak"?"p":"all";
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===t));
+  setTimeout(()=>{ const a=document.querySelector(".tab.active"); if(a) try{a.scrollIntoView({inline:"center",block:"nearest"});}catch(_){} },50);
   $("primer").classList.add("hidden"); $("app").classList.remove("hidden");
   renderModes(); renderCountdown(); startSession(); window.scrollTo(0,0);
 }
 $("homeBtn").onclick=e=>{ e.stopPropagation(); clearTimer(); if(synth)try{synth.cancel();}catch(_){}
-  $("app").classList.add("hidden"); $("primer").classList.remove("hidden"); rvRefreshCounts(); if(!$("rvList").classList.contains("hidden")) rvRenderList(); window.scrollTo(0,0); };
+  $("app").classList.add("hidden"); $("primer").classList.remove("hidden"); rvRefreshCounts(); bkPaint(); if(!$("rvList").classList.contains("hidden")) rvRenderList(); window.scrollTo(0,0); };
 $("rvStart").onclick=()=>openApp("review");
 $("rvToggle").onclick=()=>{ const l=$("rvList"); l.classList.toggle("hidden"); $("rvToggle").textContent=l.classList.contains("hidden")?"登録一覧を見る":"一覧を閉じる"; if(!l.classList.contains("hidden")) rvRenderList(); };
 function paintLen(){ const n=sessLen(); $("slen").value=n; $("slenLbl").textContent=n+"問"; document.querySelectorAll("#presets span").forEach(x=>x.classList.toggle("on",+x.dataset.n===n)); }
 $("slen").oninput=e=>{ state.settings.len=+e.target.value; paintLen(); };
 $("slen").onchange=()=>save();
 document.querySelectorAll("#presets span").forEach(x=>x.onclick=()=>{ state.settings.len=+x.dataset.n; save(); paintLen(); });
+
+/* ----- backup ----- */
+function bkPaint(){
+  const el=$("bkSub"); const n=Object.keys(state.v).length+Object.keys(state.g).length+Object.keys(state.l).length+Object.keys(state.r).length+Object.keys(state.c).length+Object.keys(state.s).length+rvItems().length;
+  if(!state.lastBackup){ el.textContent= n? "まだ一度も書き出していません。機種変更やブラウザのデータ削除で記録が消えます。":"記録は端末に保存されます。機種変更前に書き出してください。"; el.classList.toggle("bkwarn",n>0); return; }
+  const d=Math.floor((Date.now()-state.lastBackup)/DAY);
+  el.textContent= d===0?"最終バックアップ：今日": `最終バックアップ：${d}日前`; el.classList.toggle("bkwarn",d>=14);
+}
+$("bkOut").onclick=()=>{
+  state.lastBackup=Date.now(); save();
+  const data={app:"toeic800pro",ver:1,at:new Date().toISOString(),state};
+  const blob=new Blob([JSON.stringify(data)],{type:"application/json"});
+  const a=document.createElement("a"); const d=new Date();
+  a.download=`toeic800pro-backup-${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}.json`;
+  a.href=URL.createObjectURL(blob); document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },1500);
+  bkPaint();
+};
+$("bkIn").onclick=()=>$("bkFile").click();
+$("bkFile").onchange=e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const d=JSON.parse(rd.result);
+      if(!d||d.app!=="toeic800pro"||!d.state) throw 0;
+      if(!confirm(`${String(d.at).slice(0,10)} のバックアップで今の記録を上書きします。よろしいですか？`)) return;
+      Store.set(LS,d.state); location.reload();
+    }catch(_){ alert("このファイルは読み込めません。TOEIC 800 PRO で書き出したファイルを選んでください。"); }
+    e.target.value="";
+  };
+  rd.readAsText(f);
+};
 
 $("startBtn").onclick=()=>{
   unlockAudio();
@@ -1802,6 +2048,9 @@ $("examDateInput").onchange=e=>{
 
 /* init start screen */
 $("pv").textContent=VOCAB.length; $("pg").textContent=GRAMMAR.length; $("pl").textContent=LISTEN.length;
+$("pc").textContent=CONVO.length*3; $("pr").textContent=READING.reduce((s,x)=>s+x.qs.length,0); $("ps").textContent=SPEAK.length;
+bkPaint();
+if(synth&&synth.onvoiceschanged!==undefined) synth.onvoiceschanged=()=>{};
 $("voice").checked=state.settings.voice; $("rate").value=state.settings.rate;
 if(state.examDate) $("examDateInput").value=state.examDate.slice(0,10);
 refreshExamSub(); paintLen(); rvRefreshCounts();
