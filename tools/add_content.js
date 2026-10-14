@@ -1,4 +1,4 @@
-// Usage: node tools/add_content.js <VOCAB|GRAMMAR|LISTEN|READING|CONVO|TALKS|PHRASES> file1.js [file2.js ...]
+// Usage: node tools/add_content.js <EEVOCAB|VOCAB|GRAMMAR|LISTEN|READING|CONVO|TALKS|PHRASES> file1.js [file2.js ...]
 // Each input file is a CommonJS module exporting an array of items (schemas: CONTENT_GUIDE.md).
 // Items are validated, de-duplicated against existing data, then appended to the single-line
 // array of the same name in index.html. Invalid/duplicate items are reported and skipped.
@@ -27,6 +27,7 @@ const spec = {
              ok: x => Array.isArray(x.sc) && x.sc.length >= 3 && x.sc.every(l => /^[MW]$/.test(l[0]) && str(l[1])) && str(x.jt) && Array.isArray(x.qs) && x.qs.length === 3 && x.qs.every(q => mc(q, 4)) },
   TALKS:   { key: x => norm(x.tx.slice(0, 80)),
              ok: x => str(x.ty) && str(x.tx) && /^[MW]$/.test(x.v) && str(x.jt) && Array.isArray(x.qs) && x.qs.length === 3 && x.qs.every(q => mc(q, 4)) },
+  EEVOCAB: { key: x => norm(x.w), ok: x => str(x.w) && str(x.p) && str(x.df) && str(x.ex) && str(x.j) && Array.isArray(x.dd) && x.dd.length === 2 && x.dd.every(str) && !x.dd.includes(x.df) && Array.isArray(x.dw) && x.dw.length === 2 && x.dw.every(str) && !x.dw.map(norm).includes(norm(x.w)) },
   PHRASES: { key: x => norm(x[2]), ok: x => Array.isArray(x) && x.length === 3 && x.every(str) },
 }[name];
 if (!spec) { console.error("unknown category: " + name); process.exit(1); }
