@@ -1,26 +1,27 @@
 # 問題追加ログ
 
-## 現在の件数（2026-11-03 時点・22回目追加後）
+## 現在の件数（2026-11-04 時点・23回目追加後）
 | 区分 | 件数 |
 |---|---|
-| 英英単語 EEVOCAB | 1,320語 |
-| 単語 VOCAB | 1,082語 |
-| 文法 GRAMMAR (Part5) | 1,040問（うち語彙 231問） |
-| 応答 LISTEN (Part2) | 680問 |
+| 英英単語 EEVOCAB | 1,380語 |
+| 単語 VOCAB | 1,112語 |
+| 文法 GRAMMAR (Part5) | 1,070問（うち語彙 243問） |
+| 応答 LISTEN (Part2) | 720問 |
 | 会話 CONVO (Part3) | 135セット / 405問 |
-| 説明 TALKS (Part4) | 65セット / 195問 |
-| 読解 READING (Part7) | 145セット / 483問（うち複数文書 36セット、単一文書 109セット） |
-| 英作文 PHRASES | 540文（＋文法・単語例文から自動生成 1,100文） |
+| 説明 TALKS (Part4) | 68セット / 204問 |
+| 読解 READING (Part7) | 148セット / 493問（うち複数文書 36セット、単一文書 112セット） |
+| 英作文 PHRASES | 560文（＋文法・単語例文から自動生成 1,100文） |
 
 ## 次の優先順位（上から消化。目標に届いたら次へ）
-0. 英英単語 EEVOCAB：1,300語で目標達成。次の目標 1,400語（現在1,320。利用者の最優先。英語で英語を考える練習。毎回最低50語は入れる。単語 VOCAB の句動詞・複合表現と構成語が重ならないよう照合する（例：extinguisher と fire extinguisher、tidy と tidy up））
-1. 単語 VOCAB：1,000語で目標達成。次の目標 1,100語（現在1,082。TOEIC 600〜850点帯、ビジネス頻出。既存と重複させない。同じ回に作る英英単語とも重複させない。毎回30語程度。単語の候補が尽きてきたので句動詞・複合表現中心）
-2. 文法 GRAMMAR：1,000問で目標達成。次の目標 1,100問（現在1,040。毎回30問程度、語彙を厚めに。既存の正解位置が a=0/1 に偏っているので、新規は a=2/3 を多めに）
-3. 応答 LISTEN：600問で目標達成。次の目標 700問（現在680。次回で達成見込み。展示会・施工の題材は既存とほぼ飽和しているので、オフィス・日常業務の比率を上げる。既存200問は正解が全部 a=0 なので、新規は a=1/2 を多めに散らす。毎回30〜40問）
+0. 英英単語 EEVOCAB：1,300語で目標達成。次の目標 1,400語（現在1,380。次回で達成見込み。利用者の最優先。英語で英語を考える練習。毎回最低50語は入れる。単語 VOCAB の句動詞・複合表現と構成語が重ならないよう照合する（例：extinguisher と fire extinguisher、tidy と tidy up））
+1. 単語 VOCAB：1,100語で目標達成。次の目標 1,200語（現在1,112。TOEIC 600〜850点帯、ビジネス頻出。既存と重複させない。同じ回に作る英英単語とも重複させない。毎回30語程度。単語の候補が尽きてきたので句動詞・複合表現中心）
+2. 文法 GRAMMAR：1,000問で目標達成。次の目標 1,100問（現在1,070。次回で達成見込み。毎回30問程度、語彙を厚めに。既存の正解位置が a=0/1 に偏っているので、新規は a=2/3 を多めに）
+3. 応答 LISTEN：700問で目標達成。次の目標 800問（現在720。展示会・施工の題材は既存とほぼ飽和しているので、オフィス・日常業務の比率を上げる。既存200問は正解が全部 a=0 なので、新規は a=1/2 を多めに散らす。毎回30〜40問）
 4. 英作文 PHRASES：300文で目標達成。以降は毎回20文程度（現場・施工・展示会・面接を厚めに）
-5. 会話 CONVO（127）・単一文書読解（106セット）・説明 TALKS（62）・複数文書読解（32セット）は目標達成。以降はバランスよく増量（会話は3人会話・意図問題を混ぜる。図表問題は作らない。11/3に会話 CONVO 4セット・複数文書読解2セット追加済み。次回は説明 TALKS 3セットと単一文書読解3セットを入れる）
+5. 会話 CONVO（127）・単一文書読解（106セット）・説明 TALKS（62）・複数文書読解（32セット）は目標達成。以降はバランスよく増量（会話は3人会話・意図問題を混ぜる。図表問題は作らない。11/4に説明 TALKS 3セット・単一文書読解3セット追加済み。次回は会話 CONVO 4セットと複数文書読解2セットを入れる）
 
 ## 履歴
+- 2026-11-04（定例）：英英単語 +60語（頭文字a–l/m–zで2担当、動詞20・名詞16・形容詞16・副詞8：buttress/divulge/encapsulate/grout/ballast/bollard/gantry/joist/bonded/double-sided/marshal/maneuver/splice/perforate/masonry/rebar/wiring/wayfinding/pliable/rambling/staunchly 等）→1,380語、単語 +30語（全て句動詞・複合表現：figure out/put through/break into/settle on/go under/get around to/deal with/sick leave/user manual/price range/word of mouth/application form/self-employed/well-organized/in return/by far 等、動詞12・名詞10・形容詞4・副詞4）→1,112語で目標1,100語達成・次の目標1,200語、文法 +30問（語彙12・前置詞/品詞/時制/接続詞/関係詞 各2・受動態/分詞/代名詞/不定詞/動名詞/比較/数量/語法 各1、正解位置 a=0:4/1:6/2:10/3:10）、応答 +40問（疑問詞系18・依頼/提案/否定疑問/付加疑問/選択 各3・平叙文4・申し出2・間接疑問1、全てオフィス・日常業務、間接的な正答約13問、正解位置 a=0:8/1:16/2:16）→720問で目標700問達成・次の目標800問、英作文 +20文（現場7・面接3・交渉3・メール2・電話2・会議2・プレゼン1）、Part4説明 +3セット/9問（電話メッセージ：レンタルトラック故障で小型2台に同額振替、社内アナウンス：会議室のチェックイン用タブレット導入・15分で自動キャンセル（意図問題）、ツアー案内：旧市街ウォーキングツアー、曜日 2026/11/9 月を確認）、単一文書読解 +3セット/10問（Eメール：ブース電源の申込容量不足・同義語 draws→uses・NOT問題、メモ：来客の事前登録制、チャット：値札の割引率の誤り・意図問題）。計202問。全問の正解唯一性を本文と照合して確認、英英単語と単語の構成語の重複0・既存語との重複0、既存データ不変（既存部分・データ以外の部分の完全一致）を確認。修正：英英単語30語の和訳 j を例文訳の形式に統一、単語 hold on は既存 on hold と紛らわしいため deal with に差し替え、英英 wordy は同日の単語 word of mouth と語根が重なるため rambling に差し替え、応答1問（問いかけの構文を明確に How did the vote on the new logo turn out?）、架空名2件（既存の Bright〜系と紛らわしい Brightwater→Calderwick、同日の文法と重複した Tavora→Okimoto）。除外0件
 - 2026-11-03（定例）：英英単語 +60語（頭文字a–l/m–zで2担当、動詞20・名詞16・形容詞16・副詞8：abridge/canvass/decommission/indemnify/lacquer/alcove/concourse/crowbar/frontage/contiguous/dimmable/hard-wearing/amicably/shoulder/undercut/solder/riser/sawhorse/socket/plush/unmanned/oblong/reflective/straightaway 等）→1,320語で目標1,300語達成・次の目標1,400語、単語 +30語（全て句動詞・複合表現：fit out/put in for/fall short of/bump up/get through to/do away with/touch on/fiscal year/head office/shipping container/safety vest/service agreement/custom-made/out-of-town/on site/by appointment/at full capacity/on a trial basis 等、動詞12・名詞10・形容詞4・副詞4）、文法 +30問（語彙12・前置詞/品詞/時制/接続詞/関係詞/受動態/分詞/代名詞 各2・不定詞1・動名詞1、正解位置 a=0:5/1:5/2:10/3:10）、応答 +40問（疑問詞系18・依頼/提案/否定疑問/付加疑問/選択 各3・平叙文4・申し出2・間接疑問1、全てオフィス・日常業務、間接的な正答13問、正解位置 a=0:8/1:16/2:16）、英作文 +20文（現場7・面接3・交渉2・メール2・電話2・会議2・プレゼン1・日常業務1）、会話 +4セット/12問（オフィス移転・顧客との会食予約・現場日報アプリ導入（3人会話）・ブース照明の電源不足、意図問題2）、複数文書読解 +2セット/10問（ビル管理規則＋Eメール、会場規定＋出展確認書＋Eメール、文書横断問題5・同義語問題2）。計202問。全問の正解唯一性を本文と照合して確認。単語 bolt down は同日の英英単語 bolt と重なるため touch on に差し替え、英英 straightaway の誤定義1つを紛らわしくない文に修正（修正2件・除外0件）。
 - 2026-11-02（定例）：英英単語 +60語（頭文字a–l/m–zで2担当、動詞20・名詞16・形容詞16・副詞8：acquaint/backdate/emcee/flank/interlock/customs/decal/footprint/ajar/billable/cosmetic/abreast/fortnightly/pave/tint/repel/thaw/pillar/remnant/skylight/wattage/spool/malleable/skeletal/tactile/recessed/snugly 等）→1,260語、単語 +30語（全て句動詞・複合表現：single out/pass up/shore up/rope off/farm out/zero in on/see to/petty cash/accounts receivable/working capital/load capacity/back-to-back/tax-deductible/across the board/at cost/in due course/in tandem 等、動詞12・名詞10・形容詞4・副詞4）→1,052語、文法 +30問（語彙12・品詞3・前置詞3・接続詞3・時制2・関係詞2・受動態/分詞/比較/数量/倒置 各1、正解位置 a=0:4/1:6/2:10/3:10）→1,010問で目標1,000問達成・次の目標1,100問、応答 +40問（オフィス・日常業務のみ、疑問詞系18・依頼/提案/否定疑問/付加疑問/選択/平叙文 各3・申し出2・許可1・間接疑問1、間接応答約15問、正解位置 a=0:12/1:14/2:14）→640問、英作文 +20文（現場7・面接4・交渉3・メール2・電話2・会議1・プレゼン1）→520文、Part4説明 +3セット/9問（録音メッセージ：出展者バッジ受取場所の変更、天気予報：日曜の屋外コンサートを屋内へ、空港アナウンス：機材トラブルで2時間遅延・食事券）、単一文書読解 +3セット/10問（Eメール：倉庫契約更新と値上げ・12か月契約で料金据置・同義語 keep→maintain、記事：フェリー夜間便増便・同義語 carry→transport、チャット：塗料の色違い・意図問題 "I thought of that"、曜日 2026/12/7 月・2027/1/11 月を確認）。計199問。全問の正解唯一性・計算/曜日を確認、英英単語・単語の既存語との重複0・相互重複0、既存データ不変（既存部分・データ以外の部分の完全一致）を確認。修正：英英単語30語の和訳 j の形式（見出し語訳を除き例文訳のみに統一）、単語1語（tax-deductible の誤訳「課税対象外の取引に限る」が正解と紛らわしいため「税金を滞納している」に）。除外0件
 - 2026-11-01（定例）：英英単語 +60語（頭文字a–l/m–zで2担当、動詞20・名詞16・形容詞16・副詞8、展示会・施工・物流の語彙を厚めに：adorn/drape/etch/dent/chisel/bulldozer/hydrant/latch/fluorescent/frayed/patch/sand/pry/scuff/marquee/mortar/plank/rafter/ramp/taut/warped/rickety 等）→1,200語で目標1,200語達成・次の目標1,300語、単語 +30語（全て句動詞・複合表現：take apart/touch up/run through/weed out/wind down/hammer out/service entrance/wear and tear/lump sum/flat fee/fine print/grace period/power strip/off-the-shelf/in stages/in shifts/on loan 等、動詞12・名詞10・形容詞4・副詞4）→1,022語で目標1,000語達成・次の目標1,100語、文法 +30問（語彙12・前置詞2・品詞2・時制2・接続詞2・関係詞2・受動態/代名詞/不定詞/動名詞/仮定法/数量/語法/比較 各1、正解位置 a=0:4/1:6/2:10/3:10）→980問、応答 +40問（疑問詞系18・依頼/提案/否定疑問/付加疑問/選択/平叙文 各3・申し出2・許可1・間接疑問1、間接応答約15問、正解位置 a=0:12/1:14/2:14）→600問で目標達成・次の目標700問、英作文 +20文（現場7・面接4・交渉3・メール2・電話2・会議1・プレゼン1）→500文、Part3会話 +4セット/12問（3人会話1・意図問題1、展示会ブースのコーヒーマシン用電力追加（割引期限後50%増）/ペンダント照明がスプリンクラー直下/引取トラックをリフトゲート付き小型2台に変更/カタログの旧価格表を別紙で差し替え）、複数文書読解 +2セット/10問（価格案内＋Eメール：大判グラフィックの素材選定・特急20%割増・$871.20の計算、お知らせ＋申込書＋Eメール：出展者バッジの無料枠と締切後の追加料金$90・会期中は施工者バッジで入場不可、同義語 settle on→decide on / cover→pay for、曜日 2027/6/1 火・6/11 金を確認）。計202問。全問の正解唯一性（各誤答を空所/応答/本文に当てはめて不成立）・3人会話の話者特定（呼びかけで確定）・読解の計算と営業日数を確認、英英単語と単語の重複0・既存語との重複0、既存データ不変（既存部分・データ以外の部分の完全一致）を確認。修正：英英単語3語（単語の fire extinguisher/tidy up と重なる extinguisher→latch、tidy→rickety、同じ回の midway とほぼ同義の halfway→faithfully）、文法1問（仮定法の誤答 Were it not は混用の余地があるため語順誤りの Had not it been に）、応答1問（申し出への誤答 "Yes, it's a long contract." が受諾と取れる余地があるため差し替え）、読解1件（承認日の "at the latest" で前倒し承認＝標準納期の余地が出るため確定表現に）、架空名2件（既存データと重複する Brandt/Okonkwo→Haverkamp/Adebayo）。除外0件
