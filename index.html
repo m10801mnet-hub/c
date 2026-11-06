@@ -275,6 +275,55 @@
   .presets span.on{color:var(--indigo);border-color:var(--indigo-deep);background:var(--indigo-bg);}
   .logo{cursor:pointer;}
 
+  /* ---------- daily goal / calendar ---------- */
+  .dcard{background:linear-gradient(160deg,#16261F 0%,var(--surface) 70%);border:1px solid rgba(95,208,160,.35);border-radius:16px;padding:16px;margin:0 0 14px;text-align:left;}
+  .dcard .rt{font-size:15px;font-weight:800;display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+  .dcard .rt small{font-size:11px;font-weight:600;color:var(--muted);}
+  .streak{font-size:12px;font-weight:800;color:var(--gold);white-space:nowrap;}
+  .trk{margin-top:12px;}
+  .trk .th{display:flex;justify-content:space-between;font-size:13px;font-weight:700;}
+  .trk .th b{font-size:15px;}
+  .trk .th .cr{font-size:11px;color:var(--gold);font-weight:700;margin-left:6px;}
+  .trk .bar{height:8px;background:var(--surface2);border-radius:8px;overflow:hidden;margin-top:6px;}
+  .trk .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),#9BE3C2);border-radius:8px;transition:width .3s;}
+  .trk.done .th b{color:var(--green);}
+  .dbtn{display:block;width:100%;margin-top:8px;padding:11px;border-radius:11px;border:1px solid rgba(95,208,160,.5);background:rgba(95,208,160,.12);color:var(--green);font-size:14px;font-weight:800;cursor:pointer;}
+  .ochips{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;}
+  .ochips span{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);color:var(--muted);cursor:pointer;}
+  .ochips span.on{color:var(--green);border-color:rgba(95,208,160,.6);background:rgba(95,208,160,.12);}
+  .dsum{display:flex;gap:6px;margin-top:12px;}
+  .dsum div{flex:1;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:8px 2px;text-align:center;}
+  .dsum b{display:block;font-size:17px;font-weight:800;}
+  .dsum span{font-size:10px;color:var(--muted);}
+  .dsum .ok b{color:var(--green);} .dsum .ng b{color:var(--red);} .dsum .pc b{color:var(--indigo);}
+  .calhd{display:flex;align-items:center;justify-content:space-between;margin:16px 0 8px;}
+  .calhd b{font-size:14px;}
+  .calhd button{background:var(--surface2);border:1px solid var(--line2);color:var(--text);border-radius:8px;width:34px;height:30px;font-size:16px;cursor:pointer;}
+  .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+  .calgrid .cw{text-align:center;font-size:10px;color:var(--dim);padding-bottom:2px;}
+  .cd{aspect-ratio:1/1;border-radius:8px;background:var(--surface2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;line-height:1.1;}
+  .cd i{font-style:normal;font-size:9px;font-weight:700;margin-top:2px;}
+  .cd.met{background:rgba(95,208,160,.28);border-color:var(--green);color:#E6FFF3;}
+  .cd.part{background:rgba(244,192,78,.18);border-color:var(--gold-deep);color:var(--gold);}
+  .cd.miss{background:rgba(232,113,138,.10);border-color:rgba(232,113,138,.4);color:var(--red);}
+  .cd.fut,.cd.pre{opacity:.35;cursor:default;}
+  .cd.today{outline:2px solid var(--indigo);outline-offset:1px;}
+  .cd.sel{box-shadow:0 0 0 2px var(--text) inset;}
+  .calleg{display:flex;gap:12px;justify-content:center;margin-top:8px;font-size:10px;color:var(--muted);}
+  .calleg span:before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px;vertical-align:-1px;}
+  .calleg .l1:before{background:rgba(95,208,160,.6);} .calleg .l2:before{background:rgba(244,192,78,.5);} .calleg .l3:before{background:rgba(232,113,138,.4);}
+  .caldet{margin-top:10px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.65;color:#d9e0ec;}
+  .caldet .dh{font-weight:800;color:var(--text);font-size:13px;}
+  .ylong{margin-top:12px;font-size:12px;color:var(--muted);}
+  .ylong .bar{height:6px;background:var(--surface2);border-radius:6px;overflow:hidden;margin-top:5px;}
+  .ylong .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#FFE19A);}
+  .gset{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--muted);}
+  .gset select{background:var(--surface2);border:1px solid var(--line2);color:var(--text);border-radius:7px;padding:3px 6px;font-size:12px;}
+  .todaybar{margin:8px 0 0;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;}
+  .todaybar b{color:var(--text);} .todaybar .ok{color:var(--green);font-weight:800;}
+  .done .dmsg{margin-top:10px;font-size:13px;font-weight:700;color:var(--green);}
+  .done .dmsg.rem{color:var(--gold);}
+
   @media (prefers-reduced-motion: reduce){
     .burst.go .ray,.burst.go .glow,.burst.go .yatta,.learn{animation:none;}
   }
@@ -302,6 +351,7 @@
       <div style="flex:1"><div>試験日</div><div class="sub" id="examSub">残り日数を表示します</div></div>
       <input type="date" id="examDateInput" style="background:var(--surface2);border:1px solid var(--line2);color:var(--text);border-radius:9px;padding:8px 10px;font-size:14px;">
     </div>
+    <div class="dcard" id="dcard"></div>
     <div class="rvcard">
       <div class="rt">📒 復習帳<small>解いた直後に「＋復習帳」で登録。3回連続正解で卒業。</small></div>
       <div class="rvnums">
@@ -360,6 +410,7 @@
       <span class="lbl">試験日まで</span>
       <span class="days" id="daysLeft">タップして設定</span>
     </div>
+    <div class="todaybar" id="todayBar"></div>
 
     <div class="modes" id="modes"></div>
 
@@ -421,6 +472,125 @@ state.r=state.r||{}; state.c=state.c||{}; state.s=state.s||{}; state.t=state.t||
 if(!state.settings.len) state.settings.len=12;
 function save(){ Store.set(LS,state); }
 
+/* ============================ DAILY GOAL / CALENDAR ============================
+   state.daily["YYYY-MM-DD"] = {g:{n,ok}, o:{n,ok}, k:{v:{n,ok},...}, gg, go}
+     g = 文法（Part5）, o = 文法以外すべて, k = 区分別, gg/go = その日の基本目標
+   目標に届かなかった分は翌日に繰り越す（各トラック最大 CARRY_DAYS 日分＝目標の2倍まで。溜めすぎて挫折しないため）。 */
+state.daily=state.daily||{};
+state.goal=state.goal||{};
+if(!state.goal.g) state.goal.g=20;
+if(!state.goal.o) state.goal.o=20;
+const CARRY_DAYS=1;
+const dkey=d=>{ const x=d||new Date(); return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0"); };
+const parseD=s=>{ const a=s.split("-").map(Number); return new Date(a[0],a[1]-1,a[2]); };
+const addD=(s,n)=>{ const d=parseD(s); d.setDate(d.getDate()+n); return dkey(d); };
+if(!state.goal.start){ state.goal.start=dkey(); save(); }
+function dayRec(s){ return state.daily[s]||{g:{n:0,ok:0},o:{n:0,ok:0},k:{}}; }
+function tally(k,ok){
+  const s=dkey(), r=dayRec(s), tr=k==="g"?"g":"o";
+  if(r.gg===undefined){ r.gg=state.goal.g; r.go=state.goal.o; }
+  r[tr].n++; if(ok) r[tr].ok++;
+  const kk=r.k[k]||{n:0,ok:0}; kk.n++; if(ok) kk.ok++; r.k[k]=kk;
+  state.daily[s]=r; save(); paintTodayBar();
+}
+function dailyPlan(){
+  const out={}, today=dkey(), G=state.goal; let cg=0, co=0;
+  for(let s=G.start; s<=today; s=addD(s,1)){
+    const r=dayRec(s);
+    const bg= s===today?G.g:(r.gg!==undefined?r.gg:G.g), bo= s===today?G.o:(r.go!==undefined?r.go:G.o);
+    const tg=bg+cg, to=bo+co, dg=r.g.n, dO=r.o.n;
+    out[s]={tg,to,dg,do:dO,cg,co,met:dg>=tg&&dO>=to,n:dg+dO,ok:r.g.ok+r.o.ok,k:r.k};
+    cg=Math.min(bg*CARRY_DAYS,Math.max(0,tg-dg));
+    co=Math.min(bo*CARRY_DAYS,Math.max(0,to-dO));
+  }
+  return out;
+}
+function streakOf(plan){
+  let s=dkey(), n=0;
+  if(plan[s]&&!plan[s].met) s=addD(s,-1);
+  while(plan[s]&&plan[s].met){ n++; s=addD(s,-1); }
+  return n;
+}
+const WJ=["日","月","火","水","木","金","土"];
+const OTHER_TABS=[["vocab","単語"],["eevocab","英英"],["listen","聴解"],["convo","会話"],["talk","説明"],["reading","読解"],["speak","英作文"]];
+function recOther(){ const rot=["vocab","listen","eevocab","reading","vocab","convo","talk"]; return rot[Math.floor(parseD(dkey())/DAY_MS)%rot.length]; }
+const DAY_MS=86400000;
+let otherTab=null, lenOverride=0, calMonth=null, calSel=null;
+function paintTodayBar(){
+  const el=$("todayBar"); if(!el) return;
+  const p=dailyPlan()[dkey()];
+  const gOk=p.dg>=p.tg, oOk=p.do>=p.to;
+  el.innerHTML=`<span>今日 文法 <b>${p.dg}</b>/${p.tg}${gOk?' <span class="ok">✓</span>':''}　その他 <b>${p.do}</b>/${p.to}${oOk?' <span class="ok">✓</span>':''}</span><span>${p.met?'<span class="ok">🎉 達成</span>':`あと ${Math.max(0,p.tg-p.dg)+Math.max(0,p.to-p.do)}問`}</span>`;
+}
+function dailyMsg(){
+  const p=dailyPlan()[dkey()];
+  if(p.met) return `<div class="dmsg">🎉 今日の目標（文法${p.tg}・その他${p.to}）達成！</div>`;
+  const parts=[]; if(p.dg<p.tg) parts.push(`文法 あと${p.tg-p.dg}問`); if(p.do<p.to) parts.push(`その他 あと${p.to-p.do}問`);
+  return `<div class="dmsg rem">今日の目標まで：${parts.join("・")}</div>`;
+}
+function startDaily(tr){
+  const p=dailyPlan()[dkey()];
+  if(tr==="g"){ lenOverride=Math.min(50,Math.max(p.tg-p.dg,0)||10); openApp("grammar",true); return; }
+  const t=otherTab||recOther(); const rem=Math.max(p.to-p.do,0)||10;
+  lenOverride= ["reading","convo","talk"].includes(t)? Math.max(1,Math.ceil(rem/4)) : Math.min(50,rem);
+  openApp(t,true);
+}
+function fmtJ(s){ const d=parseD(s); return `${d.getMonth()+1}月${d.getDate()}日（${WJ[d.getDay()]}）`; }
+function renderDaily(){
+  const box=$("dcard"); if(!box) return;
+  const plan=dailyPlan(), t=dkey(), p=plan[t], G=state.goal;
+  const days=Object.keys(plan), metDays=days.filter(s=>plan[s].met).length;
+  let tn=0,tok=0; Object.values(state.daily).forEach(r=>{ tn+=r.g.n+r.o.n; tok+=r.g.ok+r.o.ok; });
+  const yearGoal=(G.g+G.o)*365;
+  const ot=otherTab||recOther();
+  const trk=(lbl,d,tg,c)=>`<div class="trk${d>=tg?' done':''}"><div class="th"><span>${lbl}${c?`<span class="cr">繰越 +${c}</span>`:''}</span><span><b>${d}</b> / ${tg}${d>=tg?' ✓':''}</span></div><div class="bar"><i style="width:${Math.min(100,tg?d/tg*100:0)}%"></i></div></div>`;
+  const pct=p.n?Math.round(p.ok/p.n*100):null;
+  const sel=["10","15","20","30","40"];
+  box.innerHTML=`
+    <div class="rt"><span>📅 今日の目標<small>　${fmtJ(t)}</small></span><span class="streak">🔥 連続 ${streakOf(plan)}日</span></div>
+    ${trk("文法（Part5）",p.dg,p.tg,p.cg)}
+    <button class="dbtn" id="dGo">${p.dg>=p.tg?"✓ 達成済み・もっと文法を解く":`文法を解く（あと${p.tg-p.dg}問）`}</button>
+    ${trk("その他（単語・聴解など）",p.do,p.to,p.co)}
+    <div class="ochips" id="oChips">${OTHER_TABS.map(([k,l])=>`<span data-t="${k}" class="${k===ot?'on':''}">${l}${k===recOther()?'★':''}</span>`).join("")}</div>
+    <button class="dbtn" id="oGo">${p.do>=p.to?"✓ 達成済み・もっと解く":`${OTHER_TABS.find(x=>x[0]===ot)[1]}を解く（あと${p.to-p.do}問）`}</button>
+    <div class="dsum"><div><b>${p.n}</b><span>今日の解答</span></div><div class="ok"><b>${p.ok}</b><span>正解</span></div><div class="ng"><b>${p.n-p.ok}</b><span>不正解</span></div><div class="pc"><b>${pct===null?"–":pct+"%"}</b><span>正答率</span></div></div>
+    <div id="calBox"></div>
+    <div class="ylong">累計 <b style="color:var(--text)">${tn.toLocaleString()}</b>問（正答率 ${tn?Math.round(tok/tn*100):0}%）・達成 ${metDays}/${days.length}日 ・ 1年目標 ${yearGoal.toLocaleString()}問<div class="bar"><i style="width:${Math.min(100,tn/yearGoal*100)}%"></i></div></div>
+    <div class="gset">1日の目標（問）　文法 <select id="gG">${sel.map(v=>`<option${+v===G.g?" selected":""}>${v}</option>`).join("")}</select>　その他 <select id="gO">${sel.map(v=>`<option${+v===G.o?" selected":""}>${v}</option>`).join("")}</select></div>`;
+  $("dGo").onclick=()=>startDaily("g");
+  $("oGo").onclick=()=>startDaily("o");
+  box.querySelectorAll("#oChips span").forEach(x=>x.onclick=()=>{ otherTab=x.dataset.t; renderDaily(); });
+  const setG=(k,v)=>{ state.goal[k]=+v; const r=state.daily[t]; if(r){ r.gg=state.goal.g; r.go=state.goal.o; } save(); renderDaily(); };
+  $("gG").onchange=e=>setG("g",e.target.value);
+  $("gO").onchange=e=>setG("o",e.target.value);
+  renderCal(plan);
+}
+function renderCal(plan){
+  const t=dkey(); if(!calMonth) calMonth=t.slice(0,7);
+  const a=calMonth.split("-").map(Number), y=a[0], m=a[1];
+  const lead=new Date(y,m-1,1).getDay(), nd=new Date(y,m,0).getDate();
+  let h=`<div class="calhd"><button id="calPrev">‹</button><b>${y}年${m}月</b><button id="calNext">›</button></div><div class="calgrid">`+WJ.map(w=>`<div class="cw">${w}</div>`).join("");
+  for(let i=0;i<lead;i++) h+="<div></div>";
+  for(let d=1;d<=nd;d++){
+    const s=`${calMonth}-${String(d).padStart(2,"0")}`, p=plan[s];
+    let c="cd"; if(s===t) c+=" today"; if(s===calSel) c+=" sel";
+    if(p) c+= p.met?" met": p.n>0?" part": s===t?"":" miss"; else c+= s>t?" fut":" pre";
+    h+=`<div class="${c}" data-d="${s}"><span>${d}</span>${p&&p.n?`<i>${p.n}</i>`:p&&p.met?"":""}</div>`;
+  }
+  h+=`</div><div class="calleg"><span class="l1">達成</span><span class="l2">一部</span><span class="l3">未実施</span></div><div id="calDet"></div>`;
+  const box=$("calBox"); box.innerHTML=h;
+  const mv=n=>{ const d=new Date(y,m-1+n,1); calMonth=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); renderCal(plan); };
+  $("calPrev").onclick=()=>mv(-1); $("calNext").onclick=()=>mv(1);
+  box.querySelectorAll(".cd").forEach(x=>x.onclick=()=>{ if(!plan[x.dataset.d]) return; calSel=x.dataset.d; renderCal(plan); });
+  if(calSel&&plan[calSel]){
+    const p=plan[calSel];
+    const br=Object.entries(p.k).map(([k,v])=>`${KLABEL[k]||k} ${v.n}問（○${v.ok}）`).join("・");
+    $("calDet").innerHTML=`<div class="caldet"><div class="dh">${fmtJ(calSel)} ${p.met?"✅ 達成":p.n?"🟡 一部":"— 未実施"}</div>
+      解答 ${p.n}問：正解 ${p.ok}・不正解 ${p.n-p.ok}${p.n?`（正答率 ${Math.round(p.ok/p.n*100)}%）`:""}<br>
+      文法 ${p.dg}/${p.tg}${p.cg?`（繰越${p.cg}込み）`:""} ・ その他 ${p.do}/${p.to}${p.co?`（繰越${p.co}込み）`:""}${br?`<br>内訳：${br}`:""}</div>`;
+  }
+}
+
 const $=id=>document.getElementById(id);
 let tab="vocab", mode="all", queue=[], qi=0, sessionRight=0, sessionTotal=0, answered=false, timerId=null;
 
@@ -463,7 +633,7 @@ function weightedPick(items, weightFn, n){
 }
 
 /* ============================ RENDER ============================ */
-function sessLen(){ const n=parseInt(state.settings.len,10); return Math.max(1,Math.min(50,isNaN(n)?12:n)); }
+function sessLen(){ if(lenOverride) return lenOverride; const n=parseInt(state.settings.len,10); return Math.max(1,Math.min(50,isNaN(n)?12:n)); }
 
 /* ---------- 復習帳 ----------
    item: {k:"v"|"g"|"l", i:index, add:ms, st:連続正解数, due:次回出題ms}
@@ -681,7 +851,7 @@ function renderVocab(vi){
 function answerVocab(btn,ok,it,ob){
   if(answered)return; answered=true;
   const st=vStat(it.w); st.s++; ok?st.r++:st.wr++; state.v[it.w]=st; save();
-  sessionTotal++; if(ok)sessionRight++;
+  sessionTotal++; if(ok)sessionRight++; tally(curItem().k,ok);
   [...ob.children].forEach(b=>{ b.disabled=true;
     const isC=b.textContent.replace(/^[ABCD]/,"").trim()===it.j;
     if(isC)b.classList.add("correct"); else if(b===btn&&!ok)b.classList.add("wrong"); else b.classList.add("dim");
@@ -729,7 +899,7 @@ function startTimer(secs,onEnd){
 function answerGrammar(btn,ok,it,i,ob,timeout){
   if(answered)return; answered=true; clearTimer();
   const st=gStat(i); ok?st.r++:st.wr++; state.g[i]=st; save();
-  sessionTotal++; if(ok)sessionRight++;
+  sessionTotal++; if(ok)sessionRight++; tally(curItem().k,ok);
   [...ob.children].forEach(b=>{ b.disabled=true;
     const isC=b.textContent.replace(/^[ABCD]/,"").trim()===it.o[it.a];
     if(isC)b.classList.add("correct"); else if(b===btn&&!ok)b.classList.add("wrong"); else b.classList.add("dim");
@@ -796,7 +966,7 @@ function speakListen(it){
 function answerListen(btn,ok,it,i,ob){
   if(answered)return; answered=true;
   const st=lStat(i); ok?st.r++:st.wr++; state.l[i]=st; save();
-  sessionTotal++; if(ok)sessionRight++;
+  sessionTotal++; if(ok)sessionRight++; tally(curItem().k,ok);
   [...ob.children].forEach(b=>{ b.disabled=true;
     const isC=b.dataset.txt===it.o[it.a];
     b.innerHTML=b.innerHTML.split("<span style")[0]+`<span style="opacity:.85">${b.dataset.txt}</span>`;
@@ -834,7 +1004,7 @@ function renderEE(w){
     const b=document.createElement("button"); b.className="opt"; b.dataset.v=o;
     b.innerHTML=`<span class="k">${"ABC"[k]}</span>${esc(o)}`;
     b.onclick=e=>{ e.stopPropagation(); if(answered) return; answered=true;
-      const ok=o===correct; sessionTotal++; if(ok) sessionRight++;
+      const ok=o===correct; sessionTotal++; if(ok) sessionRight++; tally("e",ok);
       xRecord("e",it.w,ok); updateProgress();
       [...ob.children].forEach(x=>{ x.disabled=true; if(x.dataset.v===correct) x.classList.add("correct"); else if(x===b) x.classList.add("wrong"); else x.classList.add("dim"); });
       $("post").innerHTML=`<div class="ee-ans">
@@ -901,7 +1071,7 @@ function renderSet(k,i){
       const b=document.createElement("button"); b.className="opt";
       b.innerHTML=`<span class="k">${"ABCD"[pos]}</span>${esc(o)}`;
       b.onclick=e=>{ e.stopPropagation(); if(ob.dataset.done) return; ob.dataset.done=1;
-        const ok=oi===q.a; if(!ok) allOk=false; sessionTotal++; if(ok) sessionRight++;
+        const ok=oi===q.a; if(!ok) allOk=false; sessionTotal++; if(ok) sessionRight++; tally(k,ok);
         [...ob.children].forEach((x,xi)=>{ x.disabled=true; if(xi===cpos) x.classList.add("correct"); else if(x===b) x.classList.add("wrong"); else x.classList.add("dim"); });
         const w=document.createElement("div"); w.className="why"+(ok?" ok":""); w.textContent=(ok?"○ ":"× 正解は "+"ABCD"[cpos]+"。")+q.ej; d.appendChild(w);
         updateProgress(); done++;
@@ -952,7 +1122,7 @@ function renderSpeak(id){
       <div class="row2"><button class="good${score!==null&&score>=80?' sug':''}" id="gOk">○ 言えた</button><button class="bad${score!==null&&score<80?' sug':''}" id="gNg">× 言えなかった</button></div>`;
     $("rep").onclick=e=>{ e.stopPropagation(); speak(it.en); };
     speak(it.en);
-    const grade=ok=>{ if(answered) return; answered=true; sessionTotal++; if(ok){sessionRight++; celebrate();}
+    const grade=ok=>{ if(answered) return; answered=true; sessionTotal++; if(ok){sessionRight++; celebrate();} tally("s",ok);
       xRecord("s",id,ok); updateProgress();
       $("gOk").disabled=$("gNg").disabled=true; (ok?$("gNg"):$("gOk")).style.opacity=.35;
       const nb=document.createElement("button"); nb.className="next-btn"; nb.textContent=qi+1>=queue.length?"結果を見る":"次へ →";
@@ -1011,7 +1181,7 @@ function renderDone(){
       <div class="big">${pct>=70?"🎯":"📘"}</div>
       <h2>セッション終了</h2>
       <div class="score">${sessionRight} / ${sessionTotal}</div>
-      <p>正答率 ${pct}%<br>${msg}</p>
+      <p>正答率 ${pct}%<br>${msg}</p>${dailyMsg()}
       <button class="big-btn" id="again" style="margin-top:18px">もう1セット</button>
     </div>`;
   $("again").onclick=startSession;
@@ -1037,7 +1207,7 @@ document.querySelectorAll(".tab").forEach(t=>{
     document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     t.classList.add("active");
     try{ t.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"}); }catch(_){}
-    tab=t.dataset.tab; mode = tab==="grammar"?"10s":tab==="review"?"due":tab==="speak"?"p":"all";
+    lenOverride=0; tab=t.dataset.tab; mode = tab==="grammar"?"10s":tab==="review"?"due":tab==="speak"?"p":"all";
     if(synth) try{synth.cancel();}catch(_){}
     renderModes(); startSession();
   };
@@ -1048,21 +1218,21 @@ $("rate").oninput=e=>{ state.settings.rate=parseFloat(e.target.value); const v=s
 $("rate").onchange=()=>save();
 
 $("reset").onclick=()=>{
-  if(!confirm("学習記録・★弱点・復習帳をすべて削除します。よろしいですか？"))return;
-  Store.del(LS); state={examDate:state.examDate,settings:state.settings,v:{},g:{},l:{},r:{},c:{},t:{},e:{},s:{},rv:{},rvDone:{}}; save(); rvRefreshCounts();
+  if(!confirm("学習記録・★弱点・復習帳をすべて削除します（毎日の記録カレンダーは残ります）。よろしいですか？"))return;
+  Store.del(LS); state={examDate:state.examDate,settings:state.settings,v:{},g:{},l:{},r:{},c:{},t:{},e:{},s:{},rv:{},rvDone:{},daily:state.daily,goal:state.goal}; save(); rvRefreshCounts();
   startSession(); renderCountdown();
 };
 
-function openApp(t){
-  unlockAudio();
+function openApp(t,keepLen){
+  unlockAudio(); if(!keepLen) lenOverride=0;
   tab=t; mode= t==="grammar"?"10s":t==="review"?(rvDueItems().length?"due":"all"):t==="speak"?"p":"all";
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===t));
   setTimeout(()=>{ const a=document.querySelector(".tab.active"); if(a) try{a.scrollIntoView({inline:"center",block:"nearest"});}catch(_){} },50);
   $("primer").classList.add("hidden"); $("app").classList.remove("hidden");
-  renderModes(); renderCountdown(); startSession(); window.scrollTo(0,0);
+  renderModes(); renderCountdown(); paintTodayBar(); startSession(); window.scrollTo(0,0);
 }
 $("homeBtn").onclick=e=>{ e.stopPropagation(); clearTimer(); if(synth)try{synth.cancel();}catch(_){}
-  $("app").classList.add("hidden"); $("primer").classList.remove("hidden"); rvRefreshCounts(); bkPaint(); if(!$("rvList").classList.contains("hidden")) rvRenderList(); window.scrollTo(0,0); };
+  lenOverride=0; $("app").classList.add("hidden"); $("primer").classList.remove("hidden"); rvRefreshCounts(); bkPaint(); renderDaily(); if(!$("rvList").classList.contains("hidden")) rvRenderList(); window.scrollTo(0,0); };
 $("rvStart").onclick=()=>openApp("review");
 $("rvToggle").onclick=()=>{ const l=$("rvList"); l.classList.toggle("hidden"); $("rvToggle").textContent=l.classList.contains("hidden")?"登録一覧を見る":"一覧を閉じる"; if(!l.classList.contains("hidden")) rvRenderList(); };
 function paintLen(){ const n=sessLen(); $("slen").value=n; $("slenLbl").textContent=n+"問"; document.querySelectorAll("#presets span").forEach(x=>x.classList.toggle("on",+x.dataset.n===n)); }
@@ -1134,7 +1304,8 @@ bkPaint();
 if(synth&&synth.onvoiceschanged!==undefined) synth.onvoiceschanged=()=>{};
 $("voice").checked=state.settings.voice; $("rate").value=state.settings.rate;
 if(state.examDate) $("examDateInput").value=state.examDate.slice(0,10);
-refreshExamSub(); paintLen(); rvRefreshCounts();
+refreshExamSub(); paintLen(); rvRefreshCounts(); renderDaily();
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden && !$("primer").classList.contains("hidden")) renderDaily(); });
 (function(){ const v=state.settings.rate; $("rateLbl").textContent=v<0.8?"ゆっくり":v>1.0?"速め":"標準"; })();
 
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
