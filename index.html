@@ -324,6 +324,31 @@
   .done .dmsg{margin-top:10px;font-size:13px;font-weight:700;color:var(--green);}
   .done .dmsg.rem{color:var(--gold);}
 
+  /* ---------- weekly review ---------- */
+  .wcard{background:linear-gradient(160deg,#2A2140 0%,var(--surface) 70%);border:1px solid #5B4A8A;border-radius:16px;padding:16px;margin:0 0 14px;text-align:left;}
+  .wcard.on{border-color:var(--gold);box-shadow:0 0 0 1px rgba(244,192,78,.35),0 10px 28px rgba(244,192,78,.12);}
+  .wcard .rt{font-size:15px;font-weight:800;}
+  .wcard .rt small{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:2px;}
+  .wkhero{margin-top:12px;font-size:18px;font-weight:800;color:var(--gold);}
+  .wkmeta{margin-top:8px;font-size:13px;color:#d9e0ec;}
+  .wkmeta b{font-size:16px;color:var(--text);}
+  .wkdone{margin-top:12px;font-size:13px;font-weight:800;color:var(--green);}
+  .wbtn{display:block;width:100%;margin-top:12px;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold) 0%,#FFB36B 100%);color:#1A1204;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 8px 22px rgba(244,192,78,.25);}
+  .wsub{margin-top:8px;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .wkhist{margin-top:10px;font-size:11px;color:var(--dim);}
+  .wkl-h{margin-top:20px;font-size:13px;font-weight:800;color:var(--gold);text-align:left;}
+  .wkl{margin-top:8px;text-align:left;max-height:420px;overflow:auto;border-top:1px solid var(--line);}
+  .wkrow{display:flex;gap:8px;padding:10px 2px;border-bottom:1px solid var(--line);}
+  .wkrow .ty{flex:0 0 auto;font-size:10px;font-weight:800;border-radius:5px;padding:1px 6px;border:1px solid var(--line2);color:var(--muted);height:fit-content;margin-top:2px;}
+  .wkrow .b{flex:1;min-width:0;}
+  .wkrow .h{font-size:12px;color:var(--muted);}
+  .wkrow .e{font-size:14.5px;color:var(--text);font-weight:600;line-height:1.5;margin-top:2px;}
+  .wkrow .t{font-size:12px;color:var(--muted);margin-top:2px;}
+  .say{background:none;border:none;font-size:14px;cursor:pointer;padding:0 0 0 6px;}
+  .cd.wk{border-color:#8E7BD0;}
+  .cd .wkm{color:var(--gold);}
+  .calleg .l4:before{background:#8E7BD0;}
+
   @media (prefers-reduced-motion: reduce){
     .burst.go .ray,.burst.go .glow,.burst.go .yatta,.learn{animation:none;}
   }
@@ -335,7 +360,7 @@
 <div id="primer" class="wrap">
   <div class="primer">
     <h1>TOEIC 800<span class="pro">P R O</span></h1>
-    <p>単語・文法・リスニング・長文読解に、話す練習まで。間違えた問題は<b style="color:var(--gold)">★</b>で記録し、出題頻度を自動で上げます。</p>
+    <p>単語・文法・リスニング・長文読解に、話す練習まで。間違えた問題は<b style="color:var(--gold)">★</b>で記録し、出題頻度を自動で上げます。7日に1回は「総復習の日」。</p>
     <div class="stat-row">
       <div class="stat"><div class="n" id="pv">–</div><div class="l">単語</div></div>
       <div class="stat"><div class="n" id="pe">–</div><div class="l">英英 単語</div></div>
@@ -351,6 +376,7 @@
       <div style="flex:1"><div>試験日</div><div class="sub" id="examSub">残り日数を表示します</div></div>
       <input type="date" id="examDateInput" style="background:var(--surface2);border:1px solid var(--line2);color:var(--text);border-radius:9px;padding:8px 10px;font-size:14px;">
     </div>
+    <div class="wcard" id="wcard"></div>
     <div class="dcard" id="dcard"></div>
     <div class="rvcard">
       <div class="rt">📒 復習帳<small>解いた直後に「＋復習帳」で登録。3回連続正解で卒業。</small></div>
@@ -496,12 +522,13 @@ function tally(k,ok){
 function dailyPlan(){
   const out={}, today=dkey(), G=state.goal; let cg=0, co=0;
   for(let s=G.start; s<=today; s=addD(s,1)){
-    const r=dayRec(s);
-    const bg= s===today?G.g:(r.gg!==undefined?r.gg:G.g), bo= s===today?G.o:(r.go!==undefined?r.go:G.o);
+    const r=dayRec(s), wk=isWkDay(s);
+    if(wk){ cg=0; co=0; } /* 総復習の日は通常目標と繰越がお休み */
+    const bg= wk?0: s===today?G.g:(r.gg!==undefined?r.gg:G.g), bo= wk?0: s===today?G.o:(r.go!==undefined?r.go:G.o);
     const tg=bg+cg, to=bo+co, dg=r.g.n, dO=r.o.n;
-    out[s]={tg,to,dg,do:dO,cg,co,met:dg>=tg&&dO>=to,n:dg+dO,ok:r.g.ok+r.o.ok,k:r.k};
-    cg=Math.min(bg*CARRY_DAYS,Math.max(0,tg-dg));
-    co=Math.min(bo*CARRY_DAYS,Math.max(0,to-dO));
+    out[s]={tg,to,dg,do:dO,cg,co,wk,met:wk?!!state.wk.done[s]:dg>=tg&&dO>=to,n:dg+dO,ok:r.g.ok+r.o.ok,k:r.k};
+    cg=wk?0:Math.min(bg*CARRY_DAYS,Math.max(0,tg-dg));
+    co=wk?0:Math.min(bo*CARRY_DAYS,Math.max(0,to-dO));
   }
   return out;
 }
@@ -519,11 +546,13 @@ let otherTab=null, lenOverride=0, calMonth=null, calSel=null;
 function paintTodayBar(){
   const el=$("todayBar"); if(!el) return;
   const p=dailyPlan()[dkey()];
+  if(p.wk){ el.innerHTML=`<span>🗓 今日は<b>総復習の日</b></span><span>${p.met?'<span class="ok">🎉 クリア</span>':"全問正解でクリア"}</span>`; return; }
   const gOk=p.dg>=p.tg, oOk=p.do>=p.to;
   el.innerHTML=`<span>今日 文法 <b>${p.dg}</b>/${p.tg}${gOk?' <span class="ok">✓</span>':''}　その他 <b>${p.do}</b>/${p.to}${oOk?' <span class="ok">✓</span>':''}</span><span>${p.met?'<span class="ok">🎉 達成</span>':`あと ${Math.max(0,p.tg-p.dg)+Math.max(0,p.to-p.do)}問`}</span>`;
 }
 function dailyMsg(){
   const p=dailyPlan()[dkey()];
+  if(p.wk) return p.met?`<div class="dmsg">🎉 今日の総復習クリア！ 明日からまた6日間、文法${state.goal.g}・その他${state.goal.o}問。</div>`:`<div class="dmsg rem">今日は総復習の日：ホームの「総復習」を全問正解でクリアすると達成です。</div>`;
   if(p.met) return `<div class="dmsg">🎉 今日の目標（文法${p.tg}・その他${p.to}）達成！</div>`;
   const parts=[]; if(p.dg<p.tg) parts.push(`文法 あと${p.tg-p.dg}問`); if(p.do<p.to) parts.push(`その他 あと${p.to-p.do}問`);
   return `<div class="dmsg rem">今日の目標まで：${parts.join("・")}</div>`;
@@ -548,11 +577,12 @@ function renderDaily(){
   const sel=["10","15","20","30","40"];
   box.innerHTML=`
     <div class="rt"><span>📅 今日の目標<small>　${fmtJ(t)}</small></span><span class="streak">🔥 連続 ${streakOf(plan)}日</span></div>
+    ${p.wk?`<div class="wkmeta" style="margin-top:12px">今日は<b>総復習の日</b>。通常の目標（文法・その他）はお休みで、上の「総復習」をクリアすると達成です。${p.met?' <b style="color:var(--green)">✓ クリア済み</b>':""}</div><div class="hidden">`:""}
     ${trk("文法（Part5）",p.dg,p.tg,p.cg)}
     <button class="dbtn" id="dGo">${p.dg>=p.tg?"✓ 達成済み・もっと文法を解く":`文法を解く（あと${p.tg-p.dg}問）`}</button>
     ${trk("その他（単語・聴解など）",p.do,p.to,p.co)}
     <div class="ochips" id="oChips">${OTHER_TABS.map(([k,l])=>`<span data-t="${k}" class="${k===ot?'on':''}">${l}${k===recOther()?'★':''}</span>`).join("")}</div>
-    <button class="dbtn" id="oGo">${p.do>=p.to?"✓ 達成済み・もっと解く":`${OTHER_TABS.find(x=>x[0]===ot)[1]}を解く（あと${p.to-p.do}問）`}</button>
+    <button class="dbtn" id="oGo">${p.do>=p.to?"✓ 達成済み・もっと解く":`${OTHER_TABS.find(x=>x[0]===ot)[1]}を解く（あと${p.to-p.do}問）`}</button>${p.wk?"</div>":""}
     <div class="dsum"><div><b>${p.n}</b><span>今日の解答</span></div><div class="ok"><b>${p.ok}</b><span>正解</span></div><div class="ng"><b>${p.n-p.ok}</b><span>不正解</span></div><div class="pc"><b>${pct===null?"–":pct+"%"}</b><span>正答率</span></div></div>
     <div id="calBox"></div>
     <div class="ylong">累計 <b style="color:var(--text)">${tn.toLocaleString()}</b>問（正答率 ${tn?Math.round(tok/tn*100):0}%）・達成 ${metDays}/${days.length}日 ・ 1年目標 ${yearGoal.toLocaleString()}問<div class="bar"><i style="width:${Math.min(100,tn/yearGoal*100)}%"></i></div></div>
@@ -574,10 +604,12 @@ function renderCal(plan){
   for(let d=1;d<=nd;d++){
     const s=`${calMonth}-${String(d).padStart(2,"0")}`, p=plan[s];
     let c="cd"; if(s===t) c+=" today"; if(s===calSel) c+=" sel";
-    if(p) c+= p.met?" met": p.n>0?" part": s===t?"":" miss"; else c+= s>t?" fut":" pre";
-    h+=`<div class="${c}" data-d="${s}"><span>${d}</span>${p&&p.n?`<i>${p.n}</i>`:p&&p.met?"":""}</div>`;
+    const wd= p? p.wk : (s>t && s>state.goal.start && s>=(state.wk.since||state.goal.start) && parseD(s).getDay()===state.wk.dow);
+    if(p) c+= p.met?" met": (p.n>0||(p.wk&&state.wk.cur&&state.wk.cur.key===s))?" part": s===t?"":" miss"; else c+= s>t?" fut":" pre";
+    if(wd) c+=" wk";
+    h+=`<div class="${c}" data-d="${s}"><span>${d}</span>${wd?`<i class="wkm">復</i>`:p&&p.n?`<i>${p.n}</i>`:""}</div>`;
   }
-  h+=`</div><div class="calleg"><span class="l1">達成</span><span class="l2">一部</span><span class="l3">未実施</span></div><div id="calDet"></div>`;
+  h+=`</div><div class="calleg"><span class="l1">達成</span><span class="l2">一部</span><span class="l3">未実施</span><span class="l4">総復習</span></div><div id="calDet"></div>`;
   const box=$("calBox"); box.innerHTML=h;
   const mv=n=>{ const d=new Date(y,m-1+n,1); calMonth=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); renderCal(plan); };
   $("calPrev").onclick=()=>mv(-1); $("calNext").onclick=()=>mv(1);
@@ -585,7 +617,8 @@ function renderCal(plan){
   if(calSel&&plan[calSel]){
     const p=plan[calSel];
     const br=Object.entries(p.k).map(([k,v])=>`${KLABEL[k]||k} ${v.n}問（○${v.ok}）`).join("・");
-    $("calDet").innerHTML=`<div class="caldet"><div class="dh">${fmtJ(calSel)} ${p.met?"✅ 達成":p.n?"🟡 一部":"— 未実施"}</div>
+    const wd=state.wk.done[calSel];
+    $("calDet").innerHTML=`<div class="caldet"><div class="dh">${fmtJ(calSel)} ${p.met?"✅ 達成":p.n?"🟡 一部":"— 未実施"}</div>${p.wk?`🗓 総復習の日：${wd?`${wd.n}問を${wd.rounds}ラウンドで全問正解（1回目で正解 ${wd.first}問）`:"未クリア"}<br>`:""}
       解答 ${p.n}問：正解 ${p.ok}・不正解 ${p.n-p.ok}${p.n?`（正答率 ${Math.round(p.ok/p.n*100)}%）`:""}<br>
       文法 ${p.dg}/${p.tg}${p.cg?`（繰越${p.cg}込み）`:""} ・ その他 ${p.do}/${p.to}${p.co?`（繰越${p.co}込み）`:""}${br?`<br>内訳：${br}`:""}</div>`;
   }
@@ -698,11 +731,19 @@ function mountRv(k,i){
 }
 const TAB2K={eevocab:"e",vocab:"v",grammar:"g",listen:"l",convo:"c",talk:"t",reading:"r",speak:"s"};
 const SETS={r:()=>READING,c:()=>CONVO,t:()=>TALKS};
-function curItem(){ const q=queue[qi]; return tab==="review"?q:{k:TAB2K[tab],i:q}; }
+function curItem(){ const q=queue[qi]; return (tab==="review"||tab==="weekly")?q:{k:TAB2K[tab],i:q}; }
 function xStat(k,i){ const m=state[k]; return (m&&m[i])||{r:0,wr:0}; }
 function xRecord(k,i,ok){ const st=xStat(k,i); ok?st.r++:st.wr++; state[k][i]=st; save(); }
 function afterAnswer(ok){
   const c=curItem();
+  if(tab==="weekly"){
+    const r=wkResult(c.k,c.i,ok);
+    const t=document.createElement("span"); t.className="rvtag";
+    t.textContent= ok?`✓ 定着（残り ${r?r.left:0}）`:"× 次のラウンドでもう一度";
+    const cat=document.querySelector(".card .qcat"); if(cat) cat.appendChild(t);
+    mountRv(c.k,c.i); return;
+  }
+  if(!ok) logMiss(c.k,c.i);
   if(tab==="review"){
     const r=rvResult(c.k,c.i,ok); if(!r) return;
     const t=document.createElement("span"); t.className="rvtag";
@@ -714,6 +755,13 @@ function afterAnswer(ok){
 function buildQueue(){
   qi=0; sessionRight=0; sessionTotal=0;
   const SESSION_LEN=sessLen();
+  if(tab==="weekly"){
+    const key=wkCurKey();
+    if(key&&!state.wk.done[key]&&(!state.wk.cur||state.wk.cur.key!==key)) wkBuild(key);
+    const cur=state.wk.cur;
+    queue= cur&&cur.key===key? cur.queue.map(wkParse) : [];
+    return;
+  }
   if(tab==="review"){
     const items=(mode==="all"? rvItems() : rvDueItems()).sort((a,b)=>a.due-b.due);
     queue=items.slice(0,SESSION_LEN).map(x=>({k:x.k,i:x.i})); shuffle(queue);
@@ -772,6 +820,9 @@ function renderModes(){
   } else if(tab==="speak"){
     chips=[["p","ビジネス定番"],["g","文法例文"],["v","単語例文"],["weak","★言えなかった"]];
     if(!["p","g","v","weak"].includes(mode)) mode="p";
+  } else if(tab==="weekly"){
+    const cur=state.wk.cur;
+    chips=[["wk",`🗓 総復習 ラウンド${cur?cur.round:1}`]]; mode="wk";
   } else if(tab==="review"){
     chips=[["due","今日の分"],["all","登録すべて"]];
     if(!["due","all"].includes(mode)) mode="due";
@@ -803,7 +854,7 @@ function updateProgress(){
   $("pcount").textContent=`${Math.min(qi+1,total)} / ${total}`;
   $("pbar").style.width=(total?(qi/total*100):0)+"%";
   $("paccu").textContent= sessionTotal? `正答率 ${Math.round(sessionRight/sessionTotal*100)}%` : "正答率 –";
-  $("hcount").innerHTML = tab==="eevocab"?`English <b>${EEVOCAB.length}</b>`: tab==="reading"?`読解 <b>${READING.length}</b>セット`: tab==="convo"?`会話 <b>${CONVO.length}</b>セット`: tab==="talk"?`説明文 <b>${TALKS.length}</b>セット`: tab==="speak"?`英作文 <b>${SPEAK.length}</b>`: tab==="review"?`復習帳 <b>${rvItems().length}</b>`: tab==="vocab"?`単語 <b>${VOCAB.length}</b>`:tab==="grammar"?`文法 <b>${GRAMMAR.length}</b>`:`聴解 <b>${LISTEN.length}</b>`;
+  $("hcount").innerHTML = tab==="eevocab"?`English <b>${EEVOCAB.length}</b>`: tab==="reading"?`読解 <b>${READING.length}</b>セット`: tab==="convo"?`会話 <b>${CONVO.length}</b>セット`: tab==="talk"?`説明文 <b>${TALKS.length}</b>セット`: tab==="speak"?`英作文 <b>${SPEAK.length}</b>`: tab==="review"?`復習帳 <b>${rvItems().length}</b>`: tab==="weekly"?`総復習 残り <b>${state.wk.cur?state.wk.cur.queue.length+state.wk.cur.wrong.length:0}</b>`: tab==="vocab"?`単語 <b>${VOCAB.length}</b>`:tab==="grammar"?`文法 <b>${GRAMMAR.length}</b>`:`聴解 <b>${LISTEN.length}</b>`;
 }
 
 function clearTimer(){ if(timerId){clearInterval(timerId);timerId=null;} $("timer").classList.add("hidden"); }
@@ -1168,6 +1219,7 @@ function celebrate(){
 /* ----- done ----- */
 function renderDone(){
   clearTimer();
+  if(tab==="weekly") return wkDone();
   const pct=sessionTotal?Math.round(sessionRight/sessionTotal*100):0;
   if(tab==="review" && sessionTotal===0){
     const a=rvItems().length;
@@ -1186,6 +1238,147 @@ function renderDone(){
     </div>`;
   $("again").onclick=startSession;
   $("pbar").style.width="100%";
+}
+
+/* ============================ WEEKLY REVIEW（週1の総復習） ============================
+   7日に1回の「総復習の日」。6日間ふつうに解き、7日目に「この7日間に間違えた問題＋何度も間違えている問題」を
+   全問正解するまでラウンドを繰り返して定着させる。総復習の日は通常の目標（文法・その他）がお休みになり、
+   総復習をクリアするとその日の達成になる（カレンダーに「復」）。
+   state.miss["YYYY-MM-DD"]["k:i"] = その日の不正解回数（通常の学習・復習帳での不正解。総復習中の不正解は除く）
+   state.wk = {dow:総復習の曜日, since:曜日を設定した日, done:{"総復習日":{at,n,rounds,first,items}},
+               cur:{key:"総復習日", items:[キー], queue:[今のラウンドの残り], wrong:[今のラウンドの不正解], round, first}} */
+state.miss=state.miss||{};
+state.wk=state.wk||{};
+if(state.wk.dow===undefined){ state.wk.dow=(parseD(state.goal.start).getDay()+6)%7; state.wk.since=state.goal.start; save(); }
+state.wk.done=state.wk.done||{};
+const WK_CAP=60, WK_SETS=3, WK_MIN=30;
+const WK_PRI={g:0,v:1,e:2,s:3,l:4,c:5,t:6,r:7};
+const wkKey=(k,i)=>k+":"+i;
+function wkParse(key){ const k=key[0], s=key.slice(2); return {k, i:(k==="e"||k==="s")?s:Number(s)}; }
+function logMiss(k,i){
+  const d=dkey(), m=state.miss[d]||(state.miss[d]={}), key=wkKey(k,i); m[key]=(m[key]||0)+1;
+  const cut=addD(d,-70); Object.keys(state.miss).forEach(s=>{ if(s<cut) delete state.miss[s]; });
+  save();
+}
+function isWkDay(s){ return !!state.wk.done[s] || (s>state.goal.start && s>=(state.wk.since||state.goal.start) && parseD(s).getDay()===state.wk.dow); }
+function wkCurKey(){ const t=dkey(); for(let n=0;n<7;n++){ const s=addD(t,-n); if(isWkDay(s)) return s; } return null; }
+function wkNextKey(){ const t=dkey(); for(let n=1;n<=7;n++){ const s=addD(t,n); if(s>state.goal.start && parseD(s).getDay()===state.wk.dow) return s; } return null; }
+function wkValid(key){
+  const {k,i}=wkParse(key);
+  if(k==="v") return !!VOCAB[i]; if(k==="g") return !!GRAMMAR[i]; if(k==="l") return !!LISTEN[i];
+  if(k==="e") return EEVOCAB.some(x=>x.w===i); if(k==="s") return SPEAK_IDX[i]!==undefined;
+  return !!(SETS[k]&&SETS[k]()[i]);
+}
+/* 何度も間違えている問題（不正解2回以上・正解より不正解が多い）。7日間の間違いが少ない週の補充用 */
+function wkChronic(){
+  const out=[], vi={}, ee=new Set(EEVOCAB.map(x=>x.w)); VOCAB.forEach((x,n)=>vi[x.w]=n);
+  const push=(k,i,st)=>{ if(st&&st.wr>=2&&st.wr>=st.r) out.push({key:wkKey(k,i),sc:st.wr-st.r*0.5}); };
+  Object.entries(state.g).forEach(([i,st])=>{ if(GRAMMAR[+i]) push("g",+i,st); });
+  Object.entries(state.v).forEach(([w,st])=>{ if(vi[w]!==undefined) push("v",vi[w],st); });
+  Object.entries(state.e).forEach(([w,st])=>{ if(ee.has(w)) push("e",w,st); });
+  Object.entries(state.l).forEach(([i,st])=>{ if(LISTEN[+i]) push("l",+i,st); });
+  return out.sort((a,b)=>b.sc-a.sc).map(x=>x.key);
+}
+function wkBuild(key,dry){
+  const cnt={};
+  for(let n=0;n<7;n++){ const m=state.miss[addD(key,-n)]; if(m) Object.entries(m).forEach(([k,c])=>cnt[k]=(cnt[k]||0)+c); }
+  const old=state.wk.cur;
+  if(old&&old.key!==key) [...old.queue,...old.wrong].forEach(k=>cnt[k]=(cnt[k]||0)+1); /* 前回の積み残し */
+  let keys=Object.keys(cnt).filter(wkValid).sort((a,b)=>cnt[b]-cnt[a]||WK_PRI[a[0]]-WK_PRI[b[0]]);
+  const sets=keys.filter(k=>"rct".includes(k[0])).slice(0,WK_SETS);
+  keys=keys.filter(k=>!"rct".includes(k[0])).slice(0,WK_CAP-sets.length).concat(sets);
+  if(keys.length<WK_MIN) for(const k of wkChronic()){ if(keys.length>=WK_MIN) break; if(!keys.includes(k)) keys.push(k); }
+  if(dry) return keys;
+  const q=keys.slice(); shuffle(q);
+  state.wk.cur={key,items:keys,queue:q,wrong:[],round:1,first:0};
+  save(); return keys;
+}
+function wkResult(k,i,ok){
+  const cur=state.wk.cur; if(!cur) return null;
+  const key=wkKey(k,i), j=cur.queue.indexOf(key); if(j>=0) cur.queue.splice(j,1);
+  if(!ok){ if(!cur.wrong.includes(key)) cur.wrong.push(key); }
+  else if(cur.round===1) cur.first++;
+  save(); return {left:cur.queue.length+cur.wrong.length};
+}
+/* 覚えた英文（クリア後の一覧） */
+function wkLine(key){
+  const {k,i}=wkParse(key);
+  if(k==="v"){ const x=VOCAB[i]; return {tag:"単語",h:`${x.w} — ${x.j}`,en:x.ex[0].e,ja:x.ex[0].t}; }
+  if(k==="g"){ const x=GRAMMAR[i]; return {tag:"文法",h:`${x.c}：${x.o[x.a]}`,en:x.q.replace("___",x.o[x.a]),ja:x.jt}; }
+  if(k==="e"){ const x=EEVOCAB.find(v=>v.w===i); return {tag:"英英",h:`${x.w} = ${x.df}`,en:x.ex,ja:x.j}; }
+  if(k==="l"){ const x=LISTEN[i]; return {tag:"応答",h:"Q. "+x.p,en:x.o[x.a],ja:""}; }
+  if(k==="s"){ const x=SPEAK[SPEAK_IDX[i]]; return {tag:"英作",h:x.sc,en:x.en,ja:x.ja}; }
+  const x=SETS[k]()[i]; return {tag:KLABEL[k],h:x.ty+(x.ti?"："+x.ti:""),en:"",ja:x.jt.length>70?x.jt.slice(0,70)+"…":x.jt};
+}
+function wkListHtml(keys){
+  const ks=keys.filter(wkValid).slice().sort((a,b)=>WK_PRI[a[0]]-WK_PRI[b[0]]);
+  return `<div class="wkl">`+ks.map(key=>{ const L=wkLine(key);
+    return `<div class="wkrow"><span class="ty">${L.tag}</span><div class="b"><div class="h">${esc(L.h)}</div>${L.en?`<div class="e">${esc(L.en)}<button class="say" data-say="${esc(L.en)}" aria-label="発音">🔊</button></div>`:""}${L.ja?`<div class="t">${esc(L.ja)}</div>`:""}</div></div>`;
+  }).join("")+`</div>`;
+}
+function wkBindSay(root){ root.querySelectorAll(".say").forEach(b=>b.onclick=e=>{ e.stopPropagation(); unlockAudio(); speak(b.dataset.say); }); }
+function wkDone(){
+  $("pbar").style.width="100%";
+  const cur=state.wk.cur, key=wkCurKey();
+  if(!cur||cur.key!==key){
+    const d=key&&state.wk.done[key];
+    $("stage").innerHTML=`<div class="card done"><div class="big">🗓</div><h2>${d?"今週の総復習はクリア済み":"総復習はまだありません"}</h2>
+      <p>${d?`${d.n}問を${d.rounds}ラウンドで全問正解しました。`:`次の総復習は ${wkNextKey()?fmtJ(wkNextKey()):"–"} です。`}</p></div>`;
+    return;
+  }
+  if(cur.queue.length){ startSession(); return; }
+  if(cur.wrong.length){
+    const n=cur.wrong.length, N=cur.items.length;
+    cur.round++; cur.queue=cur.wrong.slice(); shuffle(cur.queue); cur.wrong=[]; save();
+    $("stage").innerHTML=`<div class="card done"><div class="big">🔁</div><h2>ラウンド${cur.round-1} 終了</h2>
+      <div class="score">${N-n} / ${N}</div><p>定着した問題 ${N-n}問。<br>まだの <b style="color:var(--gold)">${n}問</b> だけを、もう一度。全問正解でクリアです。</p>
+      <button class="big-btn" id="wNext" style="margin-top:18px">ラウンド${cur.round} を始める（${n}問）</button></div>`;
+    $("wNext").onclick=e=>{ e.stopPropagation(); renderModes(); startSession(); };
+    return;
+  }
+  const N=cur.items.length;
+  state.wk.done[cur.key]={at:dkey(),n:N,rounds:cur.round,first:cur.first,items:cur.items};
+  state.wk.cur=null; save(); paintTodayBar();
+  $("stage").innerHTML=`<div class="card done"><div class="big">🏆</div><h2>総復習クリア！</h2>
+    <div class="score">${N} / ${N}</div>
+    <p>${N?`${N}問を ${cur.round}ラウンドで全問正解。<br>1回目で正解 ${cur.first}問 → 最後は全部言える・解ける状態に。`:"今週は間違えた問題がありませんでした。"}</p>${dailyMsg()}
+    ${N?`<div class="wkl-h">今週覚えた英文（🔊で音読して仕上げ）</div>${wkListHtml(cur.items)}`:""}</div>`;
+  wkBindSay($("stage")); celebrate();
+}
+function renderWeekly(){
+  const box=$("wcard"); if(!box) return;
+  const key=wkCurKey(), t=dkey(), nx=wkNextKey();
+  const active=key&&!state.wk.done[key];
+  let body="";
+  if(active){
+    const cur=state.wk.cur&&state.wk.cur.key===key?state.wk.cur:null;
+    const n=cur?cur.items.length:wkBuild(key,true).length;
+    const left=cur?cur.queue.length+cur.wrong.length:n;
+    box.classList.add("on");
+    body=`<div class="wkhero">${key===t?"🔥 今日は総復習の日":`${fmtJ(key)} の総復習が未完了`}</div>
+      <div class="wkmeta">${cur?`ラウンド${cur.round}・残り <b>${left}</b> / ${n}問`:`対象 <b>${n}</b>問（この7日間に間違えた問題＋何度も間違える問題）`}</div>
+      <button class="wbtn" id="wGo">${cur?"続きから再開":"総復習を始める"}</button>
+      <div class="wsub">全問正解するまで、間違えた問題だけを何度でも出題します。${key===t?"今日は通常の目標（文法・その他）はお休み。総復習のクリアで今日の達成です。":""}</div>`;
+  } else {
+    box.classList.remove("on");
+    const s0=nx?addD(nx,-6):t, c=new Set();
+    for(let s=s0;s<=t;s=addD(s,1)){ const m=state.miss[s]; if(m) Object.keys(m).forEach(k=>c.add(k)); }
+    const dn=key&&state.wk.done[key];
+    const left=nx?Math.round((parseD(nx)-parseD(t))/DAY_MS):0;
+    body=`${dn?`<div class="wkdone">✅ ${fmtJ(key)} クリア：${dn.n}問を${dn.rounds}ラウンドで全問正解</div>`:""}
+      <div class="wkmeta">次の総復習 <b>${nx?fmtJ(nx):"–"}</b>${nx?`（あと${left}日）`:""}</div>
+      <div class="wkmeta">今週ここまでの間違い <b>${c.size}</b>問をストック中</div>
+      ${dn&&dn.items&&dn.items.length?`<button class="rvlink" id="wList">覚えた英文を見る</button><div id="wListBox" class="hidden"></div>`:""}`;
+  }
+  const hist=Object.entries(state.wk.done).sort((a,b)=>a[0]<b[0]?1:-1).slice(0,4).map(([s,d])=>`${+s.slice(5,7)}/${+s.slice(8)} ${d.n}問・${d.rounds}R`).join("　");
+  box.innerHTML=`<div class="rt">🗓 週1の総復習<small>6日間解いて、7日目に「全問正解するまで」で定着させる</small></div>${body}
+    ${hist?`<div class="wkhist">履歴　${hist}</div>`:""}
+    <div class="gset">総復習の曜日 <select id="wDow">${WJ.map((w,n)=>`<option value="${n}"${n===state.wk.dow?" selected":""}>${w}曜</option>`).join("")}</select></div>`;
+  if($("wGo")) $("wGo").onclick=()=>openApp("weekly");
+  if($("wList")) $("wList").onclick=()=>{ const b=$("wListBox"); const show=b.classList.contains("hidden");
+    if(show&&!b.innerHTML){ b.innerHTML=wkListHtml(state.wk.done[key].items); wkBindSay(b); }
+    b.classList.toggle("hidden",!show); $("wList").textContent=show?"一覧を閉じる":"覚えた英文を見る"; };
+  $("wDow").onchange=e=>{ state.wk.dow=+e.target.value; state.wk.since=dkey(); save(); renderWeekly(); renderDaily(); };
 }
 
 /* ============================ COUNTDOWN ============================ */
@@ -1218,21 +1411,21 @@ $("rate").oninput=e=>{ state.settings.rate=parseFloat(e.target.value); const v=s
 $("rate").onchange=()=>save();
 
 $("reset").onclick=()=>{
-  if(!confirm("学習記録・★弱点・復習帳をすべて削除します（毎日の記録カレンダーは残ります）。よろしいですか？"))return;
-  Store.del(LS); state={examDate:state.examDate,settings:state.settings,v:{},g:{},l:{},r:{},c:{},t:{},e:{},s:{},rv:{},rvDone:{},daily:state.daily,goal:state.goal}; save(); rvRefreshCounts();
+  if(!confirm("学習記録・★弱点・復習帳・今週の間違いストックをすべて削除します（毎日の記録カレンダーと総復習の履歴は残ります）。よろしいですか？"))return;
+  Store.del(LS); state={examDate:state.examDate,settings:state.settings,v:{},g:{},l:{},r:{},c:{},t:{},e:{},s:{},rv:{},rvDone:{},daily:state.daily,goal:state.goal,miss:{},wk:{dow:state.wk.dow,since:state.wk.since,done:state.wk.done,cur:null}}; save(); rvRefreshCounts();
   startSession(); renderCountdown();
 };
 
 function openApp(t,keepLen){
   unlockAudio(); if(!keepLen) lenOverride=0;
-  tab=t; mode= t==="grammar"?"10s":t==="review"?(rvDueItems().length?"due":"all"):t==="speak"?"p":"all";
+  tab=t; mode= t==="weekly"?"wk": t==="grammar"?"10s":t==="review"?(rvDueItems().length?"due":"all"):t==="speak"?"p":"all";
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===t));
   setTimeout(()=>{ const a=document.querySelector(".tab.active"); if(a) try{a.scrollIntoView({inline:"center",block:"nearest"});}catch(_){} },50);
   $("primer").classList.add("hidden"); $("app").classList.remove("hidden");
   renderModes(); renderCountdown(); paintTodayBar(); startSession(); window.scrollTo(0,0);
 }
 $("homeBtn").onclick=e=>{ e.stopPropagation(); clearTimer(); if(synth)try{synth.cancel();}catch(_){}
-  lenOverride=0; $("app").classList.add("hidden"); $("primer").classList.remove("hidden"); rvRefreshCounts(); bkPaint(); renderDaily(); if(!$("rvList").classList.contains("hidden")) rvRenderList(); window.scrollTo(0,0); };
+  lenOverride=0; $("app").classList.add("hidden"); $("primer").classList.remove("hidden"); rvRefreshCounts(); bkPaint(); renderWeekly(); renderDaily(); if(!$("rvList").classList.contains("hidden")) rvRenderList(); window.scrollTo(0,0); };
 $("rvStart").onclick=()=>openApp("review");
 $("rvToggle").onclick=()=>{ const l=$("rvList"); l.classList.toggle("hidden"); $("rvToggle").textContent=l.classList.contains("hidden")?"登録一覧を見る":"一覧を閉じる"; if(!l.classList.contains("hidden")) rvRenderList(); };
 function paintLen(){ const n=sessLen(); $("slen").value=n; $("slenLbl").textContent=n+"問"; document.querySelectorAll("#presets span").forEach(x=>x.classList.toggle("on",+x.dataset.n===n)); }
@@ -1304,8 +1497,8 @@ bkPaint();
 if(synth&&synth.onvoiceschanged!==undefined) synth.onvoiceschanged=()=>{};
 $("voice").checked=state.settings.voice; $("rate").value=state.settings.rate;
 if(state.examDate) $("examDateInput").value=state.examDate.slice(0,10);
-refreshExamSub(); paintLen(); rvRefreshCounts(); renderDaily();
-document.addEventListener("visibilitychange",()=>{ if(!document.hidden && !$("primer").classList.contains("hidden")) renderDaily(); });
+refreshExamSub(); paintLen(); rvRefreshCounts(); renderWeekly(); renderDaily();
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden && !$("primer").classList.contains("hidden")){ renderWeekly(); renderDaily(); } });
 (function(){ const v=state.settings.rate; $("rateLbl").textContent=v<0.8?"ゆっくり":v>1.0?"速め":"標準"; })();
 
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
